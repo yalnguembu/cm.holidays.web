@@ -24,15 +24,15 @@ describe("DateInput", () => {
     expect(wrapper.find("label").text()).toBe("Starting date");
   });
 
-  it("should display a date input", () => {
-    expect(wrapper.find("input").element.placeholder).toBe("Date");
+  it("should display the awaited placeholder", () => {
+    expect(wrapper.find("input").attributes('placeholder')).toBe("Date");
   });
 
   it("should display the agenda icon", () => {
     expect(wrapper.findComponent(AgendaIcon).exists()).toBe(true);
   });
 
-  it("should display the error message", async () => {
+  it("should display the awaited error message", async () => {
     await wrapper.setProps({
       error: "This field is required",
     });
@@ -46,7 +46,7 @@ describe("DateInput", () => {
     expect(wrapper.find("div").classes("border-red-500")).toBe(true);
   });
 
-  it("should input the date", async () => {
+  it("should have the awaited emit after the value was input", async () => {
     await  wrapper.find("input").setValue("2023-01-17");
 
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");

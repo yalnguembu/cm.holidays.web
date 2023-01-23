@@ -23,10 +23,7 @@
           :error="error.password"
         />
         <div class="flex flex-row align-center justify-between mt-6">
-          <CheckBox
-            v-model="remember"
-            label="Remember me!"
-          />
+          <CheckBox v-model="remember" label="Remember me!" />
           <router-link to="/forgot" class="underline text-blue-500">
             Forgot password?
           </router-link>
@@ -109,7 +106,7 @@ export default {
     },
 
     getUsers() {
-      return JSON.parse(localStorage.getItem("users"));
+      return JSON.parse(localStorage.getItem("users")) ?? [];
     },
 
     findUser() {

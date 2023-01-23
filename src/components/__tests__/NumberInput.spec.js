@@ -16,18 +16,18 @@ describe("NumberInput", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should display the correct label", () => {
+  it("should display the awaitted label", () => {
     expect(wrapper.find("label").text()).toBe("Numbers of days");
   });
 
-  it("should display the correct number field", () => {
+  it("should display the awaitted number", () => {
     expect(wrapper.find("input").element.placeholder).toBe(
       "Enter the Numbers of days"
     );
   });
 
-  it("should display the awaited value in number field", () => {
-    expect(wrapper.find("input").element.placeholder).toBe(
+  it("should display the awaited placeholder", () => {
+    expect(wrapper.find("input").attributes('placeholder')).toBe(
       "Enter the Numbers of days"
     );
   });

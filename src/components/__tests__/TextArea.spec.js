@@ -15,18 +15,18 @@ describe("TextArea", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should display the correct label", () => {
+  it("should display the awaitted label", () => {
     expect(wrapper.find("label").text()).toBe("The label");
   });
 
-  it("should display the correct placeholder in the field", () => {
+  it("should display the awaitted placeholder in the field", () => {
     expect(wrapper.find("label").text()).toBe("The label");
     expect(wrapper.find("textarea").attributes("placeholder")).toBe(
       "Enter the description"
     );
   });
 
-  it("should display the error message", async () => {
+  it("should display the awaitted error message", async () => {
     await wrapper.setProps({ error: "This field is required" });
 
     expect(
@@ -38,7 +38,7 @@ describe("TextArea", () => {
     expect(wrapper.find("textarea").classes("border-red-500")).toBe(true);
   });
 
-  it("should manage the text input", async () => {
+  it("should have the awaited emit after the value was input", async () => {
     await wrapper.find("textarea").setValue("descriptive text");
 
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");

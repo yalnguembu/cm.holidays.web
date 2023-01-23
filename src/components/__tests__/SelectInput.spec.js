@@ -22,7 +22,7 @@ describe("SelectInput", () => {
     expect(options[1].text()).toBe("maternite");
   });
 
-  it("should display the error message", async () => {
+  it("should display the awaitted error message", async () => {
     await wrapper.setProps({ error: "This field is required" });
 
     expect(wrapper.find('[data-test="select-input-text-error"]').exists()).toBe(
@@ -34,7 +34,7 @@ describe("SelectInput", () => {
     expect(wrapper.find("select").classes("border-red-500")).toBe(true);
   });
 
-  it("should select the option", async () => {
+  it("shouldshould have the awaited emit after the value was selected", async () => {
     await wrapper.find("select").setValue("Annual");
 
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");

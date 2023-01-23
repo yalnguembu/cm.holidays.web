@@ -52,7 +52,7 @@ describe("EmailInput", () => {
     expect(wrapper.find("div").classes("border-red-500")).toBe(true);
   });
 
-  it("should input the email address", async () => {
+  it("should have the awaited emit after the value was input", async () => {
     await wrapper.find("input").setValue("Hello");
     
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");

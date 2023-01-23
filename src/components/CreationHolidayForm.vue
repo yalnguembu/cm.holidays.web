@@ -66,6 +66,7 @@
         </div>
         <div class="w-full md:p-2" data-test="description">
           <TextArea
+            placeholder="Enter the description"
             label="Description"
             v-model="description"
             :error="error.description"
@@ -165,7 +166,7 @@ export default {
       if (!this.startingDate && !this.endingDate)
         this.error.endingDate = "This field is required";
       else if (!this.isStartingDateBeforeReturningDate())
-        this.error.endingDate = "It nust be after starting date";
+        this.error.endingDate = "It must be after starting date";
       else if (this.endingDate.length > 0) this.error.endingDate = "";
       else this.error.endingDate = "";
     },

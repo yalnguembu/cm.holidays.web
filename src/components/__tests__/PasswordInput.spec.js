@@ -42,7 +42,7 @@ describe("PasswordInput", () => {
     expect(wrapper.find("div").classes("border-red-500")).toBe(true);
   });
 
-  it("should input the password", async () => {
+  it("should have the awaited emit after the value was input", async () => {
     await wrapper.find("input").setValue("Hello");
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
     expect(wrapper.emitted("update:modelValue").length).toBe(1);

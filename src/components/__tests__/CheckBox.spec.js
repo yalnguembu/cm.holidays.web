@@ -18,7 +18,7 @@ describe("CheckBox", () => {
     expect(wrapper.find("label").text()).toBe("Check me");
   });
 
-  it("should choose a value", async () => {
+  it("should have the awaited emit after the value was toggle", async () => {
     await wrapper.find("input").setValue(true);
 
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
