@@ -15,7 +15,11 @@ describe("BaseButton", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should have agenda icon", () => {
+  it("should have the awaitted icon", () => {
     expect(wrapper.findComponent(AgendaIcon).exists()).toBe(true);
+  });
+
+  it("should have the awaitted title", () => {
+    expect(wrapper.text()).toBe("Open");
   });
 });

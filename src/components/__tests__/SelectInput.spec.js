@@ -38,7 +38,7 @@ describe("SelectInput", () => {
     expect(wrapper.find("select").classes("border-red-500")).toBe(true);
   });
 
-  it("should select the option", async () => {
+  it("shouldshould have the awaited emit after the value was selected", async () => {
     await wrapper.find("select").setValue("Annual");
 
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
