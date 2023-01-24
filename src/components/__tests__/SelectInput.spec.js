@@ -52,28 +52,8 @@ describe("SelectInput", () => {
       .trigger("change");
 
     await selectInput.setValue("Maternite");
-    console.log(selectInput.element.value);
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
     expect(wrapper.emitted("update:modelValue").length).toBe(1);
     expect(wrapper.emitted("update:modelValue")[0][0]).toBe("Maternite");
   });
 });
-
-// DOMWrapper {
-//   isDisabled: [Function (anonymous)],
-//   wrapperElement: <ref *1> HTMLSelectElement {
-//     '0': [Getter],
-//     _listeners: { change: [Array] },
-//     DOCUMENT_POSITION_PRECEDING: 2,
-//     ownerDocument: HTMLDocument {
-//       _listeners: {},
-
-//     },
-//     options: HTMLOptionsCollection(1) [
-//       [HTMLOptionElement],
-//       _selectElement: [Circular *1]
-//     ],
-//     _vei: { onChange: [Function] },
-//     _value: ''
-//   }
-// }

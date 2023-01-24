@@ -70,7 +70,7 @@ describe("CreationHolidayForm", () => {
   });
 
   it("should have the end date field", () => {
-    expect(endingDateInput.exists()).toBe(true)
+    expect(endingDateInput.exists()).toBe(true);
     expect(endingDateInput.props()).toEqual({
       modelValue: "",
       placeholder: "Date",
@@ -81,7 +81,46 @@ describe("CreationHolidayForm", () => {
   });
 
   it("should have the return date field", () => {
-    expect(returningDateInput.exists()).toBe(true)
+    expect(returningDateInput.exists()).toBe(true);
+    expect(returningDateInput.props()).toEqual({
+      modelValue: "",
+      placeholder: "Date",
+      label: "Returning date",
+      error: "",
+      readonly: false,
+    });
+  });
+
+  it("should have the start date field", () => {
+    const startingDateInput = wrapper.findAllComponents(DateInput)[0];
+
+    expect(startingDateInput.exists()).toBe(true);
+    expect(startingDateInput.props()).toEqual({
+      modelValue: "",
+      placeholder: "Date",
+      label: "Starting date",
+      error: "",
+      readonly: false,
+    });
+  });
+
+  it("should have the end date field", () => {
+    const endingDateInput = wrapper.findAllComponents(DateInput)[1];
+
+    expect(endingDateInput.exists()).toBe(true);
+    expect(endingDateInput.props()).toEqual({
+      modelValue: "",
+      placeholder: "Date",
+      label: "Ending date",
+      error: "",
+      readonly: false,
+    });
+  });
+
+  it("should have the return date field", () => {
+    const returningDateInput = wrapper.findAllComponents(DateInput)[2];
+
+    expect(returningDateInput.exists()).toBe(true);
     expect(returningDateInput.props()).toEqual({
       modelValue: "",
       placeholder: "Date",
