@@ -57,14 +57,14 @@ describe("CreationHolidayForm", () => {
     ]);
   });
 
-  it("should have the awaited placeholder", () => {
+  it("should have the awaited placeholder in holliday type field", () => {
     expect(holidayTypeInput.props().placeholder).toBe(
       "Choose your holiday's type..."
     );
   });
 
   it("should have the start date field", () => {
-    expect(startingDateInput.exists()).toBe(true)
+    expect(startingDateInput.exists()).toBe(true);
     expect(startingDateInput.props()).toEqual({
       modelValue: "",
       placeholder: "Date",
@@ -75,7 +75,7 @@ describe("CreationHolidayForm", () => {
   });
 
   it("should have the end date field", () => {
-    expect(endingDateInput.exists()).toBe(true)
+    expect(endingDateInput.exists()).toBe(true);
     expect(endingDateInput.props()).toEqual({
       modelValue: "",
       placeholder: "Date",
@@ -86,7 +86,7 @@ describe("CreationHolidayForm", () => {
   });
 
   it("should have the return date field", () => {
-    expect(returningDateInput.exists()).toBe(true)
+    expect(returningDateInput.exists()).toBe(true);
     expect(returningDateInput.props()).toEqual({
       modelValue: "",
       placeholder: "Date",
@@ -116,9 +116,9 @@ describe("CreationHolidayForm", () => {
     });
   });
 
-  it("should have the submit button", () => {
+  it("should have the creation button", () => {
     expect(submitButton.exists()).toBe(true);
-    expect(submitButton.props()).toEqual({ title: "SUBMIT" });
+    expect(submitButton.text()).toBe("SUBMIT");
   });
 
   it("should display the number of days if start date and end date are filled", async () => {
@@ -157,8 +157,7 @@ describe("CreationHolidayForm", () => {
   });
 
   describe("Failling cases", () => {
-
-    it("should display the errors messages if we submit the form empty", async () => {
+    it("should display the awaited errors messages if the form is submit empty", async () => {
       await wrapper.find('[data-test="creation-form"]').trigger("submit");
 
       expect(
@@ -172,7 +171,7 @@ describe("CreationHolidayForm", () => {
       ).toBe(true);
     });
 
-    it("should display the error message if the start date is a date lower than today's", async () => {
+    it("should display the awaited error message if the start date is lower than today's", async () => {
       await wrapper
         .find('[data-test="starting-date"] input')
         .setValue("2023-01-08");
@@ -192,7 +191,7 @@ describe("CreationHolidayForm", () => {
       ).toBe("It must be after today");
     });
 
-    it("should display the error message if the end date is lower than the starting date", async () => {
+    it("should display the awaited error message if the end date is lower than the starting date", async () => {
       await wrapper
         .find('[data-test="ending-date"] input')
         .setValue("2023-01-28");
@@ -209,7 +208,7 @@ describe("CreationHolidayForm", () => {
       ).toBe("It must be after starting date");
     });
 
-    it("shoud display the awaited error if all filled are input except holiday type", async () => {
+    it("shoud display the awaited error if all fileds are filled except holiday type", async () => {
       await startingDateInput.setValue("2023-01-20");
       await endingDateInput.setValue("2023-01-25");
       await description.setValue("2023-01-20");
@@ -218,7 +217,7 @@ describe("CreationHolidayForm", () => {
       expect(holidayTypeInput.props().error).toBe("This field is required");
     });
 
-    it("shoud display the awaited error if all filled are input except start date", async () => {
+    it("shoud display the awaited error if all fileds are filled except start date", async () => {
       await holidayTypeInput.setValue("Annual");
       await endingDateInput.setValue("2023-01-25");
       await description.setValue("2023-01-20");
@@ -227,7 +226,7 @@ describe("CreationHolidayForm", () => {
       expect(startingDateInput.props().error).toBe("This field is required");
     });
 
-    it("shoud display the awaited error if all filled are input except end date", async () => {
+    it("shoud display the awaited error if all fileds are filled except end date", async () => {
       await holidayTypeInput.setValue("Annual");
       await startingDateInput.setValue("2023-01-20");
       await description.setValue("2023-01-20");
@@ -238,7 +237,7 @@ describe("CreationHolidayForm", () => {
       );
     });
 
-    it("shoud display the awaited error if all filled are input except description", async () => {
+    it("shoud display the awaited error if all fileds are filled except description", async () => {
       await holidayTypeInput.setValue("Annual");
       await startingDateInput.setValue("2023-01-20");
       await endingDateInput.setValue("2023-01-25");
@@ -247,7 +246,7 @@ describe("CreationHolidayForm", () => {
       expect(description.props().error).toBe("This field is required");
     });
 
-    it("shoud display the awaited error if all filled are input but start date is wrong", async () => {
+    it("shoud display the awaited error if all fileds are filled but start date is wrong", async () => {
       await holidayTypeInput.setValue("Annual");
       await startingDateInput.setValue("2023-01-15");
       await endingDateInput.setValue("2023-01-25");
@@ -257,7 +256,7 @@ describe("CreationHolidayForm", () => {
       expect(startingDateInput.props().error).toBe("It must be after today");
     });
 
-    it("shoud display the awaited error if all filled are input but end date is wrong", async () => {
+    it("shoud display the awaited error if all fileds are filled but end date is wrong", async () => {
       await holidayTypeInput.setValue("Annual");
       await startingDateInput.setValue("2023-01-20");
       await endingDateInput.setValue("2023-01-19");
@@ -269,7 +268,7 @@ describe("CreationHolidayForm", () => {
       );
     });
 
-    it("shoud display the awaited error if all filled are empty and start and end date are wrong", async () => {
+    it("shoud display the awaited error if all fileds are empty and start and end date are wrong", async () => {
       await startingDateInput.setValue("2023-01-10");
       await endingDateInput.setValue("2023-01-16");
       await wrapper.find('[data-test="creation-form"]').trigger("submit");

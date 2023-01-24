@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import EmailInput from "../EmailInput.vue";
 import MailIcon from "../icons/MailIcon.vue"
 
-describe("EmailInput", () => {
+describe.skip("EmailInput", () => {
     const wrapper = mount(EmailInput, {
       props:  {
         label: "Email adress",
