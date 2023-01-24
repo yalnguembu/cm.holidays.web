@@ -19,8 +19,7 @@ describe("TextArea", () => {
     expect(wrapper.find("label").text()).toBe("The label");
   });
 
-  it("should display the awaited placeholder in the field", () => {
-    expect(wrapper.find("label").text()).toBe("The label");
+  it("should display the awaited placeholder", () => {
     expect(wrapper.find("textarea").attributes("placeholder")).toBe(
       "Enter the description"
     );

@@ -40,11 +40,10 @@ describe("SelectInput", () => {
     expect(wrapper.find("select").classes("border-red-500")).toBe(true);
   });
 
-  it("shouldshould have the awaited emit after the value was selected", async () => {
+  it("should have the awaited emit after the value was selected", async () => {
     const selectInput = wrapper.find("select");
 
     await selectInput.setValue("Maternite");
-    console.log(selectInput.element.value);
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
     expect(wrapper.emitted("update:modelValue").length).toBe(1);
   });
