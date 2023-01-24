@@ -32,39 +32,53 @@ describe("HolidayItem", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should have the holiday informations", () => {
+  it("should have the awaited `created at`", () => {
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
       "il y'a 3 jours"
     );
+  });
+
+  it("should have the awaited creation time", () => {
     expect(wrapper.find("[data-test='creation-time']").text()).toBe("14:32");
+  });
+
+  it("should have the awaited date range", () => {
     expect(wrapper.find("[data-test='data-range']").text()).toMatch(
       "Sat Jan 14 2023 - Thu Jan 19 2023"
     );
+  });
+
+  it("should have the awaited description", () => {
     expect(wrapper.find("[data-test='description']").text()).toBe(
       "Lorem ipsum dolor sit amet consectetur."
     );
+  });
+
+  it("should have the awaited `holiday type`", () => {
     expect(wrapper.find("[data-test='type']").text()).toBe("Maternite");
   });
 
-  it("it must have the created at a in days", () => {
+  it("it must have the `created at` in days", () => {
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
       "il y'a 3 jours"
     );
   });
 
-  it("it must have the created at a in hours", async () => {
+  it("it must have the `created at` in hours", async () => {
     await wrapper.setProps({ holiday: { createdAt: 1673948967837 } });
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
       "il y'a 1 heures"
     );
   });
-  it("it must have the created at a in minutes", async () => {
+  
+  it("it must have the `created at` in minutes", async () => {
     await wrapper.setProps({ holiday: { createdAt: 1673951967837 } });
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
       "il y'a 10 minutes"
     );
   });
-  it("it must have the created equal to just now", async () => {
+
+  it("it should have the `created at` as `just now`", async () => {
     await wrapper.setProps({ holiday: { createdAt: 1673952567837 } });
     expect(wrapper.find("[data-test='created-at']").text()).toBe("A l'instant");
   });

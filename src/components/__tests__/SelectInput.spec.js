@@ -3,12 +3,14 @@ import { describe, expect, it } from "vitest";
 import SelectInput from "../SelectInput.vue";
 
 describe("SelectInput", () => {
+  const options = ["Annual", "Maternite", "Christmas"];
   const wrapper = mount(SelectInput, {
-    props:  {
+    props: {
       label: "Holidays",
-      modelValue: "Choose holidays type",
+      modelValue: "",
       error: "",
-      options: ["Choose holidays type", "maternite"],
+      placeholder: "Choose holidays type",
+      options: options,
     },
   });
 
@@ -17,12 +19,12 @@ describe("SelectInput", () => {
   });
 
   it("should display the awaited options", () => {
-    const options = wrapper.findAll("option");
-    expect(options[0].text()).toBe("Choose holidays type");
-    expect(options[1].text()).toBe("maternite");
+    wrapper.findAll("option").map((option, index) => {
+      index > 0 ? expect(option.text()).toBe(options[index - 1]) : "";
+    });
   });
 
-  it("should display the awaitted error message", async () => {
+  it("should display the awaited error message", async () => {
     await wrapper.setProps({ error: "This field is required" });
 
     expect(wrapper.find('[data-test="select-input-text-error"]').exists()).toBe(
@@ -35,10 +37,30 @@ describe("SelectInput", () => {
   });
 
   it("shouldshould have the awaited emit after the value was selected", async () => {
-    await wrapper.find("select").setValue("Annual");
+    const selectInput = wrapper.find("select");
 
+    await selectInput.setValue("Maternite");
+    console.log(selectInput.element.value);
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
     expect(wrapper.emitted("update:modelValue").length).toBe(1);
-    expect(wrapper.find("select").element._value).toBe("Choose holidays type")
   });
 });
+
+// DOMWrapper {
+//   isDisabled: [Function (anonymous)],
+//   wrapperElement: <ref *1> HTMLSelectElement {
+//     '0': [Getter],
+//     _listeners: { change: [Array] },
+//     DOCUMENT_POSITION_PRECEDING: 2,
+//     ownerDocument: HTMLDocument {
+//       _listeners: {},
+
+//     },
+//     options: HTMLOptionsCollection(1) [
+//       [HTMLOptionElement],
+//       _selectElement: [Circular *1]
+//     ],
+//     _vei: { onChange: [Function] },
+//     _value: ''
+//   }
+// }

@@ -3,7 +3,6 @@
     <input
       type="checkbox"
       name="remind"
-      id="remind"
       class="border-gray-500 bg-transparent"
       :checked="modelValue"
       @change="$emit('update:modelValue', $event.target.checked)"

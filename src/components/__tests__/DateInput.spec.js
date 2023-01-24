@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import DateInput from "../DateInput.vue";
-import AgendaIcon from "../icons/AgendaIcon.vue"
+import AgendaIcon from "../icons/AgendaIcon.vue";
 
 describe("DateInput", () => {
   const wrapper = mount(DateInput, {
@@ -15,7 +15,6 @@ describe("DateInput", () => {
     },
   });
 
-
   it("should render correctly", () => {
     expect(wrapper.exists()).toBe(true);
   });
@@ -25,7 +24,7 @@ describe("DateInput", () => {
   });
 
   it("should display the awaited placeholder", () => {
-    expect(wrapper.find("input").attributes('placeholder')).toBe("Date");
+    expect(wrapper.find("input").attributes("placeholder")).toBe("Date");
   });
 
   it("should display the agenda icon", () => {
@@ -33,6 +32,10 @@ describe("DateInput", () => {
   });
 
   it("should display the awaited error message", async () => {
+
+    expect(wrapper.find('[data-test="date-input-text-error"]').exists()).toBe(
+      false
+    );
     await wrapper.setProps({
       error: "This field is required",
     });
@@ -43,15 +46,16 @@ describe("DateInput", () => {
     expect(wrapper.find('[data-test="date-input-text-error"]').text()).toBe(
       "This field is required"
     );
-    expect(wrapper.find("div").classes("border-red-500")).toBe(true);
+    expect(
+      wrapper.find('[data-test="date-input-container"]').classes("border-red-500")
+    ).toBe(true);
   });
 
   it("should have the awaited emit after the value was input", async () => {
-    await  wrapper.find("input").setValue("2023-01-17");
+    await wrapper.find("input").setValue("2023-01-17");
 
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
     expect(wrapper.emitted("update:modelValue").length).toBe(1);
     expect(wrapper.emitted("update:modelValue")[0][0]).toBe("2023-01-17");
   });
-
 });

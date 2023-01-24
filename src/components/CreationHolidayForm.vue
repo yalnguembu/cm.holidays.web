@@ -13,9 +13,13 @@
           Create a holiday
         </h2>
         <div class="flex flex-row flex-wrap w-full my-4">
-          <div class="basis-full md:basis-2/3 mb-4 md:p-2" data-test="holiday-type">
+          <div
+            class="basis-full md:basis-2/3 mb-4 md:p-2"
+            data-test="holiday-type"
+          >
             <SelectInput
               label="Type"
+              placeholder="Choose your holiday's type..."
               :options="types"
               v-model="holidayType"
               :error="error.holidayType"
@@ -26,9 +30,8 @@
             data-test="starting-date"
           >
             <DateInput
-            placeholder="Date"
+              placeholder="Date"
               label="Starting date"
-              name="starting-date"
               v-model="startingDate"
               :error="error.startingDate"
             />
@@ -38,9 +41,8 @@
             data-test="ending-date"
           >
             <DateInput
-            placeholder="Date"
+              placeholder="Date"
               label="Ending date"
-              name="ending-date"
               v-model="endingDate"
               :error="error.endingDate"
             />
@@ -49,16 +51,19 @@
             class="basis-1/2 md:basis-1/3 pr-2 md:p-2"
             data-test="number-of-days"
           >
-            <NumberInput label="Number of day" v-model="numbersOfdays" placeholder="Number of days" />
+            <NumberInput
+              label="Number of day"
+              v-model="numbersOfdays"
+              placeholder="Number of days"
+            />
           </div>
           <div
             class="basis-1/2 md:basis-1/3 pl-2 md:p-2"
             data-test="returning-date"
           >
             <DateInput
-            placeholder="Date"
+              placeholder="Date"
               label="Returning date"
-              name="returning-date"
               :modelValue="returningDate"
               :error="''"
             />
@@ -107,15 +112,9 @@ export default {
 
   data() {
     return {
-      types: [
-        "Choose your holiday's type...",
-        "Annual",
-        "Maternite",
-        "Abscence",
-        "christmas",
-      ],
+      types: ["Annual", "Maternite", "Abscence", "christmas"],
 
-      holidayType: "Choose your holiday's type...",
+      holidayType: "",
 
       startingDate: "",
 
@@ -138,7 +137,7 @@ export default {
     },
 
     checkholidayType() {
-      if (this.holidayType === "Choose your holiday's type...") {
+      if (this.holidayType === "") {
         this.error.holidayType = "This field is required";
       } else this.error.holidayType = "";
     },

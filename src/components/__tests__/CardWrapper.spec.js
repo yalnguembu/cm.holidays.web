@@ -16,7 +16,7 @@ describe("CardWrapper", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("Should haven the awaitted slot", () => {
+  it("Should haven the awaited slot", () => {
     expect(wrapper.findComponent(TestComponent).exists()).toBe(true);
   });
 });

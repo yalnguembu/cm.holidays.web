@@ -1,7 +1,10 @@
 <template>
-  <TheMainNavbar />
-  <RouterView />
+  <template v-if="isUserConnected()">
+    <TheMainNavbar />
+    <RouterView />
+  </template>
 </template>
+
 <script>
 import TheMainNavbar from "./TheMainNavbar.vue";
 export default {

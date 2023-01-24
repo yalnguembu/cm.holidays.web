@@ -7,7 +7,7 @@ describe("BaseButton", () => {
   const wrapper = mount(BaseButton, {
     props: { title: "Open" },
     slots: {
-      default: AgendaIcon,
+      icon: AgendaIcon,
     },
   });
 
@@ -15,11 +15,11 @@ describe("BaseButton", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should have the awaitted icon", () => {
+  it("should have the awaited icon", () => {
     expect(wrapper.findComponent(AgendaIcon).exists()).toBe(true);
   });
 
-  it("should have the awaitted title", () => {
+  it("should have the awaited title", () => {
     expect(wrapper.text()).toBe("Open");
   });
 });

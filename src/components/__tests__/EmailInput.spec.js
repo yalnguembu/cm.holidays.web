@@ -22,23 +22,22 @@ describe("EmailInput", () => {
     expect(wrapper.findComponent(MailIcon).exists()).toBe(true);
   });
 
-  it("should display the correct label", () => {
+  it("should have the awaited label", () => {
     expect(wrapper.find("label").text()).toBe("Email adress");
   });
 
-  it("should display the email field", () => {
-    expect(wrapper.find('input').exists()).toBe(
-      true
-    );
-  });
-
-  it("should display the email field with the correct placeholder ", () => {
+  it("should have awaited the placeholder ", () => {
     expect(wrapper.find('input').attributes("placeholder")).toBe(
      "Enter your email adress"
     );
   });
 
-  it("should display the awaited placeholder", async () => {
+  it("should display the awaited the awaited error message", async () => {
+    
+    expect(wrapper.find('[data-test="email-input-text-error"]').exists()).toBe(
+      false
+    );
+
     await wrapper.setProps({
       error: "This field is required",
     });
@@ -52,7 +51,7 @@ describe("EmailInput", () => {
     expect(wrapper.find("div").classes("border-red-500")).toBe(true);
   });
 
-  it("should have the awaited emit after the value was input", async () => {
+  it("should emit the awaited value after input", async () => {
     await wrapper.find("input").setValue("Hello");
     
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
