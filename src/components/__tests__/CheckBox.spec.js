@@ -23,6 +23,17 @@ describe("CheckBox", () => {
 
   it("should have the awaited emit after the input was checked", async () => {
     await wrapper.find("input").setValue(true);
+    await wrapper.find("input").setValue(false);
+
+    expect(wrapper.emitted()).toHaveProperty("update:modelValue");
+    expect(wrapper.emitted("update:modelValue").length).toBe(2);
+    expect(wrapper.emitted("update:modelValue")[0][0]).toBe(true);
+    expect(wrapper.emitted("update:modelValue")[1][0]).toBe(false);
+  });
+
+  it("should have the awaited emit after the input was unchecked", async () => {
+    await wrapper.setProps({ modelValue: true });
+    await wrapper.find("input").setValue(false);
 
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
     expect(wrapper.emitted("update:modelValue").length).toBe(1);
