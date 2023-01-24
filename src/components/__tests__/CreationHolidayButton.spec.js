@@ -10,7 +10,7 @@ describe("CreationHolidayButton", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should display the awaitted title", () => {
+  it("should display the awaited title", () => {
     expect(wrapper.text()).toBe("New holiday");
   });
 

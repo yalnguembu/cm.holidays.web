@@ -96,5 +96,15 @@ describe("TheBreadcrumb", () => {
     expect(lastItem.attributes().class).toContain(
       "text-black text-2xl font-bold"
     );
+    expect(breacrumbLink.at(1).exists()).toBe(true);
+    expect(breacrumbLink.at(1).text()).toBe("list");
+    expect(breacrumbLink.at(1).classes("text-gray-500")).toBe(true);
+    expect(breacrumbLink.at(1).classes("text-lg")).toBe(true);
+
+    expect(lastItem.exists()).toBe(true);
+    expect(lastItem.text()).toBe("holiday details");
+    expect(lastItem.classes("text-black")).toBe(true);
+    expect(lastItem.classes("text-2xl")).toBe(true);
+    expect(lastItem.classes("font-bold")).toBe(true);
   });
 });

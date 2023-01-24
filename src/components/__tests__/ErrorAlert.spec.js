@@ -12,11 +12,11 @@ describe("ErrorAlert", () => {
     expect(wrapper.exists()).toBe(true);
   });
   
-  it("should display the alert message", () => {
+  it("should have the avaited text", () => {
     expect(wrapper.text()).toBe("Invalid crudential");
   });
   
-  it("should display the alert information icon", () => {
+  it("should have the awaited information icon", () => {
     expect(wrapper.findComponent(InfoIcon).exists()).toBe(true);
   });
 });

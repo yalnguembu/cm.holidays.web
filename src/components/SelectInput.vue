@@ -8,15 +8,11 @@
       ' w-full border rounded-md w-full p-4 mt-2 bg-gray-25 outline-blue-500 inset-blue-500 md:bg-transparent',
       { 'border-2 border-red-500': error },
     ]"
-    :value="modelValue"
+    :value="modelValue === '' ? placeholder : modelValue"
     @change="send"
   >
-    <option
-      v-for="(option, index) in options"
-      :key="option"
-      :value="option"
-      :hidden="index === 0"
-    >
+    <option hidden selected>{{ placeholder }}</option>
+    <option v-for="option in options" :key="option" :value="option">
       {{ option }}
     </option>
   </select>
@@ -29,14 +25,32 @@ export default {
   name: "SelectInput",
 
   props: {
-    modelValue: String,
-    options: Array[String],
-    error: String,
-    label: String,
+    modelValue: {
+      type: String,
+      require: true,
+    },
+    options: {
+      type: Array[String],
+      require: true,
+    },
+    error: {
+      type: String,
+      require: true,
+      default: "",
+    },
+    label: {
+      type: String,
+      require: true,
+    },
+    placeholder: {
+      type: String,
+      require: true,
+      default: "Select",
+    },
   },
   methods: {
     send(event) {
-      console.log( event.target.value);
+      console.log(event.target.selectedIndex);
       this.$emit("update:modelValue", event.target.value);
     },
   },

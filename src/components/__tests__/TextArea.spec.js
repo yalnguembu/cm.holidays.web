@@ -15,22 +15,18 @@ describe("TextArea", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should display the awaitted label", () => {
+  it("should display the awaited label", () => {
     expect(wrapper.find("label").text()).toBe("The label");
   });
 
-  it("should display the awaitted placeholder in the field", () => {
+  it("should display the awaited placeholder in the field", () => {
     expect(wrapper.find("label").text()).toBe("The label");
     expect(wrapper.find("textarea").attributes("placeholder")).toBe(
       "Enter the description"
     );
   });
 
-  it("should display the error message", async () => {
-    expect(
-      wrapper.find('[data-test="password-input-text-error"]').exists()
-    ).toBe(false);
-
+  it("should display the awaited error message", async () => {
     await wrapper.setProps({ error: "This field is required" });
 
     expect(

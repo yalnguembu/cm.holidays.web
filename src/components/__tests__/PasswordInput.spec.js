@@ -6,7 +6,7 @@ describe("PasswordInput", () => {
   const wrapper = mount(PasswordInput, {
     props: {
       label: "Password",
-      placeholder: "Enter your Password",
+      placeholder: "Enter your password",
       error: "",
       modelValue: "",
     },
@@ -16,27 +16,30 @@ describe("PasswordInput", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should display the correct label", () => {
+  it("should have awaited the correct label", () => {
     expect(wrapper.find("label").text()).toBe("Password");
   });
 
-  it("should display the password input", () => {
-    expect(wrapper.find("input").exists()).toBe(true);
+  it("should have the awaited placeholder", () => {
+    expect(wrapper.find("input").attributes().placeholder).toBe(
+      "Enter your password"
+    );
   });
 
-  it("should display the correct placeholder inside the password input", () => {
-    expect(wrapper.find("input").exists()).toBe(true);
+  it("should display the error message", async () => {
+    expect(
+      wrapper.find('[data-test="password-input-text-error"]').exists()
+    ).toBe(false);
   });
-
-  it("should display the error message",async () => {
+  it("should display the error message", async () => {
     expect(
       wrapper.find('[data-test="password-input-text-error"]').exists()
     ).toBe(false);
 
-   await  wrapper.setProps({
+    await wrapper.setProps({
       error: "This field is required",
     });
-    
+
     expect(
       wrapper.find('[data-test="password-input-text-error"]').exists()
     ).toBe(true);
@@ -46,7 +49,7 @@ describe("PasswordInput", () => {
     expect(wrapper.find("div").classes("border-red-500")).toBe(true);
   });
 
-  it("should have the awaited emit after the value was input", async () => {
+  it("should emit the awaited the value after input", async () => {
     await wrapper.find("input").setValue("Hello");
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
     expect(wrapper.emitted("update:modelValue").length).toBe(1);

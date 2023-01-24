@@ -11,7 +11,6 @@
       class="w-full p-4 bg-transparent outline-none"
       type="email"
       name="email"
-      id="email"
       :placeholder="placeholder"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"

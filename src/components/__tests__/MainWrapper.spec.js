@@ -60,6 +60,17 @@ describe("MainWrapper", () => {
       if (key === "user") return "";
       else if (key === "users") return users;
     });
+
+    expect(mockRouter.push).not.toHaveBeenCalled();
+    expect(wrapper.findComponent(TheMainNavbar).exists()).toBe(true);
+    expect(wrapper.find("router-view-stub").exists()).toBe(true);
+  });
+
+  it("should redirect to login page when user is not connected", async () => {
+    global.Storage.prototype.getItem = vi.fn((key) => {
+      if (key === "user") return "";
+      else if (key === "users") return users;
+    });
     const mockRouter = {
       push: vi.fn(),
     };
