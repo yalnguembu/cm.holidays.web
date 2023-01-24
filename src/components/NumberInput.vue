@@ -14,11 +14,21 @@
 <script>
 export default {
   name: "NumberInput",
-
+  
   props: {
-    modelValue: [Number,String],
-    placeholder: String,
-    label: String,
+    modelValue: {
+      tyepe: String,
+      require: true,
+    },
+    label: {
+      type: String,
+      require: true,
+    },
+    placeholder: {
+      type: String,
+      require: true,
+      default: "",
+    },
     readonly: Boolean,
   },
 };

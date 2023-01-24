@@ -33,11 +33,29 @@ export default {
   components: {
     MailIcon,
   },
+
   props: {
-    error: String,
-    modelValue: String,
-    label: String,
-    placeholder: String,
+    error: {
+      type: String,
+      require: true,
+      default: "",
+    },
+
+    modelValue: {
+      tyepe: String,
+      require: true,
+    },
+
+    label: {
+      type: String,
+      require: true,
+    },
+    
+    placeholder: {
+      type: String,
+      require: true,
+      default: "",
+    },
   },
 };
 </script>

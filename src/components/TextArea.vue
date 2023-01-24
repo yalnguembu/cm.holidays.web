@@ -20,10 +20,22 @@ export default {
   name: "TextArea",
 
   props: {
-    modelValue: "",
-    error: String,
-    label: String,
-    placeholder: String,
+    modelValue: {
+      type: String,
+      required: true,
+    },
+    error: {
+      type: String,
+      required: true,
+    },
+    label: {
+      type: String,
+      required: true,
+    },
+    placeholder: {
+      type: String,
+      required: true,
+    },
   },
 };
 </script>

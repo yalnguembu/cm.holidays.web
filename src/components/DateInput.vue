@@ -39,19 +39,23 @@ export default {
       type: String,
       required: true,
     },
+
     placeholder: {
       type: String,
-      default: "Date",
+      default: "",
     },
+
     label: {
       type: String,
       required: true,
     },
+
     error: {
       type: String,
       required: true,
       default: "",
     },
+    
     readonly: Boolean,
   },
 
