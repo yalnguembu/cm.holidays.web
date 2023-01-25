@@ -16,7 +16,7 @@ describe.skip("PasswordInput", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should have awaited the correct label", () => {
+  it("should have the awaited label", () => {
     expect(wrapper.find("label").text()).toBe("Password");
   });
 
@@ -26,7 +26,7 @@ describe.skip("PasswordInput", () => {
     );
   });
 
-  it("should display the error message", async () => {
+  it("should display the awaited error message and the awaited design", async () => {
     expect(
       wrapper.find('[data-test="password-input-text-error"]').exists()
     ).toBe(false);

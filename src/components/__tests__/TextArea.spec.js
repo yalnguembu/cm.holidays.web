@@ -25,7 +25,7 @@ describe("TextArea", () => {
     );
   });
 
-  it("should display the awaited error message", async () => {
+  it("should display the awaited error message and the awaited design", async () => {
     await wrapper.setProps({ error: "This field is required" });
 
     expect(

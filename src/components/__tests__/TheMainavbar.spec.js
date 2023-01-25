@@ -1,17 +1,17 @@
 import { mount } from "@vue/test-utils";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import TheMainNavbar from "../TheMainNavbar.vue";
 import AccountIcon from "../icons/AccountIcon.vue";
 
 describe("TheMainNavbar", () => {
   let wrapper;
-  beforeEach(() => {
+  beforeAll(() => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2023-01-17"));
     wrapper = mount(TheMainNavbar);
   });
 
-  beforeEach(() => {
+  afterAll(() => {
     vi.useRealTimers();
   });
 

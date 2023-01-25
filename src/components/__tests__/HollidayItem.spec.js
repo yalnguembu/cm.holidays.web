@@ -32,7 +32,7 @@ describe("HolidayItem", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should have the awaited `created at`", () => {
+  it("should have the awaited `createdSince`", () => {
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
       "il y'a 3 jours"
     );
@@ -43,7 +43,7 @@ describe("HolidayItem", () => {
   });
 
   it("should have the awaited date range", () => {
-    expect(wrapper.find("[data-test='data-range']").text()).toMatch(
+    expect(wrapper.find("[data-test='data-range']").text()).toBe(
       "Sat Jan 14 2023 - Thu Jan 19 2023"
     );
   });
@@ -54,31 +54,31 @@ describe("HolidayItem", () => {
     );
   });
 
-  it("should have the awaited `holiday type`", () => {
+  it("should have the awaited holiday type", () => {
     expect(wrapper.find("[data-test='type']").text()).toBe("Maternite");
   });
 
-  it("should have the `created at` in days", () => {
+  it("should have the `createdSince` in days", () => {
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
       "il y'a 3 jours"
     );
   });
 
-  it("should have the `created at` in hours", async () => {
+  it("should have the `createdSince` in hours", async () => {
     await wrapper.setProps({ holiday: { createdAt: 1673948967837 } });
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
       "il y'a 1 heures"
     );
   });
   
-  it("should have the `created at` in minutes", async () => {
+  it("should have the `createdSince` in minutes", async () => {
     await wrapper.setProps({ holiday: { createdAt: 1673951967837 } });
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
       "il y'a 10 minutes"
     );
   });
 
-  it("should have the `created at` as `just now`", async () => {
+  it("should have the `createdSince` as `just now`", async () => {
     await wrapper.setProps({ holiday: { createdAt: 1673952567837 } });
     expect(wrapper.find("[data-test='created-at']").text()).toBe("A l'instant");
   });

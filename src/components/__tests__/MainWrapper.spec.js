@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import MainWrapper from "../MainWrapper.vue";
 import TheMainNavbar from "../TheMainNavbar.vue";
 
-describe("MainWrapper", async () => {
+describe("MainWrapper", () => {
   const users = JSON.stringify([
     {
       id: "0",
@@ -17,6 +17,11 @@ describe("MainWrapper", async () => {
     },
   ]);
 
+  const mockRouter = {
+    push: vi.fn(),
+  };
+  
+  let wrapper;
   beforeEach(() => {
     global.Storage.prototype.getItem = vi.fn((key) => {
       if (key === "user") {
@@ -25,31 +30,8 @@ describe("MainWrapper", async () => {
         return users;
       }
     });
-  });
 
-  afterEach(() => {
-    global.Storage.prototype.getItem.mockReset();
-  });
-
-  it("should render correctly", async () => {
-    const wrapper = mount(MainWrapper, {
-      global: {
-        mocks: {
-          $router: { push: vi.fn() },
-        },
-        stubs: ["RouterView"],
-      },
-    });
-
-    expect(wrapper.exists()).toBe(true);
-  });
-
-  it("should display the `RouterView` if an user is connected", async () => {
-    const mockRouter = {
-      push: vi.fn(),
-    };
-
-    const wrapper = mount(MainWrapper, {
+    wrapper = mount(MainWrapper, {
       global: {
         mocks: {
           $router: mockRouter,
@@ -57,7 +39,17 @@ describe("MainWrapper", async () => {
         stubs: ["RouterView"],
       },
     });
+  });
 
+  afterEach(() => {
+    global.Storage.prototype.getItem.mockReset();
+  });
+
+  it("should render correctly", async () => {
+    expect(wrapper.exists()).toBe(true);
+  });
+
+  it("should display the `RouterView` if an user is connected", async () => {
     expect(mockRouter.push).not.toHaveBeenCalled();
     expect(wrapper.findComponent(TheMainNavbar).exists()).toBe(true);
     expect(wrapper.find("router-view-stub").exists()).toBe(true);

@@ -12,13 +12,13 @@
         :to="`/${route}`"
         v-if="isNotTheLast(index)"
       >
-        <span class="text-gray-500 mr-2 align-middle text-lg">
+        <span class="text-gray-500 text-lg mr-2 align-middle">
           {{ route }}</span
         >
       </RouterLink>
       <span
         v-else
-        class="font-bold mr-2 text-2xl align-middle text-black"
+        class=" align-middle mr-2 text-black text-2xl font-bold"
         data-test="last-item"
       >
         {{ isHolidayDetailsPage ? `holiday details` : route }}

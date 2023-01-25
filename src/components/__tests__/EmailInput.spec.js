@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import EmailInput from "../EmailInput.vue";
 import MailIcon from "../icons/MailIcon.vue"
 
-describe.skip("EmailInput", () => {
+describe("EmailInput", () => {
     const wrapper = mount(EmailInput, {
       props:  {
         label: "Email adress",
@@ -26,13 +26,13 @@ describe.skip("EmailInput", () => {
     expect(wrapper.find("label").text()).toBe("Email adress");
   });
 
-  it("should have awaited the placeholder ", () => {
+  it("should have awaited the placeholder", () => {
     expect(wrapper.find('input').attributes("placeholder")).toBe(
      "Enter your email adress"
     );
   });
 
-  it("should display the awaited the awaited error message", async () => {
+  it("should display the awaited error message and the awaited design", async () => {
     
     expect(wrapper.find('[data-test="email-input-text-error"]').exists()).toBe(
       false
@@ -48,7 +48,7 @@ describe.skip("EmailInput", () => {
     expect(wrapper.find('[data-test="email-input-text-error"]').text()).toBe(
       "This field is required"
     );
-    expect(wrapper.find("div").classes("border-red-500")).toBe(true);
+    expect(wrapper.find('[data-test="the-field"]').classes("border-red-500")).toBe(true);
   });
 
   it("should emit the awaited value after input", async () => {

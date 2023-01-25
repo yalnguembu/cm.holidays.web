@@ -31,7 +31,7 @@ describe("DateInput", () => {
     expect(wrapper.findComponent(AgendaIcon).exists()).toBe(true);
   });
 
-  it("should display the awaited error message", async () => {
+  it("should display the awaited error message and the awaited design", async () => {
 
     expect(wrapper.find('[data-test="date-input-text-error"]').exists()).toBe(
       false

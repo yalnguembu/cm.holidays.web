@@ -9,10 +9,10 @@
         { 'border-2 border-red-500': error },
       ]"
       :value="modelValue === '' ? placeholder : modelValue"
-      @change="send"
+      @change="$emit('update:modelValue', $event.target._value)"
     >
-      <option hidden selected>{{ placeholder }}</option>
-      <option v-for="option in options" :key="option" :value="option">
+      <option hidden disabled>{{ placeholder }}</option>
+      <option v-for="option in options" :key="option" :value="option" data-test="select-option">
         {{ option }}
       </option>
     </select>
@@ -47,12 +47,6 @@ export default {
       type: String,
       require: true,
       default: "Select",
-    },
-  },
-  methods: {
-    send(event) {
-      console.log(event.target.selectedIndex);
-      this.$emit("update:modelValue", event.target.value);
     },
   },
 };
