@@ -9,7 +9,7 @@
         { 'border-2 border-red-500': error },
       ]"
       :value="modelValue === '' ? placeholder : modelValue"
-      @change="send($event)"
+      @change="$emit('update:modelValue', $event.target.value)"
     >
       <option hidden disabled selected>{{ placeholder }}</option>
       <option
@@ -54,14 +54,5 @@ export default {
       default: "Select",
     },
   },
-  methods: {
-    send(event) {
-      // console.log(event.target.value);
-      this.$emit("update:modelValue", event.target.value);
-    },
-  },
-  // updated() {
-  //   console.log(this.$refs.selectInput._value);
-  // },
 };
 </script>

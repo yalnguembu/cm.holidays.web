@@ -9,27 +9,12 @@ import TextArea from "../TextArea.vue";
 
 describe("CreationHolidayForm", () => {
   let wrapper;
-  //   holidayTypeInput,
-  //   startingDateInput,
-  //   endingDateInput,
-  //   numberOfDaysInput,
-  //   returningDateInput,
-  //   submitButton,
-  //   description;
 
   beforeEach(() => {
     vi.useFakeTimers();
     const date = new Date("2023-01-17");
     vi.setSystemTime(date);
     wrapper = mount(CreationHolidayForm);
-
-    // holidayTypeInput = wrapper.findComponent(SelectInput);
-    // startingDateInput = wrapper.findAllComponents(DateInput)[0];
-    // endingDateInput = wrapper.findAllComponents(DateInput)[1];
-    // numberOfDaysInput = wrapper.findComponent(NumberInput);
-    // returningDateInput = wrapper.findAllComponents(DateInput)[2];
-    // description = wrapper.findComponent(TextArea);
-    // submitButton = wrapper.findComponent(BaseButton);
   });
 
   afterEach(() => {
@@ -329,18 +314,16 @@ describe("CreationHolidayForm", () => {
     });
 
     it("shoud display the awaited error if all fields are empty and start and end date are wrong", async () => {
-      const holidayTypeInput = wrapper.findComponent(SelectInput);
       const startingDateInput = wrapper.findAllComponents(DateInput)[0];
       const endingDateInput = wrapper.findAllComponents(DateInput)[1];
-      const description = wrapper.findComponent(TextArea);
 
       await startingDateInput.setValue("2023-01-10");
       await endingDateInput.setValue("2023-01-16");
       await wrapper.find('[data-test="creation-form"]').trigger("submit");
 
-      expect(holidayTypeInput.props().error).toBe("This field is required");
+      expect(wrapper.findComponent(SelectInput).props().error).toBe("This field is required");
       expect(startingDateInput.props().error).toBe("It must be after today");
-      expect(description.props().error).toBe("This field is required");
+      expect(wrapper.findComponent(TextArea).props().error).toBe("This field is required");
     });
   });
 });

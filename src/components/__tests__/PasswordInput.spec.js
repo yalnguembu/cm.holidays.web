@@ -2,7 +2,7 @@ import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import PasswordInput from "../PasswordInput.vue";
 
-describe.skip("PasswordInput", () => {
+describe("PasswordInput", () => {
   const wrapper = mount(PasswordInput, {
     props: {
       label: "Password",
@@ -46,7 +46,7 @@ describe.skip("PasswordInput", () => {
     expect(wrapper.find('[data-test="password-input-text-error"]').text()).toBe(
       "This field is required"
     );
-    expect(wrapper.find("div").classes("border-red-500")).toBe(true);
+    expect(wrapper.find('[data-test="password-field]').classes("border-red-500")).toBe(true);
   });
 
   it("should emit the awaited the value after input", async () => {

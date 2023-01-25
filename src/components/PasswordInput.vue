@@ -1,7 +1,7 @@
 <template>
   <div>
     <label for="email" class="text-gray-500">{{ label }}</label>
-    <div
+    <div data-test="password-field"
       :class="[
         'rounded-lg shadow-2xl shadow-gray-200 flex flex-row w-full justify-between align-center px-4 my-2  bg-gray md:bg-transparent',
         error ? 'border-2 border-red-500' : 'border border-gray-300',
