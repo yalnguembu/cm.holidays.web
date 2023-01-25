@@ -30,6 +30,7 @@ describe("MainWrapper", () => {
         return users;
       }
     });
+<<<<<<< HEAD
 
     wrapper = mount(MainWrapper, {
       global: {
@@ -59,8 +60,28 @@ describe("MainWrapper", () => {
     global.Storage.prototype.getItem = vi.fn((key) => {
       if (key === "user") return "";
       else if (key === "users") return users;
-    });
+=======
 
+    wrapper = mount(MainWrapper, {
+      global: {
+        mocks: {
+          $router: mockRouter,
+        },
+        stubs: ["RouterView"],
+      },
+>>>>>>> 4ee0e79 (refactoring unit tests)
+    });
+  });
+
+  afterEach(() => {
+    global.Storage.prototype.getItem.mockReset();
+  });
+
+  it("should render correctly", async () => {
+    expect(wrapper.exists()).toBe(true);
+  });
+
+  it("should display the `RouterView` if an user is connected", async () => {
     expect(mockRouter.push).not.toHaveBeenCalled();
     expect(wrapper.findComponent(TheMainNavbar).exists()).toBe(true);
     expect(wrapper.find("router-view-stub").exists()).toBe(true);

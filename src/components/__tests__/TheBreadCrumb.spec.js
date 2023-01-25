@@ -90,6 +90,7 @@ describe("TheBreadcrumb", () => {
     expect(breacrumbLink.at(1).attributes().class).toContain(
       "text-gray-500 text-lg"
     );
+<<<<<<< HEAD
 
     expect(lastItem.exists()).toBe(true);
     expect(lastItem.text()).toBe("holiday details");
@@ -100,11 +101,13 @@ describe("TheBreadcrumb", () => {
     expect(breacrumbLink.at(1).text()).toBe("list");
     expect(breacrumbLink.at(1).classes("text-gray-500")).toBe(true);
     expect(breacrumbLink.at(1).classes("text-lg")).toBe(true);
+=======
+>>>>>>> 4ee0e79 (refactoring unit tests)
 
     expect(lastItem.exists()).toBe(true);
     expect(lastItem.text()).toBe("holiday details");
-    expect(lastItem.classes("text-black")).toBe(true);
-    expect(lastItem.classes("text-2xl")).toBe(true);
-    expect(lastItem.classes("font-bold")).toBe(true);
+    expect(lastItem.attributes().class).toContain(
+      "text-black text-2xl font-bold"
+    );
   });
 });

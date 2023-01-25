@@ -2,7 +2,7 @@ import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
 import CheckBox from "../CheckBox.vue";
 
-describe.only("CheckBox", () => {
+describe("CheckBox", () => {
   let wrapper;
   beforeEach(() => {
     wrapper = mount(CheckBox, {
@@ -21,7 +21,7 @@ describe.only("CheckBox", () => {
     expect(wrapper.find("label").text()).toBe("Check me");
   });
 
-  it("should have the awaited emit after the input was check", async () => {
+  it("should have the awaited emit after the input was checked", async () => {
     await wrapper.find("input").setValue(true);
 
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
@@ -29,7 +29,7 @@ describe.only("CheckBox", () => {
     expect(wrapper.emitted("update:modelValue")[0][0]).toBe(true);
   });
 
-  it("should have the awaited emit after the input was uncheck", async () => {
+  it("should have the awaited emit after the input was unchecked", async () => {
     await wrapper.setProps({ modelValue: true });
     await wrapper.find("input").setValue(false);
 

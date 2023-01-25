@@ -19,16 +19,20 @@ describe("SelectInput", () => {
   });
 
   it("should display the awaited options", () => {
-    wrapper.findAll("option").map((option, index) => {
-      index > 0 ? expect(option.text()).toBe(options[index - 1]) : "";
+    wrapper.findAll('[data-test="select-option"]').map((option, index) => {
+      expect(option.text()).toBe(options[index]);
     });
   });
 
+<<<<<<< HEAD
   it("should display the error message", async () => {
     expect(
       wrapper.find('[data-test="password-input-text-error"]').exists()
     ).toBe(false);
     
+=======
+  it("should display the awaited error message and the awaited design", async () => {
+>>>>>>> 4ee0e79 (refactoring unit tests)
     await wrapper.setProps({ error: "This field is required" });
 
     expect(wrapper.find('[data-test="select-input-text-error"]').exists()).toBe(
@@ -41,10 +45,10 @@ describe("SelectInput", () => {
   });
 
   it("should have the awaited emit after the value was selected", async () => {
-    const selectInput = wrapper.find("select");
-
-    await selectInput.setValue("Maternite");
+    await wrapper.find("select").setValue("Maternite");
+    // await wrapper.find("select").element.set = "Maternite"
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
     expect(wrapper.emitted("update:modelValue").length).toBe(1);
+    expect(wrapper.emitted("update:modelValue")[0][0]).toBe("Maternite");
   });
 });
