@@ -16,13 +16,13 @@ describe("CreationHolidayForm", () => {
     vi.setSystemTime(date);
     wrapper = mount(CreationHolidayForm);
 
-    holidayTypeInput = wrapper.findComponent(SelectInput);
-    startingDateInput = wrapper.findAllComponents(DateInput)[0];
-    endingDateInput = wrapper.findAllComponents(DateInput)[1];
-    numberOfDaysInput = wrapper.findComponent(NumberInput);
-    returningDateInput = wrapper.findAllComponents(DateInput)[2];
-    description = wrapper.findComponent(TextArea);
-    submitButton = wrapper.findComponent(BaseButton);
+    // holidayTypeInput = wrapper.findComponent(SelectInput);
+    // startingDateInput = wrapper.findAllComponents(DateInput)[0];
+    // endingDateInput = wrapper.findAllComponents(DateInput)[1];
+    // numberOfDaysInput = wrapper.findComponent(NumberInput);
+    // returningDateInput = wrapper.findAllComponents(DateInput)[2];
+    // description = wrapper.findComponent(TextArea);
+    // submitButton = wrapper.findComponent(BaseButton);
   });
 
   afterEach(() => {
