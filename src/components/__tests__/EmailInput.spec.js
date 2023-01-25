@@ -48,7 +48,7 @@ describe("EmailInput", () => {
     expect(wrapper.find('[data-test="email-input-text-error"]').text()).toBe(
       "This field is required"
     );
-    expect(wrapper.find('[data-test="the-field"]').classes("border-red-500")).toBe(true);
+    expect(wrapper.find('[data-test="email-field"]').classes("border-red-500")).toBe(true);
   });
 
   it("should emit the awaited value after input", async () => {

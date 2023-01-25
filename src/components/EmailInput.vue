@@ -2,7 +2,7 @@
   <div>
     <label for="email" class="text-gray-500">{{ label }}</label>
     <div
-    data-test="the-field"
+    data-test="email-field"
       :class="[
         error ? 'border-2 border-red-500' : 'border-gray-300',
         'border rounded-lg shadow-2xl shadow-gray-200 flex flex-row w-full justify-between align-center px-4 mt-2',
