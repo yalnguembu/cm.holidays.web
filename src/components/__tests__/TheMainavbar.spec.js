@@ -19,15 +19,15 @@ describe("TheMainNavbar", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("Should have the awaited title", () => {
+  it("should have the awaited title", () => {
     expect(wrapper.find("h2").text()).toBe("Logo");
   });
 
-  it("Should have the agenda icon", () => {
+  it("should have the agenda icon", () => {
     expect(wrapper.findComponent(AccountIcon).exists()).toBe(true);
   });
 
-  it("Should have current date", () => {
+  it("should have current date", () => {
     expect(wrapper.find("h6").text()).toBe("mardi 17 janvier 2023");
   });
 });

@@ -58,27 +58,27 @@ describe("HolidayItem", () => {
     expect(wrapper.find("[data-test='type']").text()).toBe("Maternite");
   });
 
-  it("it must have the `created at` in days", () => {
+  it("should have the `created at` in days", () => {
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
       "il y'a 3 jours"
     );
   });
 
-  it("it must have the `created at` in hours", async () => {
+  it("should have the `created at` in hours", async () => {
     await wrapper.setProps({ holiday: { createdAt: 1673948967837 } });
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
       "il y'a 1 heures"
     );
   });
   
-  it("it must have the `created at` in minutes", async () => {
+  it("should have the `created at` in minutes", async () => {
     await wrapper.setProps({ holiday: { createdAt: 1673951967837 } });
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
       "il y'a 10 minutes"
     );
   });
 
-  it("it should have the `created at` as `just now`", async () => {
+  it("should have the `created at` as `just now`", async () => {
     await wrapper.setProps({ holiday: { createdAt: 1673952567837 } });
     expect(wrapper.find("[data-test='created-at']").text()).toBe("A l'instant");
   });
