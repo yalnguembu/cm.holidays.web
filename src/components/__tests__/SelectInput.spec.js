@@ -46,7 +46,7 @@ describe("SelectInput", () => {
 
   it("should have the awaited emit after the value was selected", async () => {
     await wrapper.find("select").setValue("Maternite");
-    // await wrapper.find("select").element.set = "Maternite"
+    
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
     expect(wrapper.emitted("update:modelValue").length).toBe(1);
     expect(wrapper.emitted("update:modelValue")[0][0]).toBe("Maternite");
