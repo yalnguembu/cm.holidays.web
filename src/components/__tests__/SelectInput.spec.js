@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
+import { nextTick } from "vue";
 import SelectInput from "../SelectInput.vue";
 
 describe("SelectInput", () => {
@@ -37,7 +38,7 @@ describe("SelectInput", () => {
   });
 
   it("should have the awaited emit after the value was selected", async () => {
-    await wrapper.find("select").setValue("Maternite");
+    await wrapper.findAll('[data-test="select-option"]').at(1).trigger("change")
     
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
     expect(wrapper.emitted("update:modelValue").length).toBe(1);
