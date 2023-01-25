@@ -18,11 +18,11 @@ describe("TheBreadcrumb", () => {
     },
   });
 
-  it("Should render correctly", async () => {
+  it("should render correctly", async () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("Should have the awaited route", async () => {
+  it("should have the awaited route", async () => {
     const wrapper = mount(TheBreadcrumb, {
       global: {
         mocks: {
@@ -54,7 +54,7 @@ describe("TheBreadcrumb", () => {
     expect(lastItem.classes("font-bold")).toBe(true);
   });
 
-  it("Should display correctly in holiday details page", async () => {
+  it("should display correctly in holiday details page", async () => {
     const wrapper = mount(TheBreadcrumb, {
       global: {
         mocks: {
