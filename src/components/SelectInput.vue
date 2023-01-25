@@ -57,7 +57,7 @@ export default {
   methods: {
     send(event) {
       // console.log(event.target.value);
-      this.$emit("update:modelValue", event.target._value);
+      this.$emit("update:modelValue", event.target.value);
     },
   },
   // updated() {
