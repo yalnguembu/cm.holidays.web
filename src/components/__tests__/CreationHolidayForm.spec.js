@@ -45,8 +45,7 @@ describe("CreationHolidayForm", () => {
   });
 
   it("should have the awaited placeholder in holliday type field", () => {
-    const holidayTypeInput = wrapper.findComponent(SelectInput);
-    expect(holidayTypeInput.props().placeholder).toBe(
+    expect(wrapper.findComponent(SelectInput).props().placeholder).toBe(
       "Choose your holiday's type..."
     );
   });
@@ -122,22 +121,19 @@ describe("CreationHolidayForm", () => {
   });
 
   it("should display the number of days if start date and end date are filled", async () => {
-    const startingDateInput = wrapper.findAllComponents(DateInput)[0];
-    const endingDateInput = wrapper.findAllComponents(DateInput)[1];
     const numberOfDaysInput = wrapper.findComponent(NumberInput);
 
-    await startingDateInput.setValue("2023-01-20");
-    await endingDateInput.setValue("2023-01-28");
+    await wrapper.findAllComponents(DateInput)[0].setValue("2023-01-20");
+    await wrapper.findAllComponents(DateInput)[1].setValue("2023-01-28");
 
     expect(numberOfDaysInput.props().modelValue).toBe(8);
   });
 
   it("should display the return date if end date is filled", async () => {
-    const endingDateInput = wrapper.findAllComponents(DateInput)[1];
-    const returningDateInput = wrapper.findAllComponents(DateInput)[2];
-
-    await endingDateInput.setValue("2023-01-24");
-    expect(returningDateInput.props().modelValue).toBe("2023-01-24");
+    await wrapper.findAllComponents(DateInput)[1].setValue("2023-01-24");
+    expect(wrapper.findAllComponents(DateInput)[2].props().modelValue).toBe(
+      "2023-01-24"
+    );
   });
 
   it("should set the return date to the next working day if it falls on a non-working day", async () => {
@@ -157,17 +153,14 @@ describe("CreationHolidayForm", () => {
   });
 
   it("should create holiday when every fields are filled correctly", async () => {
-    const holidayTypeInput = wrapper.findComponent(SelectInput);
-    const startingDateInput = wrapper.findAllComponents(DateInput)[0];
-    const endingDateInput = wrapper.findAllComponents(DateInput)[1];
-    const description = wrapper.findComponent(TextArea);
-
-    await holidayTypeInput.setValue("Annual");
-    await startingDateInput.setValue("2023-01-20");
-    await endingDateInput.setValue("2023-01-29");
-    await description.setValue(
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati molestias"
-    );
+    await wrapper.findComponent(SelectInput).setValue("Annual");
+    await wrapper.findAllComponents(DateInput)[0].setValue("2023-01-20");
+    await wrapper.findAllComponents(DateInput)[1].setValue("2023-01-29");
+    await wrapper
+      .findComponent(TextArea)
+      .setValue(
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati molestias"
+      );
     await wrapper.find('[data-test="creation-form"]').trigger("submit");
     expect(wrapper.emitted()).toHaveProperty("close");
   });
@@ -225,87 +218,68 @@ describe("CreationHolidayForm", () => {
     });
 
     it("shoud display the awaited error if all fields are filled except holiday type", async () => {
-      const holidayTypeInput = wrapper.findComponent(SelectInput);
-      const startingDateInput = wrapper.findAllComponents(DateInput)[0];
-      const endingDateInput = wrapper.findAllComponents(DateInput)[1];
-      const description = wrapper.findComponent(TextArea);
-      await startingDateInput.setValue("2023-01-20");
-      await endingDateInput.setValue("2023-01-25");
-      await description.setValue("2023-01-20");
+      await wrapper.findAllComponents(DateInput)[0].setValue("2023-01-20");
+      await wrapper.findAllComponents(DateInput)[1].setValue("2023-01-25");
+      await wrapper.findComponent(TextArea).setValue("2023-01-20");
       await wrapper.find('[data-test="creation-form"]').trigger("submit");
 
-      expect(holidayTypeInput.props().error).toBe("This field is required");
+      expect(wrapper.findComponent(SelectInput).props().error).toBe(
+        "This field is required"
+      );
     });
 
     it("shoud display the awaited error if all fields are filled except start date", async () => {
-      const holidayTypeInput = wrapper.findComponent(SelectInput);
-      const startingDateInput = wrapper.findAllComponents(DateInput)[0];
-      const endingDateInput = wrapper.findAllComponents(DateInput)[1];
-      const description = wrapper.findComponent(TextArea);
-
-      await holidayTypeInput.setValue("Annual");
-      await endingDateInput.setValue("2023-01-25");
-      await description.setValue("2023-01-20");
+      await wrapper.findComponent(SelectInput).setValue("Annual");
+      await wrapper.findAllComponents(DateInput)[1].setValue("2023-01-25");
+      await wrapper.findComponent(TextArea).setValue("2023-01-20");
       await wrapper.find('[data-test="creation-form"]').trigger("submit");
 
-      expect(startingDateInput.props().error).toBe("This field is required");
+      expect(wrapper.findAllComponents(DateInput)[0].props().error).toBe(
+        "This field is required"
+      );
     });
 
     it("shoud display the awaited error if all fields are filled except end date", async () => {
-      const holidayTypeInput = wrapper.findComponent(SelectInput);
-      const startingDateInput = wrapper.findAllComponents(DateInput)[0];
-      const endingDateInput = wrapper.findAllComponents(DateInput)[1];
-      const description = wrapper.findComponent(TextArea);
-
-      await holidayTypeInput.setValue("Annual");
-      await startingDateInput.setValue("2023-01-20");
-      await description.setValue("2023-01-20");
+      await wrapper.findComponent(SelectInput).setValue("Annual");
+      await wrapper.findAllComponents(DateInput)[0].setValue("2023-01-20");
+      await wrapper.findComponent(TextArea).setValue("I'm ill");
       await wrapper.find('[data-test="creation-form"]').trigger("submit");
 
-      expect(endingDateInput.props().error).toBe(
+      expect(wrapper.findAllComponents(DateInput)[1].props().error).toBe(
         "It must be after starting date"
       );
     });
 
     it("shoud display the awaited error if all fields are filled except description", async () => {
-      const holidayTypeInput = wrapper.findComponent(SelectInput);
-      const startingDateInput = wrapper.findAllComponents(DateInput)[0];
-      const endingDateInput = wrapper.findAllComponents(DateInput)[1];
-      const description = wrapper.findComponent(TextArea);
-
-      await holidayTypeInput.setValue("Annual");
-      await startingDateInput.setValue("2023-01-20");
-      await endingDateInput.setValue("2023-01-25");
+      await wrapper.findComponent(SelectInput).setValue("Annual");
+      await wrapper.findAllComponents(DateInput)[0].setValue("2023-01-20");
+      await wrapper.findAllComponents(DateInput)[1].setValue("2023-01-25");
       await wrapper.find('[data-test="creation-form"]').trigger("submit");
 
-      expect(description.props().error).toBe("This field is required");
+      expect(wrapper.findComponent(TextArea).props().error).toBe(
+        "This field is required"
+      );
     });
 
     it("shoud display the awaited error if all fields are filled but start date is wrong", async () => {
-      const holidayTypeInput = wrapper.findComponent(SelectInput);
       const startingDateInput = wrapper.findAllComponents(DateInput)[0];
-      const endingDateInput = wrapper.findAllComponents(DateInput)[1];
-      const description = wrapper.findComponent(TextArea);
 
-      await holidayTypeInput.setValue("Annual");
+      await wrapper.findComponent(SelectInput).setValue("Annual");
       await startingDateInput.setValue("2023-01-15");
-      await endingDateInput.setValue("2023-01-25");
-      await description.setValue("2023-01-20");
+      await wrapper.findAllComponents(DateInput)[1].setValue("2023-01-25");
+      await wrapper.findComponent(TextArea).setValue("2023-01-20");
       await wrapper.find('[data-test="creation-form"]').trigger("submit");
 
       expect(startingDateInput.props().error).toBe("It must be after today");
     });
 
     it("shoud display the awaited error if all fields are filled but end date is wrong", async () => {
-      const holidayTypeInput = wrapper.findComponent(SelectInput);
-      const startingDateInput = wrapper.findAllComponents(DateInput)[0];
       const endingDateInput = wrapper.findAllComponents(DateInput)[1];
-      const description = wrapper.findComponent(TextArea);
 
-      await holidayTypeInput.setValue("Annual");
-      await startingDateInput.setValue("2023-01-20");
+      await wrapper.findComponent(SelectInput).setValue("Annual");
+      await  wrapper.findAllComponents(DateInput)[0].setValue("2023-01-20");
       await endingDateInput.setValue("2023-01-19");
-      await description.setValue("2023-01-20");
+      await wrapper.findComponent(TextArea).setValue("2023-01-20");
       await wrapper.find('[data-test="creation-form"]').trigger("submit");
 
       expect(endingDateInput.props().error).toBe(
@@ -321,9 +295,13 @@ describe("CreationHolidayForm", () => {
       await endingDateInput.setValue("2023-01-16");
       await wrapper.find('[data-test="creation-form"]').trigger("submit");
 
-      expect(wrapper.findComponent(SelectInput).props().error).toBe("This field is required");
+      expect(wrapper.findComponent(SelectInput).props().error).toBe(
+        "This field is required"
+      );
       expect(startingDateInput.props().error).toBe("It must be after today");
-      expect(wrapper.findComponent(TextArea).props().error).toBe("This field is required");
+      expect(wrapper.findComponent(TextArea).props().error).toBe(
+        "This field is required"
+      );
     });
   });
 });

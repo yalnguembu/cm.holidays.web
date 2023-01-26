@@ -45,17 +45,17 @@ describe("MainWrapper", () => {
     global.Storage.prototype.getItem.mockReset();
   });
 
-  it("should render correctly", async () => {
+  it("should render correctly", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should display the `RouterView` if an user is connected", async () => {
+  it("should display the `RouterView` if an user is connected", () => {
     expect(mockRouter.push).not.toHaveBeenCalled();
     expect(wrapper.findComponent(TheMainNavbar).exists()).toBe(true);
     expect(wrapper.find("router-view-stub").exists()).toBe(true);
   });
 
-  it("should redirect to login page when user is not connected", async () => {
+  it("should redirect to login page when user is not connected", () => {
     global.Storage.prototype.getItem = vi.fn((key) => {
       if (key === "user") return "";
       else if (key === "users") return users;

@@ -15,7 +15,7 @@ describe("SelectInput", () => {
   });
 
   it("should render correctly", () => {
-    expect(wrapper.exists("option")).toBe(true);
+    expect(wrapper.exists()).toBe(true);
   });
 
   it("should display the awaited options", () => {
@@ -25,6 +25,10 @@ describe("SelectInput", () => {
   });
 
   it("should display the awaited error message and the awaited design", async () => {
+    expect(wrapper.find('[data-test="select-input-text-error"]').exists()).toBe(
+      false
+    );
+
     await wrapper.setProps({ error: "This field is required" });
 
     expect(wrapper.find('[data-test="select-input-text-error"]').exists()).toBe(
