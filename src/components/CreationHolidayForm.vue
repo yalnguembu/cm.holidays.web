@@ -19,7 +19,7 @@
           >
             <SelectInput
               label="Type"
-              placeholder="Choose your holiday's type..."
+              defaultOption="Choose your holiday's type..."
               :options="types"
               v-model="holidayType"
               :error="error.holidayType"
