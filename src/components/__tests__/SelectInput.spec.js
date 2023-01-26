@@ -23,6 +23,10 @@ describe("SelectInput", () => {
   });
 
   it("should display the error message", async () => {
+    expect(
+      wrapper.find('[data-test="password-input-text-error"]').exists()
+    ).toBe(false);
+    
     await wrapper.setProps({ error: "This field is required" });
 
     expect(wrapper.find('[data-test="select-input-text-error"]').exists()).toBe(

@@ -31,7 +31,7 @@ describe("HolidayItem", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should have the holiday informations", () => {
+  it("should have the awaited informations", () => {
     const wrapper = mount(HolidayItem, {
       props: {
         holiday: holidayProps,

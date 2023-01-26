@@ -39,6 +39,10 @@ describe("EmailInput", () => {
   });
 
   it("should display the awaited placeholder", async () => {
+    expect(wrapper.find('[data-test="email-input-text-error"]').exists()).toBe(
+      false
+    );
+
     await wrapper.setProps({
       error: "This field is required",
     });

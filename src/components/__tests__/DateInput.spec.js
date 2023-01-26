@@ -33,6 +33,10 @@ describe("DateInput", () => {
   });
 
   it("should display the error message", async () => {
+    expect(wrapper.find('[data-test="date-input-text-error"]').exists()).toBe(
+      false
+    );
+
     await wrapper.setProps({
       error: "This field is required",
     });

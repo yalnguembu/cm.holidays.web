@@ -1,85 +1,78 @@
 import { mount } from "@vue/test-utils";
-import { describe, expect, it, vi } from "vitest";
-import { createWebHistory, createRouter } from "vue-router";
-import { routes } from "@/router/router";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import MainWrapper from "../MainWrapper.vue";
+import TheMainNavbar from "../TheMainNavbar.vue";
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes: routes,
-});
+describe("MainWrapper", () => {
+  const users = JSON.stringify([
+    {
+      id: "0",
+      email: "user@lao-sarl.cm",
+      password: "1234",
+    },
+    {
+      id: "1",
+      email: "yal@lao-sarl.cm",
+      password: "1234",
+    },
+  ]);
 
-describe("MainWrapper", async () => {
-  it("should render correctly", async () => {
-    const mockRouter = {
-      push: vi.fn(),
-    };
-
-    router.push("/");
-    await router.isReady();
-
-    const wrapper = mount(MainWrapper, {
-      global: {
-        mocks: {
-          sessionStorage: {
-            getItem: vi.fn(() => {}),
-          },
-          localStorage: {
-            getItem: vi.fn(() => {}),
-          },
-          $router: mockRouter,
-        },
-        plugins: [router],
-      },
+  const mockRouter = {
+    push: vi.fn(),
+  };
+  
+  let wrapper;
+  beforeEach(() => {
+    global.Storage.prototype.getItem = vi.fn((key) => {
+      if (key === "user") {
+        return '{ "email": "user@lao-sarl.cm" }';
+      } else if (key === "users") {
+        return users;
+      }
     });
 
+    wrapper = mount(MainWrapper, {
+      global: {
+        mocks: {
+          $router: mockRouter,
+        },
+        stubs: ["RouterView"],
+      },
+    });
+  });
+
+  afterEach(() => {
+    global.Storage.prototype.getItem.mockReset();
+  });
+
+  it("should render correctly", async () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should display the page", async () => {
-    const mockRouter = {
-      push: vi.fn(),
-    };
-
-    const wrapper = mount(MainWrapper, {
-      global: {
-        mocks: {
-          $router: mockRouter,
-        },
-        plugins: [router],
-      },
-    });
-
-    expect(wrapper.findComponent({ name: "TheMainNavbar" }).exists()).toBe(
-      true
-    );
-    expect(wrapper.findComponent({ name: "RouterView" }).exists()).toBe(true);
+  it("should display the `RouterView` if an user is connected", () => {
+    expect(mockRouter.push).not.toHaveBeenCalled();
+    expect(wrapper.findComponent(TheMainNavbar).exists()).toBe(true);
+    expect(wrapper.find("router-view-stub").exists()).toBe(true);
   });
 
-  it("should redirect to login page when user is not connected", async () => {
+  it("should redirect to login page when user is not connected", () => {
+    global.Storage.prototype.getItem = vi.fn((key) => {
+      if (key === "user") return "";
+      else if (key === "users") return users;
+    });
     const mockRouter = {
       push: vi.fn(),
     };
-
-    router.push("/");
-    await router.isReady();
-
     mount(MainWrapper, {
       global: {
         mocks: {
-          sessionStorage: {
-            getItem: vi.fn(() => {}),
-          },
-          localStorage: {
-            getItem: vi.fn(() => {}),
-          },
           $router: mockRouter,
         },
-        plugins: [router],
+        stubs: ["RouterView"],
       },
     });
 
-    expect(mockRouter.push).toHaveBeenCalledTimes(2);
-    expect(mockRouter.push).toHaveBeenLastCalledWith("/login");
+    expect(mockRouter.push).toHaveBeenCalledTimes(1);
+    expect(mockRouter.push).toHaveBeenCalledWith("/login");
   });
 });

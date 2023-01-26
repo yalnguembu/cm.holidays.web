@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
-const MainWrapper = import("../components/MainWrapper.vue");
-const AuthenticationWrapper = import("../components/AuthenticationWrapper.vue");
-const Home = import("../views/HomePage.vue");
-const Login = import("../views/SingIn.vue");
-const Details = import("../views/HolidayDetails.vue");
-const List = import("../views/HolidaysList.vue");
-const Forgot = import("../views/PasswordForgot.vue");
-const RessetPassword = import("../views/ResetPassword.vue");
-const VerifyMail = import("../views/VerifyMail.vue");
+const MainWrapper = () => import("../components/MainWrapper.vue");
+const AuthenticationWrapper = () =>
+  import("../components/AuthenticationWrapper.vue");
+const HomePage = () => import("../views/HomePage.vue");
+const SingIn = () => import("../views/SingIn.vue");
+const HolidayDetails = () => import("../views/HolidayDetails.vue");
+const HolidaysList = () => import("../views/HolidaysList.vue");
+const PasswordForgot = () => import("../views/PasswordForgot.vue");
+const ResetPassword = () => import("../views/ResetPassword.vue");
+const VerifyMail = () => import("../views/VerifyMail.vue");
 
 export const routes = [
   {
@@ -16,18 +17,18 @@ export const routes = [
     children: [
       {
         name: "Home",
-        path: "/",
-        component: Home,
+        path: "",
+        component: HomePage,
       },
       {
         name: "list",
         path: "list",
-        component: List,
+        component: HolidaysList,
       },
       {
         name: "details",
         path: "list/:id",
-        component: Details,
+        component: HolidayDetails,
       },
     ],
   },
@@ -38,12 +39,12 @@ export const routes = [
       {
         name: "login",
         path: "login",
-        component: Login,
+        component: SingIn,
       },
       {
         name: "forgot",
         path: "forgot",
-        component: Forgot,
+        component: PasswordForgot,
       },
       {
         name: "verify-mail",
@@ -53,7 +54,7 @@ export const routes = [
       {
         name: "reset-password",
         path: "reset-password",
-        component: RessetPassword,
+        component: ResetPassword,
       },
     ],
   },
