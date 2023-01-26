@@ -23,17 +23,12 @@ describe("SelectInput", () => {
       expect(option.text()).toBe(options[index]);
     });
   });
-  it("should have the default option",()=>{
-    expect(wrapper.find('[data-test="default-option"]').text()).toBe("Choose holidays type")
-  })
+  it("should have the default option", () => {
+    expect(wrapper.find('[data-test="default-option"]').text()).toBe(
+      "Choose holidays type"
+    );
+  });
 
-<<<<<<< HEAD
-  it("should display the error message", async () => {
-    expect(
-      wrapper.find('[data-test="password-input-text-error"]').exists()
-    ).toBe(false);
-    
-=======
   it("should display the awaited error message and the awaited design", async () => {
     expect(wrapper.find('[data-test="select-input-text-error"]').exists()).toBe(
       false
@@ -51,8 +46,11 @@ describe("SelectInput", () => {
   });
 
   it("should have the awaited emit after the value was selected", async () => {
-    await wrapper.findAll('[data-test="select-option"]').at(1).trigger("change")
-    
+    await wrapper
+      .findAll('[data-test="select-option"]')
+      .at(1)
+      .trigger("change");
+
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
     expect(wrapper.emitted("update:modelValue").length).toBe(1);
     expect(wrapper.emitted("update:modelValue")[0][0]).toBe("Maternite");
