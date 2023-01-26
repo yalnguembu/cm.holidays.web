@@ -27,7 +27,7 @@ describe("TheBreadcrumb", () => {
       global: {
         mocks: {
           $route: {
-            params: { id: 1 },
+            params: {},
             path: "/list",
           },
         },
@@ -47,10 +47,8 @@ describe("TheBreadcrumb", () => {
     expect(breacrumbLink.attributes().class).toContain("text-gray-500 text-lg");
 
     expect(lastItem.exists()).toBe(true);
-    expect(lastItem.text()).toBe("holiday details");
-    expect(lastItem.classes("text-black")).toBe(true);
-    expect(lastItem.classes("text-2xl")).toBe(true);
-    expect(lastItem.classes("font-bold")).toBe(true);
+    expect(lastItem.text()).toBe("list");
+    expect(lastItem.attributes().class).toContain("text-black text-2xl font-bold");
   });
 
   it("Should display correctly in holiday details page", () => {
