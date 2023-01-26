@@ -8,10 +8,10 @@
         ' w-full border rounded-md w-full p-4 mt-2 bg-gray-25 outline-blue-500 inset-blue-500 md:bg-transparent',
         { 'border-2 border-red-500': error },
       ]"
-      :value="modelValue === '' ? placeholder : modelValue"
+      :value="modelValue === '' ? defaultOption : modelValue"
       @change="$emit('update:modelValue', $event.target.value)"
     >
-      <option hidden disabled selected>{{ placeholder }}</option>
+      <option hidden disabled selected data-test="default-option">{{ defaultOption }}</option>
       <option
         v-for="option in options"
         :key="option"
@@ -48,7 +48,7 @@ export default {
       type: String,
       require: true,
     },
-    placeholder: {
+    defaultOption: {
       type: String,
       require: true,
       default: "Select",

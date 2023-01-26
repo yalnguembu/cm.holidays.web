@@ -9,7 +9,7 @@ describe("SelectInput", () => {
       label: "Holidays",
       modelValue: "",
       error: "",
-      placeholder: "Choose holidays type",
+      defaultOption: "Choose holidays type",
       options: options,
     },
   });
@@ -23,6 +23,9 @@ describe("SelectInput", () => {
       expect(option.text()).toBe(options[index]);
     });
   });
+  it("should have the default option",()=>{
+    expect(wrapper.find('[data-test="default-option"]').text()).toBe("Choose holidays type")
+  })
 
   it("should display the awaited error message and the awaited design", async () => {
     expect(wrapper.find('[data-test="select-input-text-error"]').exists()).toBe(

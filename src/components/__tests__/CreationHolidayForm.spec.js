@@ -44,8 +44,8 @@ describe("CreationHolidayForm", () => {
     ]);
   });
 
-  it("should have the awaited placeholder in holliday type field", () => {
-    expect(wrapper.findComponent(SelectInput).props().placeholder).toBe(
+  it("should have the awaited default option in holliday type field", () => {
+    expect(wrapper.findComponent(SelectInput).props().defaultOption).toBe(
       "Choose your holiday's type..."
     );
   });
