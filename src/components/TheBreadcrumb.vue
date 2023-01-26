@@ -18,7 +18,7 @@
       </RouterLink>
       <span
         v-else
-        class=" align-middle mr-2 text-black text-2xl font-bold"
+        class="align-middle mr-2 text-black text-2xl font-bold"
         data-test="last-item"
       >
         {{ isHolidayDetailsPage ? `holiday details` : route }}
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { computed, reactive } from "@vue/runtime-core";
 import ArrowRigthIcon from "./icons/ArrowRigthIcon.vue";
 export default {
   components: {
@@ -40,7 +41,9 @@ export default {
   },
   data() {
     return {
-      currentPath: this.$route.path,
+      isNotTheLast,
+      routes,
+      isHolidayDetailsPage,
     };
   },
   methods: {
