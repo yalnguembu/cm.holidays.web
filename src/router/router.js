@@ -9,7 +9,6 @@ const Forgot = import("../views/PasswordForgot.vue");
 const RessetPassword = import("../views/ResetPassword.vue");
 const VerifyMail = import("../views/VerifyMail.vue");
 
-
 export const routes = [
   {
     path: "/",
