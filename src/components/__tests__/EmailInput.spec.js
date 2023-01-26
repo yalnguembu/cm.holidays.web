@@ -13,7 +13,6 @@ describe("EmailInput", () => {
       },
     });
 
-
   it("should render correctly", () => {
     expect(wrapper.exists()).toBe(true);
   });
@@ -32,12 +31,7 @@ describe("EmailInput", () => {
     );
   });
 
-<<<<<<< HEAD
-  it("should display the awaited placeholder", async () => {
-=======
   it("should display the awaited error message and the awaited design", async () => {
-    
->>>>>>> 4ee0e79 (refactoring unit tests)
     expect(wrapper.find('[data-test="email-input-text-error"]').exists()).toBe(
       false
     );

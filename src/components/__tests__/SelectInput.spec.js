@@ -15,7 +15,7 @@ describe("SelectInput", () => {
   });
 
   it("should render correctly", () => {
-    expect(wrapper.exists("option")).toBe(true);
+    expect(wrapper.exists()).toBe(true);
   });
 
   it("should display the awaited options", () => {
@@ -32,7 +32,10 @@ describe("SelectInput", () => {
     
 =======
   it("should display the awaited error message and the awaited design", async () => {
->>>>>>> 4ee0e79 (refactoring unit tests)
+    expect(wrapper.find('[data-test="select-input-text-error"]').exists()).toBe(
+      false
+    );
+
     await wrapper.setProps({ error: "This field is required" });
 
     expect(wrapper.find('[data-test="select-input-text-error"]').exists()).toBe(
