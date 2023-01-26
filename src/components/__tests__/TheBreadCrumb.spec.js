@@ -27,7 +27,7 @@ describe("TheBreadcrumb", () => {
       global: {
         mocks: {
           $route: {
-            params: {},
+            params: { id: 1 },
             path: "/list",
           },
         },
@@ -44,14 +44,17 @@ describe("TheBreadcrumb", () => {
     expect(breacrumbLink.exists()).toBe(true);
     expect(wrapper.findComponent(RouterLinkStub).props().to).toBe("/");
     expect(breacrumbLink.text()).toBe("Home");
-    expect(breacrumbLink.attributes().class).toContain("text-gray-500 text-lg");
+    expect(breacrumbLink.classes("text-gray-500")).toBe(true);
+    expect(breacrumbLink.classes("text-lg")).toBe(true);
 
     expect(lastItem.exists()).toBe(true);
-    expect(lastItem.text()).toBe("list");
-    expect(lastItem.attributes().class).toContain("text-black text-2xl font-bold");
+    expect(lastItem.text()).toBe("holiday details");
+    expect(lastItem.classes("text-black")).toBe(true);
+    expect(lastItem.classes("text-2xl")).toBe(true);
+    expect(lastItem.classes("font-bold")).toBe(true);
   });
 
-  it("should display correctly in holiday details page", async () => {
+  it("Should display correctly in holiday details page", () => {
     const wrapper = mount(TheBreadcrumb, {
       global: {
         mocks: {
@@ -72,42 +75,24 @@ describe("TheBreadcrumb", () => {
 
     expect(wrapper.findAllComponents(ArrowRigthIcon).length).toBe(2);
 
-    expect(wrapper.findAllComponents(RouterLinkStub).at(0).props().to).toBe(
-      "/"
-    );
+    expect(wrapper.findAllComponents(RouterLinkStub).at(0).props().to).toBe("/");
     expect(breacrumbLink.at(0).exists()).toBe(true);
     expect(breacrumbLink.at(0).text()).toBe("Home");
-    expect(breacrumbLink.at(0).attributes().class).toContain(
-      "text-gray-500 text-lg"
-    );
+    expect(breacrumbLink.at(0).classes("text-gray-500")).toBe(true);
+    expect(breacrumbLink.at(0).classes("text-lg")).toBe(true);
 
     expect(wrapper.findAllComponents(RouterLinkStub).at(1).props().to).toBe(
       "/list"
     );
     expect(breacrumbLink.at(1).exists()).toBe(true);
     expect(breacrumbLink.at(1).text()).toBe("list");
-    console.log(breacrumbLink.at(1).attributes().class);
-    expect(breacrumbLink.at(1).attributes().class).toContain(
-      "text-gray-500 text-lg"
-    );
-<<<<<<< HEAD
-
-    expect(lastItem.exists()).toBe(true);
-    expect(lastItem.text()).toBe("holiday details");
-    expect(lastItem.attributes().class).toContain(
-      "text-black text-2xl font-bold"
-    );
-    expect(breacrumbLink.at(1).exists()).toBe(true);
-    expect(breacrumbLink.at(1).text()).toBe("list");
     expect(breacrumbLink.at(1).classes("text-gray-500")).toBe(true);
     expect(breacrumbLink.at(1).classes("text-lg")).toBe(true);
-=======
->>>>>>> 4ee0e79 (refactoring unit tests)
 
     expect(lastItem.exists()).toBe(true);
     expect(lastItem.text()).toBe("holiday details");
-    expect(lastItem.attributes().class).toContain(
-      "text-black text-2xl font-bold"
-    );
+    expect(lastItem.classes("text-black")).toBe(true);
+    expect(lastItem.classes("text-2xl")).toBe(true);
+    expect(lastItem.classes("font-bold")).toBe(true);
   });
 });

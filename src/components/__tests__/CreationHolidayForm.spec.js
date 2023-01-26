@@ -121,12 +121,10 @@ describe("CreationHolidayForm", () => {
   });
 
   it("should display the number of days if start date and end date are filled", async () => {
-    const numberOfDaysInput = wrapper.findComponent(NumberInput);
-
     await wrapper.findAllComponents(DateInput)[0].setValue("2023-01-20");
     await wrapper.findAllComponents(DateInput)[1].setValue("2023-01-28");
 
-    expect(numberOfDaysInput.props().modelValue).toBe(8);
+    expect(wrapper.findComponent(NumberInput).props().modelValue).toBe(8);
   });
 
   it("should display the return date if end date is filled", async () => {
@@ -169,52 +167,35 @@ describe("CreationHolidayForm", () => {
     it("should display the awaited errors messages if the form is submit empty", async () => {
       await wrapper.find('[data-test="creation-form"]').trigger("submit");
 
-      expect(
-        wrapper.find('[data-test="select-input-text-error"]').exists()
-      ).toBe(true);
-      expect(
-        wrapper.findAll('[data-test="date-input-text-error"]').length
-      ).toBe(2);
-      expect(
-        wrapper.find('[data-test="textarea-input-text-error"]').exists()
-      ).toBe(true);
+      expect(wrapper.findComponent(SelectInput).props("error")).toBe(
+        "This field is required"
+      );
+      expect(wrapper.findAllComponents(DateInput)[0].props("error")).toBe(
+        "This field is required"
+      );
+      expect(wrapper.findAllComponents(DateInput)[1].props("error")).toBe(
+        "This field is required"
+      );
+      expect(wrapper.findComponent(TextArea).props("error")).toBe(
+        "This field is required"
+      );
     });
 
     it("should display the awaited error message if the start date is lower than today's", async () => {
-      await wrapper
-        .find('[data-test="starting-date"] input')
-        .setValue("2023-01-08");
-      expect(
-        wrapper
-          .find(
-            '[data-test="starting-date"] [data-test="date-input-text-error"]'
-          )
-          .exists()
-      ).toBe(true);
-      expect(
-        wrapper
-          .find(
-            '[data-test="starting-date"] [data-test="date-input-text-error"]'
-          )
-          .text()
-      ).toBe("It must be after today");
+      const startingDate = wrapper.findAllComponents(DateInput)[0];
+
+      await startingDate.setValue("2023-01-08");
+
+      expect(startingDate.props("error")).toBe("It must be after today");
     });
 
     it("should display the awaited error message if the end date is lower than the starting date", async () => {
-      await wrapper
-        .find('[data-test="ending-date"] input')
-        .setValue("2023-01-28");
+      const endingDate = wrapper.findAllComponents(DateInput)[1];
 
-      expect(
-        wrapper
-          .find('[data-test="ending-date"] [data-test="date-input-text-error"]')
-          .exists()
-      ).toBe(true);
-      expect(
-        wrapper
-          .find('[data-test="ending-date"] [data-test="date-input-text-error"]')
-          .text()
-      ).toBe("It must be after starting date");
+      await wrapper.findAllComponents(DateInput)[0].setValue("2023-02-02");
+      await endingDate.setValue("2023-01-08");
+
+      expect(endingDate.props("error")).toBe("It must be after starting date");
     });
 
     it("shoud display the awaited error if all fields are filled except holiday type", async () => {
@@ -277,7 +258,7 @@ describe("CreationHolidayForm", () => {
       const endingDateInput = wrapper.findAllComponents(DateInput)[1];
 
       await wrapper.findComponent(SelectInput).setValue("Annual");
-      await  wrapper.findAllComponents(DateInput)[0].setValue("2023-01-20");
+      await wrapper.findAllComponents(DateInput)[0].setValue("2023-01-20");
       await endingDateInput.setValue("2023-01-19");
       await wrapper.findComponent(TextArea).setValue("2023-01-20");
       await wrapper.find('[data-test="creation-form"]').trigger("submit");
