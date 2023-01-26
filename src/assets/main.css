@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap");
+@tailwind base;
+@tailwind Components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: "Work Sans", sans-serif;
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+  }
+  input[type="number"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+}
