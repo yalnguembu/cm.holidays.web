@@ -38,7 +38,6 @@ export default {
   props: {
     error: {
       type: String,
-      require: true,
       default: "",
     },
     modelValue: {
@@ -51,7 +50,6 @@ export default {
     },
     placeholder: {
       type: String,
-      require: true,
       default: "",
     },
   },
