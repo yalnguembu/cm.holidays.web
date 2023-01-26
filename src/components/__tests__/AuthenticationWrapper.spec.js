@@ -8,15 +8,15 @@ describe("AuthenticationWrapper", () => {
     global: { stubs: ["RouterView"] },
   });
 
-  it("shoud render correctly", async () => {
+  it("shoud render correctly", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should display the navbar", async () => {
+  it("should display the navbar", () => {
     expect(wrapper.findComponent(AuthenticationNavbar).exists()).toBe(true);
   });
 
-  it("should display the `RouterView`", async () => {
+  it("should display the `RouterView`", () => {
     expect(wrapper.find('router-view-stub').exists()).toBe(true);
   });
 });
