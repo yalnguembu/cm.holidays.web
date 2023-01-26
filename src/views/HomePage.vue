@@ -12,7 +12,7 @@
         <button
           title="Create new holiday"
           class="w-full shadow-xl shadow-blue-400 bg-blue-primary mb-4 text-left text-base text-white p-4 rounded-md font-bold md:text-center shadow-lg md:w-[248px] md:mb-0"
-          @click="openFormModal"
+          @click="toggleFormModal"
         >
           <span class="mr-2 py-1 px-2 bg-blue-400 rounded">
             <AddIcon class="fill-white" />
@@ -35,7 +35,7 @@
         />
       </div>
     </div>
-    <CreationHolidayForm v-if="isFormVisible" @close="closeFormModal" />
+    <CreationHolidayForm v-if="isFormVisible" @close="toggleFormModal" />
   </main>
 </template>
 
@@ -43,6 +43,7 @@
 import AddIcon from "../components/icons/AddIcon.vue";
 import CalendarIcon from "../components/icons/CalendarIcon.vue";
 import CreationHolidayForm from "../components/CreationHolidayForm.vue";
+import { ref } from "@vue/reactivity";
 
 export default {
   name: "Home",
@@ -53,22 +54,16 @@ export default {
     CreationHolidayForm,
   },
 
-  data() {
+  setup() {
+    const isFormVisible = ref(false);
+
+    const toggleFormModal = () => {
+      isFormVisible.value = !isFormVisible.value;
+    };
     return {
-      isFormVisible: false,
+      isFormVisible,
+      toggleFormModal,
     };
   },
-
-  methods: {
-    closeFormModal() {
-      this.isFormVisible = false;
-    },
-
-    openFormModal() {
-      this.isFormVisible = true;
-    },
-
-  },
-
 };
 </script>

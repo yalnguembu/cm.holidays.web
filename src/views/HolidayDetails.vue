@@ -1,6 +1,6 @@
 <template>
   <main class="p-4 md:px-12 py-8">
-    <template v-if="holiday">
+    <template v-if="state.holiday">
       <TheBreadcrumb />
       <div class="mt-8">
         <h2 class="font-bold text-2xl text-[#222]">
@@ -13,7 +13,7 @@
       <div class="flex flex-row flex-wrap gap-y-4 mt-4">
         <div class="mt-4 basis-full md:basis-1/2 px-2">
           <h6 class="text-gray-500">Type</h6>
-          <p class="font-bold">{{holiday.holidayType}}</p>
+          <p class="font-bold">{{ state.holiday.holidayType }}</p>
         </div>
         <div class="mt-4 basis-full md:basis-1/2 px-2">
           <h6 class="text-gray-500">Starts</h6>
@@ -35,7 +35,7 @@
         </div>
         <div class="">
           <h6 class="text-gray-500">Description</h6>
-          <p class="font-bold">{{ holiday.description }}</p>
+          <p class="font-bold">{{ state.holiday.description }}</p>
         </div>
         <div class="mt-4 md:hidden">
           <h6 class="text-gray-500">Return</h6>
@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import { reactive, computed,onBeforeMount } from "vue";
+import {useRoute} from "vue-router"
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import AgendaIcon from "../components/icons/AgendaIcon.vue";
 
@@ -67,48 +69,47 @@ export default {
     AgendaIcon,
   },
 
-  mounted() {
-    this.holiday = this.findHolidayById(
-      this.getHolidays(),
-      this.$route.params.id
-    );
-  },
+  setup() {
+    const route = useRoute()
+    const state = reactive({ holiday: {} });
 
-  data() {
-    return {
-      holiday: {},
-    };
-  },
-
-  methods: {
-    getHolidays() {
-      return JSON.parse(localStorage.getItem("holidays")) ?? [];
-    },
-
-    findHolidayById(holidays, id) {
-      return holidays.find((holiday) => holiday.id == id);
-    },
-    toDateString(date) {
-      return new Date(date).toDateString();
-    },
-  },
-
-  computed: {
-    dateRange() {
+    const dateRange = computed(() => {
       return `
-      ${this.toDateString(this.holiday.startingDate)} 
-      - ${this.toDateString(this.holiday.returningDate)}
+      ${toDateString(state.holiday.startingDate)}
+      - ${toDateString(state.holiday.returningDate)}
       `;
-    },
-    returningDate() {
-      return this.toDateString(this.holiday.returningDate);
-    },
-    startingDate() {
-      return this.toDateString(this.holiday.startingDate);
-    },
-    endingDate() {
-      return this.toDateString(this.holiday.endingDate);
-    },
+    });
+    const returningDate = computed(() => {
+      return toDateString(state.holiday.returningDate);
+    });
+    const startingDate = computed(() => {
+      return toDateString(state.holiday.startingDate);
+    });
+    const endingDate = computed(() => {
+      return toDateString(state.holiday.endingDate);
+    });
+
+    const getHolidays =() => {
+      return JSON.parse(localStorage.getItem("holidays")) ?? [];
+    };
+    const findHolidayById = (holidays, id) => {
+      return holidays.find((holiday) => holiday.id == id);
+    };
+    const toDateString = (date) => {
+      return new Date(date).toDateString();
+    };
+
+    onBeforeMount(() => {
+      state.holiday = findHolidayById(getHolidays(), route.params.id);
+    });
+
+    return {
+      state,
+      dateRange,
+      startingDate,
+      endingDate,
+      returningDate,
+    };
   },
 };
 </script>

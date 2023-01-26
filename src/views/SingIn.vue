@@ -41,6 +41,8 @@ import BaseButton from "../components/BaseButton.vue";
 import CardWrapper from "../components/CardWrapper.vue";
 import ErrorAlert from "../components/ErrorAlert.vue";
 import CheckBox from "../components/CheckBox.vue";
+import { reactive, ref, watch } from "vue";
+import { useRouter } from "vue-router";
 
 export default {
   name: "SingIn",
@@ -54,85 +56,79 @@ export default {
     CheckBox,
   },
 
-  data() {
-    return {
+  setup() {
+    const router = useRouter();
+    const error = reactive({
       email: "",
       password: "",
-      remember: false,
-      error: {
-        email: "",
-        password: "",
-        crudentials: "",
-      },
+      crudentials: "",
+    });
+
+    const email = ref("");
+    const password = ref("");
+    const remember = ref(false);
+
+    const checkEmail = () => {
+      if (email.value) error.email = "";
+      else error.email = "This field is required";
     };
-  },
-
-  methods: {
-    showError(error) {
-      console.log(error);
-    },
-    checkEmail() {
-      if (this.email) this.error.email = "";
-      else this.error.email = "This field is required";
-    },
-
-    checkPassord() {
-      if (this.password) this.error.password = "";
-      else this.error.password = "This field is required";
-    },
-
-    checkForm() {
-      this.checkEmail();
-      this.checkPassord();
-      return this.error.email.length === 0 && this.error.password.length === 0;
-    },
-
-    saveInTheStorage() {
+    const checkPassord = () => {
+      if (password.value) error.password = "";
+      else error.password = "This field is required";
+    };
+    const checkForm = () => {
+      checkEmail();
+      checkPassord();
+      return error.email.length === 0 && error.password.length === 0;
+    };
+    const saveInTheStorage = () => {
       localStorage.setItem(
         "user",
         JSON.stringify({
-          email: this.email,
+          email: email.value,
         })
       );
-    },
-
-    saveInTheSession() {
+    };
+    const saveInTheSession = () => {
       sessionStorage.setItem(
         "user",
         JSON.stringify({
-          email: this.email,
+          email: email.value,
         })
       );
-    },
-
-    getUsers() {
+    };
+    const getUsers = () => {
       return JSON.parse(localStorage.getItem("users")) ?? [];
-    },
-
-    findUser() {
-      return this.getUsers().find(
-        (user) => user.email === this.email && user.password === this.password
+    };
+    const findUser = () => {
+      return getUsers().find(
+        (user) => user.email === email.value && user.password === password.value
       );
-    },
-
-    login() {
-      if (this.checkForm()) {
-        if (this.findUser()) {
-          this.remember ? this.saveInTheStorage() : this.saveInTheSession();
-          this.$router.push("/");
-        } else this.error.crudentials = "Incorrect email or password";
+    };
+    const login = () => {
+      if (checkForm()) {
+        if (findUser()) {
+          remember ? saveInTheStorage() : saveInTheSession();
+          router.push("/");
+        } else error.crudentials = "Incorrect email or password";
       }
-    },
-  },
+    };
 
-  watch: {
-    email() {
-      this.checkEmail();
-    },
+    watch(email, () => {
+      checkEmail();
+    });
 
-    password() {
-      this.checkPassord();
-    },
+    watch(password, () => {
+      checkPassord();
+    });
+
+    return {
+      email,
+      password,
+      remember,
+      error,
+      login,
+    };
   },
 };
 </script>
