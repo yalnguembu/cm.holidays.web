@@ -8,9 +8,9 @@
 </template>
 <script>
 export default {
-  name:"BaseButton",
+  name: "BaseButton",
   props: {
-    title: String,
+    title: { type: String, required: true },
   },
 };
 </script>

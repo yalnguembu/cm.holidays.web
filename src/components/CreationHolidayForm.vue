@@ -94,6 +94,7 @@ import DateInput from "./DateInput.vue";
 import SelectInput from "./SelectInput.vue";
 import TextArea from "./TextArea.vue";
 import NumberInput from "./NumberInput.vue";
+import { watch, computed, reactive, ref } from "@vue/runtime-core";
 
 const timestampOfOneDay = 24 * 3600 * 1000;
 
@@ -110,165 +111,149 @@ export default {
 
   emits: ["close"],
 
-  data() {
-    return {
-      types: ["Annual", "Maternite", "Abscence", "christmas"],
-
+  setup(props, { emit }) {
+    const types = ["Annual", "Maternite", "Abscence", "christmas"];
+    const holidayType = ref("");
+    const startingDate = ref("");
+    const endingDate = ref("");
+    const description = ref("");
+    const error = reactive({
       holidayType: "",
-
       startingDate: "",
-
       endingDate: "",
-
       description: "",
+    });
 
-      error: {
-        holidayType: "",
-        startingDate: "",
-        endingDate: "",
-        description: "",
-      },
+    const close = () => {
+      emit("close");
     };
-  },
-
-  methods: {
-    close() {
-      this.$emit("close");
-    },
-
-    checkholidayType() {
-      if (this.holidayType === "") {
-        this.error.holidayType = "This field is required";
-      } else this.error.holidayType = "";
-    },
-
-    isStartingDateBeforeReturningDate() {
+    const checkholidayType = () => {
+      if (holidayType.value === "") {
+        error.holidayType = "This field is required";
+      } else error.holidayType = "";
+    };
+    const isStartingDateBeforeReturningDate = () => {
       return (
-        new Date(this.startingDate).getTime() <
-        new Date(this.endingDate).getTime()
+        new Date(startingDate.value).getTime() <
+        new Date(endingDate.value).getTime()
       );
-    },
-
-    isStartingDateAfterToday() {
-      return new Date().getTime() < new Date(this.startingDate).getTime();
-    },
-
-    checkStartingDate() {
-      if (this.startingDate.length <= 0) {
-        this.error.startingDate = "This field is required";
-      } else if (!this.isStartingDateAfterToday()) {
-        this.error.startingDate = "It must be after today";
-      } else this.error.startingDate = "";
-    },
-
-    checkEndingDate() {
-      if (!this.startingDate && !this.endingDate)
-        this.error.endingDate = "This field is required";
-      else if (!this.isStartingDateBeforeReturningDate())
-        this.error.endingDate = "It must be after starting date";
-      else if (this.endingDate.length > 0) this.error.endingDate = "";
-      else this.error.endingDate = "";
-    },
-
-    checkDescription() {
-      if (this.description.length <= 0) {
-        this.error.description = "This field is required";
-      } else this.error.description = "";
-    },
-
-    checkForm() {
-      this.checkholidayType();
-      this.checkStartingDate();
-      this.checkEndingDate();
-      this.checkDescription();
+    };
+    const isStartingDateAfterToday = () => {
+      return new Date().getTime() < new Date(startingDate.value).getTime();
+    };
+    const checkStartingDate = () => {
+      if (startingDate.value.length <= 0) {
+        error.startingDate = "This field is required";
+      } else if (!isStartingDateAfterToday()) {
+        error.startingDate = "It must be after today";
+      } else error.startingDate = "";
+    };
+    const checkEndingDate = () => {
+      if (!startingDate.value && !endingDate.value)
+        error.endingDate = "This field is required";
+      else if (!isStartingDateBeforeReturningDate())
+        error.endingDate = "It must be after starting date";
+      else if (endingDate.value.length > 0) error.endingDate = "";
+      else error.endingDate = "";
+    };
+    const checkDescription = () => {
+      if (description.value.length <= 0) {
+        error.description = "This field is required";
+      } else error.description = "";
+    };
+    const checkForm = () => {
+      checkholidayType();
+      checkStartingDate();
+      checkEndingDate();
+      checkDescription();
       return (
-        (this.error.holidayType.length <= 0) &
-        (this.error.startingDate.length <= 0) &
-        (this.error.endingDate.length <= 0) &
-        (this.error.description.length <= 0)
+        (error.holidayType.length <= 0) &
+        (error.startingDate.length <= 0) &
+        (error.endingDate.length <= 0) &
+        (error.description.length <= 0)
       );
-    },
-
-    getHolidays() {
+    };
+    const getHolidays = () => {
       return JSON.parse(localStorage.getItem("holidays")) ?? [];
-    },
-
-    create() {
-      if (this.checkForm()) {
-        const holidays = this.getHolidays();
+    };
+    const create = () => {
+      if (checkForm()) {
+        const holidays = getHolidays();
         const holiday = {
           id: holidays.length,
-          holidayType: this.holidayType,
-          startingDate: this.startingDate,
-          endingDate: this.endingDate,
-          returningDate: this.returningDate,
-          description: this.description,
+          holidayType: holidayType.value,
+          startingDate: startingDate.value,
+          endingDate: endingDate.value,
+          returningDate: returningDate.value,
+          description: description.value,
           createdAt: new Date().getTime(),
         };
         holidays.push(holiday);
         localStorage.setItem("holidays", JSON.stringify(holidays));
         this.close();
       }
-    },
-  },
+    };
 
-  computed: {
-    numbersOfdays() {
+    const numbersOfdays = computed(() => {
       const differenceOfStartingAndEndingDate =
-        (this.endingDateTimestamp - this.startingDateTimestamp) /
+        (endingDateTimestamp.value - startingDateTimestamp.value) /
         timestampOfOneDay;
       return differenceOfStartingAndEndingDate > 0
         ? differenceOfStartingAndEndingDate
         : "";
-    },
-
-    startingDateTimestamp() {
-      return new Date(this.startingDate).getTime();
-    },
-
-    endingDateTimestamp() {
-      return new Date(this.endingDate).getTime();
-    },
-
-    returningDay() {
-      return new Date(this.endingDate).getDay();
-    },
-
-    returningDate() {
+    });
+    const startingDateTimestamp = computed(() => {
+      return new Date(startingDate.value).getTime();
+    });
+    const endingDateTimestamp = computed(() => {
+      return new Date(endingDate.value).getTime();
+    });
+    const returningDay = computed(() => {
+      return new Date(endingDate.value).getDay();
+    });
+    const returningDate = computed(() => {
       let date;
-      switch (this.endingDate.length > 0) {
+      switch (endingDate.value.length > 0) {
         case false:
           return "";
-        case this.returningDay === 6:
-          date = new Date(this.endingDate).getTime() + timestampOfOneDay * 2;
+        case returningDay.value === 6:
+          date = new Date(endingDate.value).getTime() + timestampOfOneDay * 2;
           return new Date(date).toISOString().substring(0, 10);
-        case this.returningDay === 0:
-          date = new Date(this.endingDate).getTime() + timestampOfOneDay;
+        case returningDay.value === 0:
+          date = new Date(endingDate.value).getTime() + timestampOfOneDay;
           return new Date(date).toISOString().substring(0, 10);
         default:
-          return this.endingDate;
+          return endingDate.value;
       }
-    },
-  },
+    });
 
-  watch: {
-    holidayType() {
-      this.checkholidayType();
-    },
+    watch(startingDate, () => {
+      checkStartingDate();
+      if (endingDate.value.length > 0) checkEndingDate();
+    });
+    watch(endingDate, () => {
+      checkStartingDate();
+      checkEndingDate();
+    });
+    watch(description, () => {
+      checkDescription();
+    });
 
-    startingDate() {
-      this.checkStartingDate();
-      if (this.endingDate.length > 0) this.checkEndingDate();
-    },
-
-    endingDate() {
-      this.checkStartingDate();
-      this.checkEndingDate();
-    },
-
-    description() {
-      this.checkDescription();
-    },
+    return {
+      numbersOfdays,
+      startingDateTimestamp,
+      endingDateTimestamp,
+      returningDay,
+      returningDate,
+      types,
+      holidayType,
+      startingDate,
+      endingDate,
+      description,
+      error,
+      close,
+      create,
+    };
   },
 };
 </script>

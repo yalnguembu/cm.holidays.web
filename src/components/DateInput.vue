@@ -30,10 +30,12 @@
 </template>
 
 <script>
+import { ref } from "@vue/reactivity";
 import AgendaIcon from "./icons/AgendaIcon.vue";
 
 export default {
   name: "DateInput",
+
   props: {
     modelValue: {
       type: String,
@@ -54,7 +56,7 @@ export default {
       type: String,
       default: "",
     },
-    
+
     readonly: Boolean,
   },
 
@@ -62,24 +64,29 @@ export default {
     AgendaIcon,
   },
 
-  data() {
-    return {
-      focused: false,
+  setup() {
+    const dateInput = ref(null)
+    const focused = ref(false);
+
+    const toggleFocus = () => {
+      focused.value = !focused.value;
     };
-  },
 
-  methods: {
-    toggleFocus() {
-      this.focused = !this.focused;
-    },
+    const changeTypeToText = () => {
+      dateInput.value.type = "text";
+    };
 
-    changeTypeToText() {
-      this.$refs.dateInput.type = "text";
-    },
+    const changeTypeToDate = () => {
+      dateInput.value.type = "date";
+    };
 
-    changeTypeToDate() {
-      this.$refs.dateInput.type = "date";
-    },
+    return {
+      focused,
+      toggleFocus,
+      changeTypeToText,
+      changeTypeToDate,
+      dateInput,
+    };
   },
 };
 </script>

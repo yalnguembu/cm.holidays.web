@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core';
 const timestampOfOneDay = 24 * 3600 * 1000;
 export default {
   name: "Holiday",
@@ -64,54 +65,58 @@ export default {
     },
   },
 
-  methods: {
-    formateToDateString(date) {
+  setup(props) {
+    const formateToDateString = (date) => {
       return new Date(date).toDateString();
-    },
+    };
 
-    isHolidayCreatedToday() {
-      return this.createdAtDay() < 1;
-    },
+    const isHolidayCreatedToday = () => {
+      return createdAtDay() < 1;
+    };
 
-    createdAtDay() {
+    const createdAtDay = () => {
       return (
-        (new Date().getTime() - this.holiday.createdAt) / timestampOfOneDay
+        (new Date().getTime() - props.holiday.createdAt) / timestampOfOneDay
       );
-    },
+    };
 
-    createdAtHour() {
-      const timetsamp = this.createdAtDay() * 24;
+    const createdAtHour = () => {
+      const timetsamp = createdAtDay() * 24;
       return timetsamp >= 1
         ? `il y'a ${parseInt(timetsamp)} heures`
         : parseInt(timetsamp * 60) > 0
         ? `il y'a ${parseInt(timetsamp * 60)} minutes`
         : "A l'instant";
-    },
+    };
 
-    formatCreatedAt() {
-      return this.isHolidayCreatedToday()
-        ? this.createdAtHour()
-        : `il y'a ${parseInt(this.createdAtDay())} jours`;
-    },
-  },
+    const formatCreatedAt = () => {
+      return isHolidayCreatedToday()
+        ? createdAtHour()
+        : `il y'a ${parseInt(createdAtDay())} jours`;
+    };
 
-  computed: {
-    dateRange() {
-      return `${this.formateToDateString(
-        this.holiday.startingDate
-      )} - ${this.formateToDateString(this.holiday.endingDate)}
+    const dateRange = computed(() => {
+      return `${formateToDateString(
+        props.holiday.startingDate
+      )} - ${formateToDateString(props.holiday.endingDate)}
         `;
-    },
+    });
 
-    creationTime() {
-      return new Date(this.holiday.createdAt)
+    const creationTime = computed(() => {
+      return new Date(props.holiday.createdAt)
         .toLocaleTimeString()
         .substring(0, 5);
-    },
+    });
 
-    createdAt() {
-      return this.formatCreatedAt();
-    },
+    const createdAt = computed(() => {
+      return formatCreatedAt();
+    });
+
+    return {
+      dateRange,
+      creationTime,
+      createdAt
+    };
   },
 };
 </script>
