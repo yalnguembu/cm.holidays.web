@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { computed } from "@vue/runtime-core";
 import AccountIcon from "./icons/AccountIcon.vue";
 export default {
   name: "TheMainNavbar",
@@ -20,16 +21,16 @@ export default {
   components: {
     AccountIcon,
   },
-
-  computed: {
-    date() {
+  setup() {
+    const date = computed(() => {
       return new Date().toLocaleDateString("fr-fr", {
         weekday: "long",
         year: "numeric",
         month: "long",
         day: "numeric",
       });
-    },
+    });
+    return { date };
   },
 };
 </script>

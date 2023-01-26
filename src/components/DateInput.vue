@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { ref } from "@vue/reactivity";
 import AgendaIcon from "./icons/AgendaIcon.vue";
 
 export default {
@@ -47,14 +48,14 @@ export default {
 
     label: {
       type: String,
-      required: true,
+      default: true,
     },
 
     error: {
       type: String,
       default: "",
     },
-    
+
     readonly: Boolean,
   },
 
@@ -62,24 +63,27 @@ export default {
     AgendaIcon,
   },
 
-  data() {
-    return {
-      focused: false,
+  setup() {
+    const dateInput = ref(null);
+    const focused = ref(false);
+
+    const toggleFocus = () => {
+      focused.value = !focused.value;
     };
-  },
+    const changeTypeToText = () => {
+      dateInput.value.type = "text";
+    };
+    const changeTypeToDate = () => {
+      dateInput.value.type = "date";
+    };
 
-  methods: {
-    toggleFocus() {
-      this.focused = !this.focused;
-    },
-
-    changeTypeToText() {
-      this.$refs.dateInput.type = "text";
-    },
-
-    changeTypeToDate() {
-      this.$refs.dateInput.type = "date";
-    },
+    return {
+      dateInput,
+      focused,
+      toggleFocus,
+      changeTypeToText,
+      changeTypeToDate,
+    };
   },
 };
 </script>

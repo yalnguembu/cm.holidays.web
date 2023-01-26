@@ -40,7 +40,6 @@ export default {
   props: {
     error: {
       type: String,
-      require: true,
       default: "",
     },
 
@@ -56,7 +55,6 @@ export default {
 
     placeholder: {
       type: String,
-      require: true,
       default: "",
     },
   },
