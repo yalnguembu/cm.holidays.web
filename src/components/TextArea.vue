@@ -28,7 +28,7 @@ export default {
     },
     error: {
       type: String,
-      required: true,
+      default:""
     },
     label: {
       type: String,
@@ -36,7 +36,7 @@ export default {
     },
     placeholder: {
       type: String,
-      required: true,
+      default:""
     },
   },
 };

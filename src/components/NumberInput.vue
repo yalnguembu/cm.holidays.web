@@ -28,7 +28,6 @@ export default {
     },
     placeholder: {
       type: String,
-      require: true,
       default: "",
     },
     readonly: Boolean,

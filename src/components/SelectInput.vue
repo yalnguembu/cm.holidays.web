@@ -11,7 +11,7 @@
       :value="modelValue === '' ? defaultOption : modelValue"
       @change="$emit('update:modelValue', $event.target.value)"
     >
-      <option hidden disabled selected data-test="default-option">{{ defaultOption }}</option>
+      <option hidden selected data-test="default-option">{{ defaultOption }}</option>
       <option
         v-for="option in options"
         :key="option"
@@ -41,7 +41,6 @@ export default {
     },
     error: {
       type: String,
-      require: true,
       default: "",
     },
     label: {
@@ -50,7 +49,6 @@ export default {
     },
     defaultOption: {
       type: String,
-      require: true,
       default: "Select",
     },
   },
