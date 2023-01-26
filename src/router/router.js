@@ -1,13 +1,13 @@
-import MainWrapper from "../components/MainWrapper.vue";
-import AuthenticationWrapper from "../components/AuthenticationWrapper.vue";
-import Home from "../views/HomePage.vue";
-import Login from "../views/SingIn.vue";
-import Details from "../views/HolidayDetails.vue";
-import List from "../views/HolidaysList.vue";
-import Forgot from "../views/PasswordForgot.vue";
-import RessetPassword from "../views/ResetPassword.vue";
-import VerifyMail from "../views/VerifyMail.vue";
 import { createRouter, createWebHistory } from "vue-router";
+const MainWrapper = import("../components/MainWrapper.vue");
+const AuthenticationWrapper = import("../components/AuthenticationWrapper.vue");
+const Home = import("../views/HomePage.vue");
+const Login = import("../views/SingIn.vue");
+const Details = import("../views/HolidayDetails.vue");
+const List = import("../views/HolidaysList.vue");
+const Forgot = import("../views/PasswordForgot.vue");
+const RessetPassword = import("../views/ResetPassword.vue");
+const VerifyMail = import("../views/VerifyMail.vue");
 
 export const routes = [
   {
