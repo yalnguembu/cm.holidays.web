@@ -10,6 +10,7 @@ const PasswordForgot = () => import("../views/PasswordForgot.vue");
 const ResetPassword = () => import("../views/ResetPassword.vue");
 const VerifyMail = () => import("../views/VerifyMail.vue");
 
+
 export const routes = [
   {
     path: "/",
