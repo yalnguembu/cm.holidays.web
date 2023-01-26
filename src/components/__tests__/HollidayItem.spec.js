@@ -80,6 +80,7 @@ describe("HolidayItem", () => {
 
   it("should have the created since as `just now`", async () => {
     await wrapper.setProps({ holiday: { createdAt: 1673952567837 } });
+    
     expect(wrapper.find("[data-test='created-at']").text()).toBe("A l'instant");
   });
 });
