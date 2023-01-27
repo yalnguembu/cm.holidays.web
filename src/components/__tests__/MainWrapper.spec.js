@@ -1,4 +1,5 @@
 import { mount } from "@vue/test-utils";
+import { useRouter } from "vue-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import MainWrapper from "../MainWrapper.vue";
 import TheMainNavbar from "../TheMainNavbar.vue";
@@ -17,11 +18,7 @@ describe("MainWrapper", () => {
     },
   ]);
 
-  const mockRouter = {
-    push: vi.fn(),
-  };
-  
-  let wrapper;
+  let wrapper, push;
   beforeEach(() => {
     global.Storage.prototype.getItem = vi.fn((key) => {
       if (key === "user") {
@@ -30,12 +27,21 @@ describe("MainWrapper", () => {
         return users;
       }
     });
+    vi.mock("vue-router", () => ({
+      useRoute: vi.fn(),
+      useRouter: vi.fn(() => ({
+        push: () => {},
+      })),
+    }));
+
+    push = vi.fn();
+
+    useRouter.mockImplementationOnce(() => ({
+      push,
+    }));
 
     wrapper = mount(MainWrapper, {
       global: {
-        mocks: {
-          $router: mockRouter,
-        },
         stubs: ["RouterView"],
       },
     });
@@ -50,7 +56,7 @@ describe("MainWrapper", () => {
   });
 
   it("should display the `RouterView` if an user is connected", () => {
-    expect(mockRouter.push).not.toHaveBeenCalled();
+    expect(push).not.toHaveBeenCalled();
     expect(wrapper.findComponent(TheMainNavbar).exists()).toBe(true);
     expect(wrapper.find("router-view-stub").exists()).toBe(true);
   });
@@ -60,19 +66,32 @@ describe("MainWrapper", () => {
       if (key === "user") return "";
       else if (key === "users") return users;
     });
-    const mockRouter = {
-      push: vi.fn(),
-    };
+
+    vi.mock("vue-router", () => ({
+      useRoute: vi.fn(),
+      useRouter: vi.fn(() => ({
+        push: () => {},
+      })),
+    }));
+
+    push = vi.fn();
+
+    useRouter.mockImplementationOnce(() => ({
+      push,
+    }));
+
+    wrapper = mount(MainWrapper, {
+      global: {
+        stubs: ["RouterView"],
+      },
+    });
     mount(MainWrapper, {
       global: {
-        mocks: {
-          $router: mockRouter,
-        },
         stubs: ["RouterView"],
       },
     });
 
-    expect(mockRouter.push).toHaveBeenCalledTimes(1);
-    expect(mockRouter.push).toHaveBeenCalledWith("/login");
+    expect(push).toHaveBeenCalledTimes(1);
+    expect(push).toHaveBeenCalledWith("/login");
   });
 });

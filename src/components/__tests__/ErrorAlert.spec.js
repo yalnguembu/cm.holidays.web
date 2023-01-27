@@ -16,7 +16,7 @@ describe("ErrorAlert", () => {
     expect(wrapper.text()).toBe("Invalid crudential");
   });
   
-  it("should have the awaited information icon", () => {
+  it("should have the information icon", () => {
     expect(wrapper.findComponent(InfoIcon).exists()).toBe(true);
   });
 });

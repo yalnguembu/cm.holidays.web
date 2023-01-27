@@ -10,8 +10,6 @@ describe("DateInput", () => {
       placeholder: "Date",
       name: "date",
       modelValue: "",
-      readonly: false,
-      error: "",
     },
   });
 
