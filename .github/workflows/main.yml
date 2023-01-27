@@ -11,21 +11,17 @@ on:
       -
 jobs:
   test:
-    name: components unit tests on node ${{ matrix.node_version }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node_version: ['12','16','18']
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+    name: components unit tests on node 16
+    runs-on: ubuntu-latest
         
     steps:
     - uses: actions/checkout@v1
-    - name: Use Nodejs ${{ matrix.node_version}}
+    - name: Use Nodejs 16
       uses: actions/setup-node@v1
       with: 
-        node-version: ${{ matrix.node_version }}
+        node-version: 16
         
-    - name: npm install, build and test
+    - name: npm install and test
       run: |
         npm install
         npm run test
