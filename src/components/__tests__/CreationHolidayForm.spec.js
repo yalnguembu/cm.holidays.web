@@ -15,14 +15,6 @@ describe("CreationHolidayForm", () => {
     const date = new Date("2023-01-17");
     vi.setSystemTime(date);
     wrapper = mount(CreationHolidayForm);
-
-    // holidayTypeInput = wrapper.findComponent(SelectInput);
-    // startingDateInput = wrapper.findAllComponents(DateInput)[0];
-    // endingDateInput = wrapper.findAllComponents(DateInput)[1];
-    // numberOfDaysInput = wrapper.findComponent(NumberInput);
-    // returningDateInput = wrapper.findAllComponents(DateInput)[2];
-    // description = wrapper.findComponent(TextArea);
-    // submitButton = wrapper.findComponent(BaseButton);
   });
 
   afterEach(() => {
@@ -42,6 +34,9 @@ describe("CreationHolidayForm", () => {
   it("should have the holiday type field", () => {
     const holidayTypeInput = wrapper.findComponent(SelectInput);
 
+    expect(holidayTypeInput.props().defaultOption).toBe(
+      "Choose your holiday's type..."
+    );
     expect(holidayTypeInput.exists()).toBe(true);
     expect(holidayTypeInput.props().label).toBe("Type");
     expect(holidayTypeInput.props().options).toEqual([
@@ -50,84 +45,6 @@ describe("CreationHolidayForm", () => {
       "Abscence",
       "christmas",
     ]);
-  });
-
-  it("should have the awaited default option in holliday type field", () => {
-    expect(wrapper.findComponent(SelectInput).props().defaultOption).toBe(
-      "Choose your holiday's type..."
-    );
-  });
-
-  it("should display the start date field", () => {
-    const startingDateInput = wrapper.findAllComponents(DateInput)[0];
-    expect(startingDateInput.props()).toEqual({
-      modelValue: "",
-      placeholder: "Date",
-      label: "Starting date",
-      error: "",
-      readonly: false,
-    });
-  });
-
-  it("should have the end date field", () => {
-    expect(endingDateInput.exists()).toBe(true);
-    expect(endingDateInput.props()).toEqual({
-      modelValue: "",
-      placeholder: "Date",
-      label: "Ending date",
-      error: "",
-      readonly: false,
-    });
-  });
-
-  it("should have the return date field", () => {
-    expect(returningDateInput.exists()).toBe(true);
-    expect(returningDateInput.props()).toEqual({
-      modelValue: "",
-      placeholder: "Date",
-      label: "Returning date",
-      error: "",
-      readonly: false,
-    });
-  });
-
-  it("should have the start date field", () => {
-    const startingDateInput = wrapper.findAllComponents(DateInput)[0];
-
-    expect(startingDateInput.exists()).toBe(true);
-    expect(startingDateInput.props()).toEqual({
-      modelValue: "",
-      placeholder: "Date",
-      label: "Starting date",
-      error: "",
-      readonly: false,
-    });
-  });
-
-  it("should have the end date field", () => {
-    const endingDateInput = wrapper.findAllComponents(DateInput)[1];
-
-    expect(endingDateInput.exists()).toBe(true);
-    expect(endingDateInput.props()).toEqual({
-      modelValue: "",
-      placeholder: "Date",
-      label: "Ending date",
-      error: "",
-      readonly: false,
-    });
-  });
-
-  it("should have the return date field", () => {
-    const returningDateInput = wrapper.findAllComponents(DateInput)[2];
-
-    expect(returningDateInput.exists()).toBe(true);
-    expect(returningDateInput.props()).toEqual({
-      modelValue: "",
-      placeholder: "Date",
-      label: "Returning date",
-      error: "",
-      readonly: false,
-    });
   });
 
   it("should have the start date field", () => {
@@ -220,26 +137,12 @@ describe("CreationHolidayForm", () => {
     const returningDateInput = wrapper.findAllComponents(DateInput)[2];
 
     await startingDateInput.setValue("2023-01-20");
-    await description.setValue("2023-01-20");
-    await wrapper.find('[data-test="creation-form"]').trigger("submit");
+    await endingDateInput.setValue("2023-01-28");
 
     expect(returningDateInput.props().modelValue).toBe("2023-01-30");
 
-    it("shoud display the awaited error if all filled are input except description", async () => {
-      await holidayTypeInput.setValue("Annual");
-      await startingDateInput.setValue("2023-01-20");
-      await endingDateInput.setValue("2023-01-25");
-      await wrapper.find('[data-test="creation-form"]').trigger("submit");
-
-      expect(description.props().error).toBe("This field is required");
-    });
-
-    it("shoud display the awaited error if all filled are input but start date is wrong", async () => {
-      await holidayTypeInput.setValue("Annual");
-      await startingDateInput.setValue("2023-01-15");
-      await endingDateInput.setValue("2023-01-25");
-      await description.setValue("2023-01-20");
-      await wrapper.find('[data-test="creation-form"]').trigger("submit");
+    await startingDateInput.setValue("2023-01-20");
+    await endingDateInput.setValue("2023-01-29");
 
     expect(returningDateInput.props().modelValue).toBe("2023-01-30");
   });
@@ -254,11 +157,7 @@ describe("CreationHolidayForm", () => {
         "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati molestias"
       );
     await wrapper.find('[data-test="creation-form"]').trigger("submit");
-
-      expect(holidayTypeInput.props().error).toBe("This field is required");
-      expect(startingDateInput.props().error).toBe("It must be after today");
-      expect(description.props().error).toBe("This field is required");
-    });
+    expect(wrapper.emitted()).toHaveProperty("close");
   });
 
   describe("Failling cases", () => {

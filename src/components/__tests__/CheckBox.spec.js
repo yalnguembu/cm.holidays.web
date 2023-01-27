@@ -17,7 +17,7 @@ describe("CheckBox", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should have the correct label", () => {
+  it("should have the awaited label", () => {
     expect(wrapper.find("label").text()).toBe("Check me");
   });
 

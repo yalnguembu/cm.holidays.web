@@ -7,7 +7,7 @@ describe("TextArea", () => {
     props: {
       label: "The label",
       placeholder: "Enter the description",
-      error: "",
+      modelValue: "",
     },
   });
 
@@ -24,7 +24,7 @@ describe("TextArea", () => {
       "Enter the description"
     );
   });
-
+  
   it("should display the awaited error message and the awaited design", async () => {
     expect(wrapper.find('[data-test="select-input-text-error"]').exists()).toBe(
       false

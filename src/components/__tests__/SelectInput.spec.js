@@ -51,7 +51,6 @@ describe("SelectInput", () => {
       .at(1)
       .trigger("change");
 
-    await selectInput.setValue("Maternite");
     expect(wrapper.emitted()).toHaveProperty("update:modelValue");
     expect(wrapper.emitted("update:modelValue").length).toBe(1);
     expect(wrapper.emitted("update:modelValue")[0][0]).toBe("Maternite");
