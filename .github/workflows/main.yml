@@ -2,13 +2,11 @@ on:
   push:
     branches:
       - main
-      - master
-      - compositionAPI
       
   pull_request:
     branches:
       -main
-      -
+      
 jobs:
   test:
     name: components unit tests on node 16
