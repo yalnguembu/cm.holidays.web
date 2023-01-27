@@ -41,6 +41,7 @@ const route = useRoute();
 
 const isNotTheLast = (index) => {
   return index < routes.value.length - 1;
+
 };
 
 const routes = computed(() => {

@@ -1,7 +1,5 @@
 # holliday-app
 
-### hollidays manage app
+## hollidays manage app
 
 ~~This app will help you to manage your app
-
-This app will help you to manage your app

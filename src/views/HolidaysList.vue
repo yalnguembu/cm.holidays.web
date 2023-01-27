@@ -42,12 +42,14 @@ import BaseButton from "../components/BaseButton.vue";
 import HolidayItem from "../components/HolidayItem.vue";
 import NewHolidayButton from "../components/CreationHolidayButton.vue";
 import CreationHolidayForm from "../components/CreationHolidayForm.vue";
+
 import { computed, onMounted, reactive, toRef, watch } from "@vue/runtime-core";
 const emit = defineEmits(['close'])
 const state = reactive({
   isFormVisible: false,
   holidays: [],
 });
+
 
 const isHolidays = computed(() => {
   return state.holidays.length > 0;
@@ -68,4 +70,5 @@ watch(toRef(state, "isFormVisible"), (value) => {
 onMounted(() => {
   state.holidays = getHolidays();
 });
+
 </script>
