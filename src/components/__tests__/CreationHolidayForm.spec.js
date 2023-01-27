@@ -34,6 +34,9 @@ describe("CreationHolidayForm", () => {
   it("should have the holiday type field", () => {
     const holidayTypeInput = wrapper.findComponent(SelectInput);
 
+    expect(holidayTypeInput.props().defaultOption).toBe(
+      "Choose your holiday's type..."
+    );
     expect(holidayTypeInput.exists()).toBe(true);
     expect(holidayTypeInput.props().label).toBe("Type");
     expect(holidayTypeInput.props().options).toEqual([
@@ -42,12 +45,6 @@ describe("CreationHolidayForm", () => {
       "Abscence",
       "christmas",
     ]);
-  });
-
-  it("should have the awaited default option in holliday type field", () => {
-    expect(wrapper.findComponent(SelectInput).props().defaultOption).toBe(
-      "Choose your holiday's type..."
-    );
   });
 
   it("should have the start date field", () => {

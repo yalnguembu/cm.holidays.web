@@ -31,7 +31,7 @@ describe("EmailInput", () => {
     );
   });
 
-  it("should display the awaited error message and the awaited design", async () => {
+  it("should have the awaited error message and the awaited design", async () => {
     expect(wrapper.find('[data-test="email-input-text-error"]').exists()).toBe(
       false
     );

@@ -10,11 +10,11 @@ describe("CreationHolidayButton", () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it("should display the awaited title", () => {
+  it("should have the awaited title", () => {
     expect(wrapper.text()).toBe("New holiday");
   });
 
-  it("should display the add icon", () => {
+  it("should have the add icon", () => {
     expect(wrapper.findComponent(AddIcon).exists()).toBe(true);
   });
 });
