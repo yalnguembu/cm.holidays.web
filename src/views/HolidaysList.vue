@@ -35,62 +35,40 @@
   </main>
 </template>
 
-<script>
+<script setup>
 import CalendarIcon from "../components/icons/CalendarIcon.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import BaseButton from "../components/BaseButton.vue";
 import HolidayItem from "../components/HolidayItem.vue";
 import NewHolidayButton from "../components/CreationHolidayButton.vue";
 import CreationHolidayForm from "../components/CreationHolidayForm.vue";
-import {
-  computed,
-  onMounted,
-  reactive,
-  toRef,
-  watch,
-} from "@vue/runtime-core";
 
-export default {
-  name: "List",
+import { computed, onMounted, reactive, toRef, watch } from "@vue/runtime-core";
+const emit = defineEmits(['close'])
+const state = reactive({
+  isFormVisible: false,
+  holidays: [],
+});
 
-  components: {
-    BaseButton,
-    CalendarIcon,
-    CreationHolidayForm,
-    HolidayItem,
-    NewHolidayButton,
-    TheBreadcrumb,
-  },
 
-  setup() {
-    const state = reactive({
-      holidays: [],
-      isFormVisible: false,
-    });
+const isHolidays = computed(() => {
+  return state.holidays.length > 0;
+});
 
-    const isHolidays = computed(() => state.holidays.length > 0);
-
-    const getHolidays = () => {
-      return JSON.parse(localStorage.getItem("holidays")) ?? [];
-    };
-
-    const toggleFormModal = () => {
-      state.isFormVisible = !state.isFormVisible;
-    };
-
-    onMounted(() => {
-      state.holidays = getHolidays();
-    });
-
-    watch(toRef(state, "isFormVisible"), (value) => {
-      !value ? (state.holidays = getHolidays()) : "";
-    });
-
-    return {
-      state,
-      isHolidays,
-      toggleFormModal,
-    };
-  },
+const getHolidays = () => {
+  return JSON.parse(localStorage.getItem("holidays")) ?? [];
 };
+
+const toggleFormModal = () => {
+  state.isFormVisible = !state.isFormVisible;
+};
+
+watch(toRef(state, "isFormVisible"), (value) => {
+  !value ? (state.holidays = getHolidays()) : "";
+});
+
+onMounted(() => {
+  state.holidays = getHolidays();
+});
+
 </script>

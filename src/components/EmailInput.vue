@@ -2,7 +2,7 @@
   <div>
     <label for="email" class="text-gray-500">{{ label }}</label>
     <div
-    data-test="email-field"
+      data-test="email-field"
       :class="[
         error ? 'border-2 border-red-500' : 'border-gray-300',
         'border rounded-lg shadow-2xl shadow-gray-200 flex flex-row w-full justify-between align-center px-4 mt-2',
@@ -27,36 +27,30 @@
     </p>
   </div>
 </template>
-<script>
+<script setup>
 import MailIcon from "./icons/MailIcon.vue";
 
-export default {
-  name: "EmailInput",
-
-  components: {
-    MailIcon,
+const props = defineProps({
+  error: {
+    type: String,
+    default: "",
   },
 
-  props: {
-    error: {
-      type: String,
-      default: "",
-    },
-
-    modelValue: {
-      tyepe: String,
-      require: true,
-    },
-
-    label: {
-      type: String,
-      require: true,
-    },
-
-    placeholder: {
-      type: String,
-      default: "",
-    },
+  modelValue: {
+    tyepe: String,
+    require: true,
   },
-};
+
+
+  label: {
+    type: String,
+    require: true,
+  },
+
+  placeholder: {
+    type: String,
+    default: "",
+
+  },
+});
 </script>

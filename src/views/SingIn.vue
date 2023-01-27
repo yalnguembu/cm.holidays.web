@@ -34,7 +34,7 @@
   </main>
 </template>
 
-<script>
+<script setup>
 import PasswordInput from "../components/PasswordInput.vue";
 import EmailInput from "../components/EmailInput.vue";
 import BaseButton from "../components/BaseButton.vue";
@@ -44,91 +44,68 @@ import CheckBox from "../components/CheckBox.vue";
 import { reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
-export default {
-  name: "SingIn",
+const router = useRouter()
 
-  components: {
-    PasswordInput,
-    EmailInput,
-    BaseButton,
-    CardWrapper,
-    ErrorAlert,
-    CheckBox,
-  },
+const email = ref("");
+const password = ref("");
+const remember = ref(false);
+const error = reactive({
+  email: "",
+  password: "",
+  crudentials: "",
+});
 
-  setup() {
-    const router = useRouter();
-    const error = reactive({
-      email: "",
-      password: "",
-      crudentials: "",
-    });
-
-    const email = ref("");
-    const password = ref("");
-    const remember = ref(false);
-
-    const checkEmail = () => {
-      if (email.value) error.email = "";
-      else error.email = "This field is required";
-    };
-    const checkPassord = () => {
-      if (password.value) error.password = "";
-      else error.password = "This field is required";
-    };
-    const checkForm = () => {
-      checkEmail();
-      checkPassord();
-      return error.email.length === 0 && error.password.length === 0;
-    };
-    const saveInTheStorage = () => {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          email: email.value,
-        })
-      );
-    };
-    const saveInTheSession = () => {
-      sessionStorage.setItem(
-        "user",
-        JSON.stringify({
-          email: email.value,
-        })
-      );
-    };
-    const getUsers = () => {
-      return JSON.parse(localStorage.getItem("users")) ?? [];
-    };
-    const findUser = () => {
-      return getUsers().find(
-        (user) => user.email === email.value && user.password === password.value
-      );
-    };
-    const login = () => {
-      if (checkForm()) {
-        if (findUser()) {
-          remember ? saveInTheStorage() : saveInTheSession();
-          router.push("/");
-        } else error.crudentials = "Incorrect email or password";
-      }
-    };
-
-    watch(email, () => {
-      checkEmail();
-    });
-
-    watch(password, () => {
-      checkPassord();
-    });
-
-    return {
-      email,
-      password,
-      remember,
-      error,
-      login,
-    };
-  },
+const checkEmail = () => {
+  if (email.value) error.email = "";
+  else error.email = "This field is required";
 };
+const checkPassord = () => {
+  if (password.value) error.password = "";
+  else error.password = "This field is required";
+};
+const checkForm = () => {
+  checkEmail();
+  checkPassord();
+  return error.email.length === 0 && error.password.length === 0;
+};
+const saveInTheStorage = () => {
+  localStorage.setItem(
+    "user",
+    JSON.stringify({
+      email: email.value,
+    })
+  );
+};
+const saveInTheSession = () => {
+  sessionStorage.setItem(
+    "user",
+    JSON.stringify({
+      email: email.value,
+    })
+  );
+};
+const getUsers = () => {
+  return JSON.parse(localStorage.getItem("users")) ?? [];
+};
+const findUser = () => {
+  return getUsers().find(
+    (user) => user.email === email.value && user.password === password.value
+  );
+};
+
+const login = () => {
+  if (checkForm()) {
+    if (findUser()) {
+      remember ? saveInTheStorage() : saveInTheSession();
+      router.push("/");
+    } else error.crudentials = "Incorrect email or password";
+  }
+};
+
+watch(email, () => {
+  checkEmail();
+});
+watch(password, () => {
+  checkPassord();
+});
 </script>

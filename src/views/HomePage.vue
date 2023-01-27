@@ -39,31 +39,16 @@
   </main>
 </template>
 
-<script>
+<script setup>
 import AddIcon from "../components/icons/AddIcon.vue";
 import CalendarIcon from "../components/icons/CalendarIcon.vue";
 import CreationHolidayForm from "../components/CreationHolidayForm.vue";
-import { ref } from "@vue/reactivity";
+import { ref } from "vue";
 
-export default {
-  name: "Home",
+const isFormVisible = ref(false);
 
-  components: {
-    AddIcon,
-    CalendarIcon,
-    CreationHolidayForm,
-  },
+const toggleFormModal = () => {
+  isFormVisible.value = !isFormVisible.value;
 
-  setup() {
-    const isFormVisible = ref(false);
-
-    const toggleFormModal = () => {
-      isFormVisible.value = !isFormVisible.value;
-    };
-    return {
-      isFormVisible,
-      toggleFormModal,
-    };
-  },
 };
 </script>

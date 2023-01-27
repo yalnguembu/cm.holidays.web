@@ -7,7 +7,7 @@ describe("TextArea", () => {
     props: {
       label: "The label",
       placeholder: "Enter the description",
-      error: "",
+      modelValue: "",
     },
   });
 

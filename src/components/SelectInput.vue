@@ -11,7 +11,9 @@
       :value="modelValue === '' ? defaultOption : modelValue"
       @change="$emit('update:modelValue', $event.target.value)"
     >
-      <option hidden selected data-test="default-option">{{ defaultOption }}</option>
+      <option hidden selected data-test="default-option">
+        {{ defaultOption }}
+      </option>
       <option
         v-for="option in options"
         :key="option"
@@ -26,31 +28,27 @@
     </p>
   </div>
 </template>
-<script>
-export default {
-  name: "SelectInput",
-
-  props: {
-    modelValue: {
-      type: String,
-      require: true,
-    },
-    options: {
-      type: Array[String],
-      require: true,
-    },
-    error: {
-      type: String,
-      default: "",
-    },
-    label: {
-      type: String,
-      require: true,
-    },
-    defaultOption: {
-      type: String,
-      default: "Select",
-    },
+<script setup>
+const props = defineProps({
+  modelValue: {
+    type: String,
+    require: true,
   },
-};
+  options: {
+    type: Array[String],
+    require: true,
+  },
+  error: {
+    type: String,
+    default: "",
+  },
+  label: {
+    type: String,
+    require: true,
+  },
+  defaultOption: {
+    type: String,
+    default: "Select",
+  },
+});
 </script>

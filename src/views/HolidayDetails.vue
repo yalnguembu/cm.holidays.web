@@ -55,61 +55,43 @@
   </main>
 </template>
 
-<script>
-import { reactive, computed,onBeforeMount } from "vue";
-import {useRoute} from "vue-router"
+<script setup>
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import AgendaIcon from "../components/icons/AgendaIcon.vue";
+import { computed, onMounted, reactive } from "vue";
+import { useRoute } from "vue-router";
 
-export default {
-  name: "Details",
+const route = useRoute();
+const state = reactive({ holiday: {} });
 
-  components: {
-    TheBreadcrumb,
-    AgendaIcon,
-  },
+onMounted(() => {
+  state.holiday = findHolidayById(getHolidays(), route.params.id);
+});
 
-  setup() {
-    const route = useRoute()
-    const state = reactive({ holiday: {} });
+const getHolidays = () => {
+  return JSON.parse(localStorage.getItem("holidays")) ?? [];
+};
 
-    const dateRange = computed(() => {
-      return `
+const findHolidayById = (holidays, id) => {
+  return holidays.find((holiday) => holiday.id == id);
+};
+const toDateString = (date) => {
+  return new Date(date).toDateString();
+};
+
+const dateRange = computed(() => {
+  return `
       ${toDateString(state.holiday.startingDate)}
       - ${toDateString(state.holiday.returningDate)}
       `;
-    });
-    const returningDate = computed(() => {
-      return toDateString(state.holiday.returningDate);
-    });
-    const startingDate = computed(() => {
-      return toDateString(state.holiday.startingDate);
-    });
-    const endingDate = computed(() => {
-      return toDateString(state.holiday.endingDate);
-    });
-
-    const getHolidays =() => {
-      return JSON.parse(localStorage.getItem("holidays")) ?? [];
-    };
-    const findHolidayById = (holidays, id) => {
-      return holidays.find((holiday) => holiday.id == id);
-    };
-    const toDateString = (date) => {
-      return new Date(date).toDateString();
-    };
-
-    onBeforeMount(() => {
-      state.holiday = findHolidayById(getHolidays(), route.params.id);
-    });
-
-    return {
-      state,
-      dateRange,
-      startingDate,
-      endingDate,
-      returningDate,
-    };
-  },
-};
+});
+const returningDate = computed(() => {
+  return toDateString(state.holiday.returningDate);
+});
+const startingDate = computed(() => {
+  return toDateString(state.holiday.startingDate);
+});
+const endingDate = computed(() => {
+  return toDateString(state.holiday.endingDate);
+});
 </script>

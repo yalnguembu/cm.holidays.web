@@ -17,27 +17,23 @@
     </p>
   </div>
 </template>
-<script>
-export default {
-  name: "TextArea",
-
-  props: {
-    modelValue: {
-      type: String,
-      required: true,
-    },
-    error: {
-      type: String,
-      default:""
-    },
-    label: {
-      type: String,
-      required: true,
-    },
-    placeholder: {
-      type: String,
-      default:""
-    },
+<script setup>
+const props = defineProps({
+  modelValue: {
+    type: String,
+    required: true,
   },
-};
+  error: {
+    type: String,
+    default: "",
+  },
+  label: {
+    type: String,
+    required: true,
+  },
+  placeholder: {
+    type: String,
+    default: "",
+  },
+});
 </script>

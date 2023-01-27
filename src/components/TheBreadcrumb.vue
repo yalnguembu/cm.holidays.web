@@ -32,32 +32,22 @@
   </h1>
 </template>
 
-<script>
-import { computed, reactive } from "@vue/runtime-core";
+<script setup>
 import ArrowRigthIcon from "./icons/ArrowRigthIcon.vue";
-export default {
-  components: {
-    ArrowRigthIcon,
-  },
-  data() {
-    return {
-      isNotTheLast,
-      routes,
-      isHolidayDetailsPage,
-    };
-  },
-  methods: {
-    isNotTheLast(route) {
-      return route < this.routes.length - 1;
-    },
-  },
-  computed: {
-    routes() {
-      return this.currentPath.split("/").splice(1);
-    },
-    isHolidayDetailsPage() {
-      return this.$route.params.id ? true : false;
-    },
-  },
+import { useRoute } from "vue-router";
+import { computed } from "@vue/runtime-core";
+
+const route = useRoute();
+
+const isNotTheLast = (index) => {
+  return index < routes.value.length - 1;
+
 };
+
+const routes = computed(() => {
+  return route.path.split("/").splice(1);
+});
+const isHolidayDetailsPage = computed(() => {
+  return route.params.id ? true : false;
+});
 </script>

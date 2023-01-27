@@ -29,64 +29,44 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from "@vue/reactivity";
 import AgendaIcon from "./icons/AgendaIcon.vue";
 
-export default {
-  name: "DateInput",
-
-  props: {
-    modelValue: {
-      type: String,
-      required: true,
-    },
-
-    placeholder: {
-      type: String,
-      default: "",
-    },
-
-    label: {
-      type: String,
-      required: true,
-    },
-
-    error: {
-      type: String,
-      default: "",
-    },
-
-    readonly: Boolean,
+const props = defineProps({
+  modelValue: {
+    type: String,
+    required: true,
   },
 
-  components: {
-    AgendaIcon,
+  placeholder: {
+    type: String,
+    default: "",
   },
 
-  setup() {
-    const dateInput = ref(null)
-    const focused = ref(false);
-
-    const toggleFocus = () => {
-      focused.value = !focused.value;
-    };
-
-    const changeTypeToText = () => {
-      dateInput.value.type = "text";
-    };
-
-    const changeTypeToDate = () => {
-      dateInput.value.type = "date";
-    };
-
-    return {
-      focused,
-      toggleFocus,
-      changeTypeToText,
-      changeTypeToDate,
-      dateInput,
-    };
+  label: {
+    type: String,
+    default: true,
   },
+
+  error: {
+    type: String,
+    default: "",
+  },
+
+  readonly: Boolean,
+});
+
+const dateInput = ref(null);
+const focused = ref(false);
+
+const toggleFocus = () => {
+  focused.value = !focused.value;
+};
+const changeTypeToText = () => {
+  dateInput.value.type = "text";
+};
+const changeTypeToDate = () => {
+  dateInput.value.type = "date";
 };
 </script>

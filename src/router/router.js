@@ -9,6 +9,7 @@ const HolidaysList = () => import("../views/HolidaysList.vue");
 const PasswordForgot = () => import("../views/PasswordForgot.vue");
 const ResetPassword = () => import("../views/ResetPassword.vue");
 const VerifyMail = () => import("../views/VerifyMail.vue");
+const NotFound = () => import("../views/NotFound.vue");
 
 export const routes = [
   {
@@ -29,6 +30,11 @@ export const routes = [
         name: "details",
         path: "list/:id",
         component: HolidayDetails,
+      },
+      {
+        path: "/:patchMatch(.*)*",
+        name: "NotFound",
+        component: NotFound,
       },
     ],
   },

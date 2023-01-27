@@ -88,7 +88,7 @@
   </section>
 </template>
 
-<script>
+<script setup>
 import BaseButton from "./BaseButton.vue";
 import DateInput from "./DateInput.vue";
 import SelectInput from "./SelectInput.vue";
@@ -97,163 +97,136 @@ import NumberInput from "./NumberInput.vue";
 import { watch, computed, reactive, ref } from "@vue/runtime-core";
 
 const timestampOfOneDay = 24 * 3600 * 1000;
+const emit = defineEmits(["close"]);
 
-export default {
-  name: "CreationHolidayForm",
+const types = ["Annual", "Maternite", "Abscence", "christmas"];
+const holidayType = ref("");
+const startingDate = ref("");
+const endingDate = ref("");
+const description = ref("");
+const error = reactive({
+  holidayType: "",
+  startingDate: "",
+  endingDate: "",
+  description: "",
+});
 
-  components: {
-    BaseButton,
-    DateInput,
-    SelectInput,
-    TextArea,
-    NumberInput,
-  },
+const numbersOfdays = computed(() => {
+  const differenceOfStartingAndEndingDate =
+    (endingDateTimestamp.value - startingDateTimestamp.value) /
+    timestampOfOneDay;
+  return differenceOfStartingAndEndingDate > 0
+    ? differenceOfStartingAndEndingDate
+    : "";
+});
+const startingDateTimestamp = computed(() => {
+  return new Date(startingDate.value).getTime();
+});
+const endingDateTimestamp = computed(() => {
+  return new Date(endingDate.value).getTime();
+});
+const returningDay = computed(() => {
+  return new Date(endingDate.value).getDay();
+});
+const returningDate = computed(() => {
+  let date;
+  switch (endingDate.value.length > 0) {
+    case false:
+      return "";
+    case returningDay.value === 6:
+      date = new Date(endingDate.value).getTime() + timestampOfOneDay * 2;
+      return new Date(date).toISOString().substring(0, 10);
+    case returningDay.value === 0:
+      date = new Date(endingDate.value).getTime() + timestampOfOneDay;
+      return new Date(date).toISOString().substring(0, 10);
+    default:
+      return endingDate.value;
+  }
+});
 
-  emits: ["close"],
-
-  setup(props, { emit }) {
-    const types = ["Annual", "Maternite", "Abscence", "christmas"];
-    const holidayType = ref("");
-    const startingDate = ref("");
-    const endingDate = ref("");
-    const description = ref("");
-    const error = reactive({
-      holidayType: "",
-      startingDate: "",
-      endingDate: "",
-      description: "",
-    });
-
-    const close = () => {
-      emit("close");
-    };
-    const checkholidayType = () => {
-      if (holidayType.value === "") {
-        error.holidayType = "This field is required";
-      } else error.holidayType = "";
-    };
-    const isStartingDateBeforeReturningDate = () => {
-      return (
-        new Date(startingDate.value).getTime() <
-        new Date(endingDate.value).getTime()
-      );
-    };
-    const isStartingDateAfterToday = () => {
-      return new Date().getTime() < new Date(startingDate.value).getTime();
-    };
-    const checkStartingDate = () => {
-      if (startingDate.value.length <= 0) {
-        error.startingDate = "This field is required";
-      } else if (!isStartingDateAfterToday()) {
-        error.startingDate = "It must be after today";
-      } else error.startingDate = "";
-    };
-    const checkEndingDate = () => {
-      if (!startingDate.value && !endingDate.value)
-        error.endingDate = "This field is required";
-      else if (!isStartingDateBeforeReturningDate())
-        error.endingDate = "It must be after starting date";
-      else if (endingDate.value.length > 0) error.endingDate = "";
-      else error.endingDate = "";
-    };
-    const checkDescription = () => {
-      if (description.value.length <= 0) {
-        error.description = "This field is required";
-      } else error.description = "";
-    };
-    const checkForm = () => {
-      checkholidayType();
-      checkStartingDate();
-      checkEndingDate();
-      checkDescription();
-      return (
-        (error.holidayType.length <= 0) &
-        (error.startingDate.length <= 0) &
-        (error.endingDate.length <= 0) &
-        (error.description.length <= 0)
-      );
-    };
-    const getHolidays = () => {
-      return JSON.parse(localStorage.getItem("holidays")) ?? [];
-    };
-    const create = () => {
-      if (checkForm()) {
-        const holidays = getHolidays();
-        const holiday = {
-          id: holidays.length,
-          holidayType: holidayType.value,
-          startingDate: startingDate.value,
-          endingDate: endingDate.value,
-          returningDate: returningDate.value,
-          description: description.value,
-          createdAt: new Date().getTime(),
-        };
-        holidays.push(holiday);
-        localStorage.setItem("holidays", JSON.stringify(holidays));
-        this.close();
-      }
-    };
-
-    const numbersOfdays = computed(() => {
-      const differenceOfStartingAndEndingDate =
-        (endingDateTimestamp.value - startingDateTimestamp.value) /
-        timestampOfOneDay;
-      return differenceOfStartingAndEndingDate > 0
-        ? differenceOfStartingAndEndingDate
-        : "";
-    });
-    const startingDateTimestamp = computed(() => {
-      return new Date(startingDate.value).getTime();
-    });
-    const endingDateTimestamp = computed(() => {
-      return new Date(endingDate.value).getTime();
-    });
-    const returningDay = computed(() => {
-      return new Date(endingDate.value).getDay();
-    });
-    const returningDate = computed(() => {
-      let date;
-      switch (endingDate.value.length > 0) {
-        case false:
-          return "";
-        case returningDay.value === 6:
-          date = new Date(endingDate.value).getTime() + timestampOfOneDay * 2;
-          return new Date(date).toISOString().substring(0, 10);
-        case returningDay.value === 0:
-          date = new Date(endingDate.value).getTime() + timestampOfOneDay;
-          return new Date(date).toISOString().substring(0, 10);
-        default:
-          return endingDate.value;
-      }
-    });
-
-    watch(startingDate, () => {
-      checkStartingDate();
-      if (endingDate.value.length > 0) checkEndingDate();
-    });
-    watch(endingDate, () => {
-      checkStartingDate();
-      checkEndingDate();
-    });
-    watch(description, () => {
-      checkDescription();
-    });
-
-    return {
-      numbersOfdays,
-      startingDateTimestamp,
-      endingDateTimestamp,
-      returningDay,
-      returningDate,
-      types,
-      holidayType,
-      startingDate,
-      endingDate,
-      description,
-      error,
-      close,
-      create,
-    };
-  },
+const close = () => {
+  emit("close");
 };
+const checkholidayType = () => {
+  if (holidayType.value === "") {
+    error.holidayType = "This field is required";
+  } else error.holidayType = "";
+};
+const isStartingDateBeforeReturningDate = () => {
+  return (
+    new Date(startingDate.value).getTime() <
+    new Date(endingDate.value).getTime()
+  );
+};
+const isStartingDateAfterToday = () => {
+  return new Date().getTime() < new Date(startingDate.value).getTime();
+};
+const checkStartingDate = () => {
+  if (startingDate.value.length <= 0) {
+    error.startingDate = "This field is required";
+  } else if (!isStartingDateAfterToday()) {
+    error.startingDate = "It must be after today";
+  } else error.startingDate = "";
+};
+const checkEndingDate = () => {
+  if (!startingDate.value && !endingDate.value)
+    error.endingDate = "This field is required";
+  else if (!isStartingDateBeforeReturningDate())
+    error.endingDate = "It must be after starting date";
+  else if (endingDate.value.length > 0) error.endingDate = "";
+  else error.endingDate = "";
+};
+const checkDescription = () => {
+  if (description.value.length <= 0) {
+    error.description = "This field is required";
+  } else error.description = "";
+};
+const checkForm = () => {
+  checkholidayType();
+  checkStartingDate();
+  checkEndingDate();
+  checkDescription();
+  return (
+    (error.holidayType.length <= 0) &
+    (error.startingDate.length <= 0) &
+    (error.endingDate.length <= 0) &
+    (error.description.length <= 0)
+  );
+};
+const getHolidays = () => {
+  return JSON.parse(localStorage.getItem("holidays")) ?? [];
+};
+const create = () => {
+  if (checkForm()) {
+    const holidays = getHolidays();
+    const holiday = {
+      id: holidays.length,
+      holidayType: holidayType.value,
+      startingDate: startingDate.value,
+      endingDate: endingDate.value,
+      returningDate: returningDate.value,
+      description: description.value,
+      createdAt: new Date().getTime(),
+    };
+    holidays.push(holiday);
+    localStorage.setItem("holidays", JSON.stringify(holidays));
+    close();
+  }
+
+};
+
+watch(holidayType, () => {
+  checkholidayType();
+});
+watch(startingDate, () => {
+  checkStartingDate();
+  if (endingDate.value.length > 0) checkEndingDate();
+});
+watch(endingDate, () => {
+  checkStartingDate();
+  checkEndingDate();
+});
+watch(description, () => {
+  checkDescription();
+});
 </script>
