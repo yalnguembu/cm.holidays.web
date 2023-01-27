@@ -49,5 +49,6 @@ const isFormVisible = ref(false);
 
 const toggleFormModal = () => {
   isFormVisible.value = !isFormVisible.value;
+
 };
 </script>
