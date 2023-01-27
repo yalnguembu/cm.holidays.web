@@ -41,6 +41,7 @@ const props = defineProps({
     require: true,
   },
 
+
   label: {
     type: String,
     require: true,
@@ -49,6 +50,7 @@ const props = defineProps({
   placeholder: {
     type: String,
     default: "",
+
   },
 });
 </script>

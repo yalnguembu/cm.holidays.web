@@ -10,4 +10,5 @@
 const props = defineProps({
   title: { type: String, require: true },
 });
+
 </script>

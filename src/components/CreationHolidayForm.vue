@@ -212,6 +212,7 @@ const create = () => {
     localStorage.setItem("holidays", JSON.stringify(holidays));
     close();
   }
+
 };
 
 watch(holidayType, () => {

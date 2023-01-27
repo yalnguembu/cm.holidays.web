@@ -1,0 +1,26 @@
+on: 
+  push:
+    branches:
+      - latest-composition_api
+      
+  pull_request:
+    branches:
+      - latest-composition_api
+      
+jobs:
+  test:
+    name: components unit tests on node 16
+    runs-on: ubuntu-latest
+        
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Nodejs 16
+      uses: actions/setup-node@v1
+      with: 
+        node-version: 16
+        
+    - name: npm install and test
+      run: |
+        npm install
+        npm run test
+        
