@@ -32,33 +32,21 @@
   </h1>
 </template>
 
-<script>
+<script setup>
 import ArrowRigthIcon from "./icons/ArrowRigthIcon.vue";
 import { useRoute } from "vue-router";
 import { computed } from "@vue/runtime-core";
 
-export default {
-  components: {
-    ArrowRigthIcon,
-  },
-  setup() {
-    const route = useRoute();
+const route = useRoute();
 
-    const isNotTheLast = (route) => {
-      return route < routes.value.length - 1;
-    };
-
-    const routes = computed(() => {
-      return route.path.split("/").splice(1);
-    });
-    const isHolidayDetailsPage = computed(() => {
-      return route.params.id ? true : false;
-    });
-    return {
-      isNotTheLast,
-      isHolidayDetailsPage,
-      routes,
-    };
-  },
+const isNotTheLast = (index) => {
+  return index < routes.value.length - 1;
 };
+
+const routes = computed(() => {
+  return route.path.split("/").splice(1);
+});
+const isHolidayDetailsPage = computed(() => {
+  return route.params.id ? true : false;
+});
 </script>

@@ -1,7 +1,8 @@
 <template>
   <div>
     <label for="email" class="text-gray-500">{{ label }}</label>
-    <div data-test="password-field"
+    <div
+      data-test="password-field"
       :class="[
         'rounded-lg shadow-2xl shadow-gray-200 flex flex-row w-full justify-between align-center px-4 my-2  bg-gray md:bg-transparent',
         error ? 'border-2 border-red-500' : 'border border-gray-300',
@@ -26,32 +27,25 @@
     </p>
   </div>
 </template>
-<script>
+<script setup>
 import LockIcon from "./icons/LockIcon.vue";
 
-export default {
-  name: "PasswordInput",
-
-  components: {
-    LockIcon,
+const props = defineProps({
+  error: {
+    type: String,
+    default: "",
   },
-  props: {
-    error: {
-      type: String,
-      default: "",
-    },
-    modelValue: {
-      tyepe: String,
-      require: true,
-    },
-    label: {
-      type: String,
-      require: true,
-    },
-    placeholder: {
-      type: String,
-      default: "",
-    },
+  modelValue: {
+    tyepe: String,
+    require: true,
   },
-};
+  label: {
+    type: String,
+    require: true,
+  },
+  placeholder: {
+    type: String,
+    default: "",
+  },
+});
 </script>

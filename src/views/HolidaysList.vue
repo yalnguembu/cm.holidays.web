@@ -3,7 +3,7 @@
     <div
       :class="[
         'container p-2 md:px-16 lg:px-24',
-        { 'overflow-hidden max-h-96': isFormVisible },
+        { 'overflow-hidden max-h-96': state.isFormVisible },
       ]"
       v-if="isHolidays"
     >
@@ -14,7 +14,7 @@
       <div class="gap-y-12 flex flex-row flex-wrap mt-4 md:mt-8">
         <RouterLink
           class="px-4 md:basis-1/2 lg:basis-1/3"
-          v-for="holiday in holidays"
+          v-for="holiday in state.holidays"
           :key="holiday.id"
           :to="`/list/${holiday.id}`"
         >
@@ -31,61 +31,41 @@
         @click="toggleFormModal"
       />
     </div>
-    <CreationHolidayForm v-if="isFormVisible" @close="toggleFormModal" />
+    <CreationHolidayForm v-if="state.isFormVisible" @close="toggleFormModal" />
   </main>
 </template>
 
-<script>
+<script setup>
 import CalendarIcon from "../components/icons/CalendarIcon.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import BaseButton from "../components/BaseButton.vue";
 import HolidayItem from "../components/HolidayItem.vue";
 import NewHolidayButton from "../components/CreationHolidayButton.vue";
 import CreationHolidayForm from "../components/CreationHolidayForm.vue";
+import { computed, onMounted, reactive, toRef, watch } from "@vue/runtime-core";
+const emit = defineEmits(['close'])
+const state = reactive({
+  isFormVisible: false,
+  holidays: [],
+});
 
-export default {
-  name: "List",
+const isHolidays = computed(() => {
+  return state.holidays.length > 0;
+});
 
-  components: {
-    BaseButton,
-    CalendarIcon,
-    CreationHolidayForm,
-    HolidayItem,
-    NewHolidayButton,
-    TheBreadcrumb,
-  },
-
-  mounted() {
-    this.holidays = this.getHolidays();
-  },
-
-  data() {
-    return {
-      isFormVisible: false,
-      holidays: [],
-    };
-  },
-
-  computed: {
-    isHolidays() {
-      return this.holidays.length > 0;
-    },
-  },
-
-  methods: {
-    getHolidays() {
-      return JSON.parse(localStorage.getItem("holidays")) ?? [];
-    },
-
-    toggleFormModal() {
-      this.isFormVisible = !this.isFormVisible;
-    },
-  },
-
-  watch: {
-    isFormVisible(isVisible) {
-      !isVisible ? (this.holidays = this.getHolidays()) : "";
-    },
-  },
+const getHolidays = () => {
+  return JSON.parse(localStorage.getItem("holidays")) ?? [];
 };
+
+const toggleFormModal = () => {
+  state.isFormVisible = !state.isFormVisible;
+};
+
+watch(toRef(state, "isFormVisible"), (value) => {
+  !value ? (state.holidays = getHolidays()) : "";
+});
+
+onMounted(() => {
+  state.holidays = getHolidays();
+});
 </script>

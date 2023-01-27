@@ -25,93 +25,77 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from "@vue/runtime-core";
+
 const timestampOfOneDay = 24 * 3600 * 1000;
-export default {
-  name: "Holiday",
 
-  props: {
-    holiday: {
-      id: {
-        type: Number,
-        require: true,
-      },
+const props = defineProps({
+  holiday: {
+    id: {
+      type: Number,
+      require: true,
+    },
 
-      description: {
-        type: String,
-        require: true,
-      },
+    description: {
+      type: String,
+      require: true,
+    },
 
-      startingDate: {
-        type: Date,
-        require: true,
-      },
+    startingDate: {
+      type: Date,
+      require: true,
+    },
 
-      endingDate: {
-        type: Date,
-        require: true,
-      },
+    endingDate: {
+      type: Date,
+      require: true,
+    },
 
-      createdAt: {
-        type: Number,
-        require: true,
-      },
+    createdAt: {
+      type: Number,
+      require: true,
+    },
 
-      holidayType: {
-        type: String,
-        require: true,
-      },
+    holidayType: {
+      type: String,
+      require: true,
     },
   },
+});
 
-  methods: {
-    formateToDateString(date) {
-      return new Date(date).toDateString();
-    },
-
-    isHolidayCreatedToday() {
-      return this.createdAtDay() < 1;
-    },
-
-    createdAtDay() {
-      return (
-        (new Date().getTime() - this.holiday.createdAt) / timestampOfOneDay
-      );
-    },
-
-    createdAtHour() {
-      const timetsamp = this.createdAtDay() * 24;
-      return timetsamp >= 1
-        ? `il y'a ${parseInt(timetsamp)} heures`
-        : parseInt(timetsamp * 60) > 0
-        ? `il y'a ${parseInt(timetsamp * 60)} minutes`
-        : "A l'instant";
-    },
-
-    formatCreatedAt() {
-      return this.isHolidayCreatedToday()
-        ? this.createdAtHour()
-        : `il y'a ${parseInt(this.createdAtDay())} jours`;
-    },
-  },
-
-  computed: {
-    dateRange() {
-      return `${this.formateToDateString(
-        this.holiday.startingDate
-      )} - ${this.formateToDateString(this.holiday.endingDate)}
-        `;
-    },
-
-    creationTime() {
-      return new Date(this.holiday.createdAt)
-        .toLocaleTimeString()
-        .substring(0, 5);
-    },
-
-    createdAt() {
-      return this.formatCreatedAt();
-    },
-  },
+const formateToDateString = (date) => {
+  return new Date(date).toDateString();
 };
+const isHolidayCreatedToday = () => {
+  return createdAtDay() < 1;
+};
+const createdAtDay = () => {
+  return (new Date().getTime() - props.holiday.createdAt) / timestampOfOneDay;
+};
+const createdAtHour = () => {
+  const timetsamp = createdAtDay() * 24;
+  return timetsamp >= 1
+    ? `il y'a ${parseInt(timetsamp)} heures`
+    : parseInt(timetsamp * 60) > 0
+    ? `il y'a ${parseInt(timetsamp * 60)} minutes`
+    : "A l'instant";
+};
+const formatCreatedAt = () => {
+  return isHolidayCreatedToday()
+    ? createdAtHour()
+    : `il y'a ${parseInt(createdAtDay())} jours`;
+};
+const dateRange = computed(() => {
+  return `${formateToDateString(
+    props.holiday.startingDate
+  )} - ${formateToDateString(props.holiday.endingDate)}
+        `;
+});
+const creationTime = computed(() => {
+  return new Date(props.holiday.createdAt).toLocaleTimeString().substring(0, 5);
+});
+const createdAt = computed(() => {
+  return formatCreatedAt();
+});
 </script>

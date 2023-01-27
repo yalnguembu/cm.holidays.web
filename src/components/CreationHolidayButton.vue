@@ -7,13 +7,6 @@
   </button>
 </template>
 
-<script>
+<script setup>
 import AddIcon from "./icons/AddIcon.vue";
-export default {
-  name: "CreationHolidayButton",
-  
-  components: {
-    AddIcon,
-  },
-};
 </script>

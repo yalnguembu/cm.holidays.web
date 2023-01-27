@@ -13,24 +13,20 @@
     />
   </div>
 </template>
-<script>
-export default {
-  name: "NumberInput",
-
-  props: {
-    modelValue: {
-      tyepe: String,
-      require: true,
-    },
-    label: {
-      type: String,
-      require: true,
-    },
-    placeholder: {
-      type: String,
-      default: "",
-    },
-    readonly: Boolean,
+<script setup>
+const props = defineProps({
+  modelValue: {
+    tyepe: String,
+    require: true,
   },
-};
+  label: {
+    type: String,
+    require: true,
+  },
+  placeholder: {
+    type: String,
+    default: "",
+  },
+  readonly: Boolean,
+});
 </script>
