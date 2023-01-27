@@ -2,7 +2,7 @@ import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import PasswordInput from "../PasswordInput.vue";
 
-describe.skip("PasswordInput", () => {
+describe("PasswordInput", () => {
   const wrapper = mount(PasswordInput, {
     props: {
       label: "Password",
