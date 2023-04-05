@@ -39,13 +39,13 @@
   </main>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AddIcon from "../components/icons/AddIcon.vue";
 import CalendarIcon from "../components/icons/CalendarIcon.vue";
 import CreationHolidayForm from "../components/CreationHolidayForm.vue";
 import { ref } from "vue";
 
-const isFormVisible = ref(false);
+const isFormVisible = ref<boolean>(false);
 
 const toggleFormModal = () => {
   isFormVisible.value = !isFormVisible.value;

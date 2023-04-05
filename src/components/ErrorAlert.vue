@@ -7,10 +7,8 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import InfoIcon from "./icons/InfoIcon.vue";
 
-const props = defineProps({
-  title: { type: String, require: true },
-});
+const props = defineProps<{ title: string }>();
 </script>

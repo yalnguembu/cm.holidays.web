@@ -6,9 +6,8 @@
     {{ props.title }}
   </button>
 </template>
-<script setup>
-const props = defineProps({
-  title: { type: String, require: true },
-});
-
+<script setup lang="ts">
+const props = defineProps<{
+  title: string;
+}>();
 </script>

@@ -7,6 +7,6 @@
   </button>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import AddIcon from "./icons/AddIcon.vue";
 </script>

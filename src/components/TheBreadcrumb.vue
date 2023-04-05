@@ -32,14 +32,14 @@
   </h1>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import ArrowRigthIcon from "./icons/ArrowRigthIcon.vue";
 import { useRoute } from "vue-router";
 import { computed } from "@vue/runtime-core";
 
 const route = useRoute();
 
-const isNotTheLast = (index) => {
+const isNotTheLast = (index: number) => {
   return index < routes.value.length - 1;
 
 };

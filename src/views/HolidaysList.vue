@@ -3,7 +3,7 @@
     <div
       :class="[
         'container p-2 md:px-16 lg:px-24',
-        { 'overflow-hidden max-h-96': state.isFormVisible },
+        { 'overflow-hidden max-h-96': isFormVisible },
       ]"
       v-if="isHolidays"
     >
@@ -31,12 +31,11 @@
         @click="toggleFormModal"
       />
     </div>
-    <CreationHolidayForm v-if="state.isFormVisible" @close="toggleFormModal" />
+    <CreationHolidayForm v-if="isFormVisible" @close="toggleFormModal" />
   </main>
 </template>
 
-<script setup>
-import CalendarIcon from "../components/icons/CalendarIcon.vue";
+<script setup lang="ts">
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import BaseButton from "../components/BaseButton.vue";
 import HolidayItem from "../components/HolidayItem.vue";
@@ -44,9 +43,21 @@ import NewHolidayButton from "../components/CreationHolidayButton.vue";
 import CreationHolidayForm from "../components/CreationHolidayForm.vue";
 
 import { computed, onMounted, reactive, toRef, watch } from "@vue/runtime-core";
-const emit = defineEmits(['close'])
-const state = reactive({
-  isFormVisible: false,
+import { ref } from "vue";
+const emit = defineEmits(["close"]);
+
+type Holiday = {
+  holidayType: string;
+  id: number;
+  startingDate: string;
+  returningDate: string;
+  endingDate: string;
+  description: string;
+  createdAt: number;
+};
+
+const isFormVisible = ref(false);
+const state = reactive<{ holidays: Holiday[] }>({
   holidays: [],
 });
 
@@ -56,14 +67,14 @@ const isHolidays = computed(() => {
 });
 
 const getHolidays = () => {
-  return JSON.parse(localStorage.getItem("holidays")) ?? [];
+  return JSON.parse(localStorage.getItem("holidays") ?? "") ?? [];
 };
 
 const toggleFormModal = () => {
-  state.isFormVisible = !state.isFormVisible;
+  isFormVisible.value = !isFormVisible.value;
 };
 
-watch(toRef(state, "isFormVisible"), (value) => {
+watch(isFormVisible, (value) => {
   !value ? (state.holidays = getHolidays()) : "";
 });
 

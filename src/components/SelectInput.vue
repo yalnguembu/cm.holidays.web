@@ -9,7 +9,7 @@
         { 'border-2 border-red-500': error },
       ]"
       :value="modelValue === '' ? defaultOption : modelValue"
-      @change="$emit('update:modelValue', $event.target.value)"
+      @change="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     >
       <option hidden selected data-test="default-option">
         {{ defaultOption }}
@@ -28,27 +28,12 @@
     </p>
   </div>
 </template>
-<script setup>
-const props = defineProps({
-  modelValue: {
-    type: String,
-    require: true,
-  },
-  options: {
-    type: Array[String],
-    require: true,
-  },
-  error: {
-    type: String,
-    default: "",
-  },
-  label: {
-    type: String,
-    require: true,
-  },
-  defaultOption: {
-    type: String,
-    default: "Select",
-  },
-});
+<script setup lang="ts">
+const props = defineProps<{
+  modelValue: string;
+  options: string[];
+  error: string;
+  label: string;
+  defaultOption: string;
+}>();
 </script>

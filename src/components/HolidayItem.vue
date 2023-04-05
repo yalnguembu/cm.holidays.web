@@ -25,46 +25,23 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from "@vue/runtime-core";
 
 const timestampOfOneDay = 24 * 3600 * 1000;
 
-const props = defineProps({
+const props = defineProps<{
   holiday: {
-    id: {
-      type: Number,
-      require: true,
-    },
+    id: number;
+    description: string;
+    startingDate: string;
+    endingDate: string;
+    createdAt: number;
+    holidayType: string;
+  };
+}>();
 
-    description: {
-      type: String,
-      require: true,
-    },
-
-    startingDate: {
-      type: Date,
-      require: true,
-    },
-
-    endingDate: {
-      type: Date,
-      require: true,
-    },
-
-    createdAt: {
-      type: Number,
-      require: true,
-    },
-
-    holidayType: {
-      type: String,
-      require: true,
-    },
-  },
-});
-
-const formateToDateString = (date) => {
+const formateToDateString = (date: string) => {
   return new Date(date).toDateString();
 };
 const isHolidayCreatedToday = () => {
@@ -76,15 +53,15 @@ const createdAtDay = () => {
 const createdAtHour = () => {
   const timetsamp = createdAtDay() * 24;
   return timetsamp >= 1
-    ? `il y'a ${parseInt(timetsamp)} heures`
-    : parseInt(timetsamp * 60) > 0
-    ? `il y'a ${parseInt(timetsamp * 60)} minutes`
+    ? `il y'a ${timetsamp.toFixed(0)} heures`
+    : timetsamp * 60 > 0
+    ? `il y'a ${(timetsamp * 60).toFixed(0)} minutes`
     : "A l'instant";
 };
 const formatCreatedAt = () => {
   return isHolidayCreatedToday()
     ? createdAtHour()
-    : `il y'a ${parseInt(createdAtDay())} jours`;
+    : `il y'a ${createdAtDay().toFixed(0)} jours`;
 };
 const dateRange = computed(() => {
   return `${formateToDateString(

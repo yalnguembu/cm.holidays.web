@@ -34,7 +34,7 @@
   </main>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import PasswordInput from "../components/PasswordInput.vue";
 import EmailInput from "../components/EmailInput.vue";
 import BaseButton from "../components/BaseButton.vue";
@@ -44,7 +44,7 @@ import CheckBox from "../components/CheckBox.vue";
 import { reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
-const router = useRouter()
+const router = useRouter();
 
 const email = ref("");
 const password = ref("");
@@ -85,11 +85,12 @@ const saveInTheSession = () => {
   );
 };
 const getUsers = () => {
-  return JSON.parse(localStorage.getItem("users")) ?? [];
+  return JSON.parse(localStorage.getItem("users") ?? "") ?? [];
 };
 const findUser = () => {
   return getUsers().find(
-    (user) => user.email === email.value && user.password === password.value
+    (user: { email: string; password: string }) =>
+      user.email === email.value && user.password === password.value
   );
 };
 

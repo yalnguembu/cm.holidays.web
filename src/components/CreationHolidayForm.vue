@@ -88,7 +88,7 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import BaseButton from "./BaseButton.vue";
 import DateInput from "./DateInput.vue";
 import SelectInput from "./SelectInput.vue";
@@ -187,14 +187,14 @@ const checkForm = () => {
   checkEndingDate();
   checkDescription();
   return (
-    (error.holidayType.length <= 0) &
-    (error.startingDate.length <= 0) &
-    (error.endingDate.length <= 0) &
-    (error.description.length <= 0)
+    error.holidayType.length <= 0 &&
+    error.startingDate.length <= 0 &&
+    error.endingDate.length <= 0 &&
+    error.description.length <= 0
   );
 };
 const getHolidays = () => {
-  return JSON.parse(localStorage.getItem("holidays")) ?? [];
+  return JSON.parse(localStorage.getItem("holidays") ?? "") ?? [];
 };
 const create = () => {
   if (checkForm()) {
