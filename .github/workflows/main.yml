@@ -19,8 +19,11 @@ jobs:
       with: 
         node-version: 16
         
-    - name: npm install and test
+    - name: install dependencie 
       run: |
-        npm install
+        npm ci
+        
+    - name: unit test
+      run: |
         npm run test:unit
         
