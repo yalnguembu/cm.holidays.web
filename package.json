@@ -1,13 +1,14 @@
 {
-  "name": "holliday-app",
+  "name": "holiday-app",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "test:unit": "vitest",
+    "coverage": "vitest run --coverage",
+    "test:e2e": "cypress open"
   },
   "dependencies": {
     "vue": "^3.2.45",

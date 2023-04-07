@@ -1,5 +1,6 @@
 <template>
   <button
+    data-test="create-holiday-button"
     class="text-gray-500 bg-gray-100 p-2 md:bg-blue-500 md:px-8 md:p-4 rounded-lg flex items-center"
   >
     <span class="hidden md:block text-center text-white"> New holiday </span>

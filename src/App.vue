@@ -3,9 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount } from "vue";
+import { onBeforeMount } from "vue";
 
-onBeforeUnmount(() => {
+onBeforeMount(() => {
   localStorage.setItem(
     "users",
     JSON.stringify([

@@ -1,5 +1,6 @@
 <template>
   <div
+    data-test="holiday-item"
     class="border rounded-xl p-4 shadow-[1px_35px_5px_-19px_#D1E4FA] bg-white h-full"
   >
     <div class="flex flew-row items-center justify-between">
@@ -10,7 +11,7 @@
         {{ creationTime }}
       </p>
     </div>
-    <p class="text-blue-600 font-bold text-xl my-4" data-test="data-range">
+    <p class="text-blue-600 font-bold text-xl my-4" data-test="date-range">
       {{ dateRange }}
     </p>
     <p class="text-gray-500 my-4" data-test="description">

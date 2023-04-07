@@ -95,6 +95,9 @@ import SelectInput from "./SelectInput.vue";
 import TextArea from "./TextArea.vue";
 import NumberInput from "./NumberInput.vue";
 import { watch, computed, reactive, ref } from "@vue/runtime-core";
+import { useRouter } from "vue-router";
+
+const router = useRouter()
 
 const timestampOfOneDay = 24 * 3600 * 1000;
 const emit = defineEmits(["close"]);
@@ -169,7 +172,7 @@ const checkStartingDate = () => {
   } else error.startingDate = "";
 };
 const checkEndingDate = () => {
-  if (!startingDate.value && !endingDate.value)
+  if (!startingDate.value || !endingDate.value)
     error.endingDate = "This field is required";
   else if (!isStartingDateBeforeReturningDate())
     error.endingDate = "It must be after starting date";
@@ -194,10 +197,12 @@ const checkForm = () => {
   );
 };
 const getHolidays = () => {
-  return JSON.parse(localStorage.getItem("holidays") ?? "") ?? [];
+  const holidays = localStorage.getItem("holidays");
+  return holidays ? JSON.parse(holidays) : [];
 };
 const create = () => {
   if (checkForm()) {
+    console.log(getHolidays());
     const holidays = getHolidays();
     const holiday = {
       id: holidays.length,
@@ -210,9 +215,8 @@ const create = () => {
     };
     holidays.push(holiday);
     localStorage.setItem("holidays", JSON.stringify(holidays));
-    close();
+    router.push("/list");
   }
-
 };
 
 watch(holidayType, () => {

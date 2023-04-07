@@ -1,5 +1,5 @@
 <template>
-  <h1 class="my-4">
+  <h1 class="my-4" data-test="the-breadcrumb">
     <RouterLink to="/" data-test="breadcrumb-link">
       <span class="align-middle align-middle mr-2 text-gray-500 text-lg">
         Home

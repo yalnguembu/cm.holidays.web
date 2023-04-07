@@ -3,7 +3,7 @@
     <CardWrapper>
       <form @submit.prevent="login" autocomplete="on">
         <div class="md:text-center mb-8">
-          <h1 class="font-bold text-3xl">Login</h1>
+          <h1 class="font-bold text-3xl" data-test="page-title">Login</h1>
           <p class="text-gray-500">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus
           </p>
@@ -35,12 +35,12 @@
 </template>
 
 <script setup lang="ts">
-import PasswordInput from "../components/PasswordInput.vue";
-import EmailInput from "../components/EmailInput.vue";
-import BaseButton from "../components/BaseButton.vue";
-import CardWrapper from "../components/CardWrapper.vue";
-import ErrorAlert from "../components/ErrorAlert.vue";
-import CheckBox from "../components/CheckBox.vue";
+import PasswordInput from "../../components/PasswordInput.vue";
+import EmailInput from "../../components/EmailInput.vue";
+import BaseButton from "../../components/BaseButton.vue";
+import CardWrapper from "../../components/CardWrapper.vue";
+import ErrorAlert from "../../components/ErrorAlert.vue";
+import CheckBox from "../../components/CheckBox.vue";
 import { reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 
@@ -85,7 +85,7 @@ const saveInTheSession = () => {
   );
 };
 const getUsers = () => {
-  return JSON.parse(localStorage.getItem("users") ?? "") ?? [];
+  return JSON.parse(localStorage.getItem("users") ?? "[]");
 };
 const findUser = () => {
   return getUsers().find(
