@@ -22,17 +22,17 @@ jobs:
     - name: install dependencies
       run: |
         npm install
-      
-    - name: Cypress run
-      uses: cypress-io/github-action@v5
-    
+          
     - name: run unit tests
       run: |
         npm run test:unit
-    
-    - name: run e2e tests
+        
+    - name: lanch app
       run: |
         npm run build
         npm run preview
-        npm run test:e2e:ci
+      
+    - name: Cypress run --config baseUrl=\"http://localhost:4000\"
+      uses: cypress-io/github-action@v5
+  
       
