@@ -1,13 +1,14 @@
-import { mount } from "@vue/test-utils";
+import { mount, VueWrapper } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import HolidayItem from "../HolidayItem.vue";
 
 describe("HolidayItem", () => {
-  let wrapper;
-  
+  let wrapper: VueWrapper;
+
   beforeEach(() => {
     vi.useFakeTimers();
-    const date = new Date("2023-01-17T10:49:27.837Z");
+    const date = new Date("Tue, 17 Jan 2023 10:49:00 GMT");
+    console.log(date.toUTCString());
     vi.setSystemTime(date);
 
     wrapper = mount(HolidayItem, {
@@ -65,12 +66,12 @@ describe("HolidayItem", () => {
   });
 
   it("should have the created since in hours", async () => {
-    await wrapper.setProps({ holiday: { createdAt: 1673948967837 } });
+    await wrapper.setProps({ holiday: { createdAt: 1673948937637 } });
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
       "il y'a 1 heures"
     );
   });
-  
+
   it("should have the created since in minutes", async () => {
     await wrapper.setProps({ holiday: { createdAt: 1673951967837 } });
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
@@ -80,7 +81,7 @@ describe("HolidayItem", () => {
 
   it("should have the created since as `just now`", async () => {
     await wrapper.setProps({ holiday: { createdAt: 1673952567837 } });
-    
+
     expect(wrapper.find("[data-test='created-at']").text()).toBe("A l'instant");
   });
 });

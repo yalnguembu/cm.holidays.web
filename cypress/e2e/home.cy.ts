@@ -1,4 +1,4 @@
-describe("template spec", () => {
+describe("home page", () => {
   beforeEach(() => {
     cy.login();
   });

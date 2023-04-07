@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { mount } from "@vue/test-utils";
+import { mount, VueWrapper } from "@vue/test-utils";
 import CreationHolidayForm from "../CreationHolidayForm.vue";
 import BaseButton from "../BaseButton.vue";
 import DateInput from "../DateInput.vue";
@@ -8,7 +8,7 @@ import NumberInput from "../NumberInput.vue";
 import TextArea from "../TextArea.vue";
 
 describe("CreationHolidayForm", () => {
-  let wrapper;
+  let wrapper = mount(CreationHolidayForm);
 
   beforeEach(() => {
     vi.useFakeTimers();
