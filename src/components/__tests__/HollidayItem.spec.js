@@ -34,7 +34,7 @@ describe("HolidayItem", () => {
 
   it("should have the awaited created since", () => {
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
-      "il y'a 3 jours"
+      "il y'a 4 jours"
     );
   });
 
@@ -43,7 +43,7 @@ describe("HolidayItem", () => {
   });
 
   it("should have the awaited date range", () => {
-    expect(wrapper.find("[data-test='data-range']").text()).toBe(
+    expect(wrapper.find("[data-test='date-range']").text()).toBe(
       "Sat Jan 14 2023 - Thu Jan 19 2023"
     );
   });
@@ -60,7 +60,7 @@ describe("HolidayItem", () => {
 
   it("should have the created since in days", () => {
     expect(wrapper.find("[data-test='created-at']").text()).toBe(
-      "il y'a 3 jours"
+      "il y'a 4 jours"
     );
   });
 

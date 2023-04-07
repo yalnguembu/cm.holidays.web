@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "test:unit": "vitest",
     "coverage": "vitest run --coverage",
-    "test:e2e": "cypress open"
+    "test:e2e": "cypress open",
+    "test:e2e:ci": "cypress run --e2e"
   },
   "dependencies": {
     "vue": "^3.2.45",
