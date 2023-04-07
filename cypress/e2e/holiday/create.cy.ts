@@ -18,7 +18,7 @@ describe("create holiday", () => {
     cy.get('[data-test="form-title"]').should("contain", "Create a holiday");
   });
 
-  it.only("should create the holiday", () => {
+  it("should create the holiday", () => {
     cy.get('[data-test="holiday-type"] select').select(1);
     cy.get('[data-test="starting-date"] input').type("2023-02-15");
     cy.get('[data-test="ending-date"] input').type("2023-02-19");
