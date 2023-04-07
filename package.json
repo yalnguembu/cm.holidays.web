@@ -9,7 +9,7 @@
     "test:unit": "vitest",
     "coverage": "vitest run --coverage",
     "test:e2e": "cypress open",
-    "test:e2e:ci": "cypress run --e2e"
+    "test:e2e:ci": "cypress run --browser chrome --config baseUrl=\"http://localhost:4000\""
   },
   "dependencies": {
     "vue": "^3.2.45",

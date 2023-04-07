@@ -1,9 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import MainWrapper from "../components/MainWrapper.vue";
 import HomePage from "../views/HomePage.vue";
-const PasswordForgot = () => import("../views/auth/PasswordForgot.vue");
-const ResetPassword = () => import("../views/auth/ResetPassword.vue");
-const VerifyMail = () => import("../views/auth/VerifyMail.vue");
 
 export const routes = [
   {
@@ -40,21 +37,6 @@ export const routes = [
         name: "login",
         path: "login",
         component: () => import("../views/auth/SingIn.vue"),
-      },
-      {
-        name: "forgot",
-        path: "forgot",
-        component: PasswordForgot,
-      },
-      {
-        name: "verify-mail",
-        path: "verify-mail",
-        component: VerifyMail,
-      },
-      {
-        name: "reset-password",
-        path: "reset-password",
-        component: ResetPassword,
       },
     ],
   },
