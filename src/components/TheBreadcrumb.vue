@@ -1,5 +1,5 @@
 <template>
-  <h1 class="my-4">
+  <h1 class="my-4" data-test="the-breadcrumb">
     <RouterLink to="/" data-test="breadcrumb-link">
       <span class="align-middle align-middle mr-2 text-gray-500 text-lg">
         Home
@@ -32,14 +32,14 @@
   </h1>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import ArrowRigthIcon from "./icons/ArrowRigthIcon.vue";
 import { useRoute } from "vue-router";
 import { computed } from "@vue/runtime-core";
 
 const route = useRoute();
 
-const isNotTheLast = (index) => {
+const isNotTheLast = (index: number) => {
   return index < routes.value.length - 1;
 
 };

@@ -13,20 +13,11 @@
     />
   </div>
 </template>
-<script setup>
-const props = defineProps({
-  modelValue: {
-    tyepe: String,
-    require: true,
-  },
-  label: {
-    type: String,
-    require: true,
-  },
-  placeholder: {
-    type: String,
-    default: "",
-  },
-  readonly: Boolean,
-});
+<script setup lang="ts">
+const props = defineProps<{
+  modelValue: number | string;
+  label: string;
+  placeholder: string;
+  readonly?: boolean;
+}>();
 </script>

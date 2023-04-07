@@ -15,7 +15,7 @@
         name="email"
         :placeholder="placeholder"
         :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       />
     </div>
     <p
@@ -27,25 +27,13 @@
     </p>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import LockIcon from "./icons/LockIcon.vue";
 
-const props = defineProps({
-  error: {
-    type: String,
-    default: "",
-  },
-  modelValue: {
-    tyepe: String,
-    require: true,
-  },
-  label: {
-    type: String,
-    require: true,
-  },
-  placeholder: {
-    type: String,
-    default: "",
-  },
-});
+const props = defineProps<{
+  error: string;
+  modelValue: string;
+  label: string;
+  placeholder: string;
+}>();
 </script>

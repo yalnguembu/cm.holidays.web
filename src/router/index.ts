@@ -1,15 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
-const MainWrapper = () => import("../components/MainWrapper.vue");
-const AuthenticationWrapper = () =>
-  import("../components/AuthenticationWrapper.vue");
-const HomePage = () => import("../views/HomePage.vue");
-const SingIn = () => import("../views/SingIn.vue");
-const HolidayDetails = () => import("../views/HolidayDetails.vue");
-const HolidaysList = () => import("../views/HolidaysList.vue");
-const PasswordForgot = () => import("../views/PasswordForgot.vue");
-const ResetPassword = () => import("../views/ResetPassword.vue");
-const VerifyMail = () => import("../views/VerifyMail.vue");
-const NotFound = () => import("../views/NotFound.vue");
+import MainWrapper from "../components/MainWrapper.vue";
+import HomePage from "../views/HomePage.vue";
+const PasswordForgot = () => import("../views/auth/PasswordForgot.vue");
+const ResetPassword = () => import("../views/auth/ResetPassword.vue");
+const VerifyMail = () => import("../views/auth/VerifyMail.vue");
 
 export const routes = [
   {
@@ -24,28 +18,28 @@ export const routes = [
       {
         name: "list",
         path: "list",
-        component: HolidaysList,
+        component: () => import("../views/holiday/HolidaysList.vue"),
       },
       {
         name: "details",
         path: "list/:id",
-        component: HolidayDetails,
+        component: () => import("../views/holiday/HolidayDetails.vue"),
       },
       {
         path: "/:patchMatch(.*)*",
         name: "NotFound",
-        component: NotFound,
+        component: () => import("../views/NotFound.vue"),
       },
     ],
   },
   {
     path: "/",
-    component: AuthenticationWrapper,
+    component: () => import("../components/AuthenticationWrapper.vue"),
     children: [
       {
         name: "login",
         path: "login",
-        component: SingIn,
+        component: () => import("../views/auth/SingIn.vue"),
       },
       {
         name: "forgot",

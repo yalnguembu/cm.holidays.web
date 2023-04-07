@@ -2,10 +2,10 @@
   <router-view />
 </template>
 
-<script setup>
-import { onBeforeUnmount } from "vue";
+<script setup lang="ts">
+import { onBeforeMount } from "vue";
 
-onBeforeUnmount(() => {
+onBeforeMount(() => {
   localStorage.setItem(
     "users",
     JSON.stringify([
