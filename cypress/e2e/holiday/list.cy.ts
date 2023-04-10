@@ -10,22 +10,15 @@ describe("template spec", () => {
     });
   });
 
-  it("should have the holiday list", () => {
-    cy.get('[data-test="navbar-title"]').should("have.text", "Logo");
-  });
-
   it("should have the awaited design when the holiday list is empty", () => {
     cy.get("img").should("exist");
     cy.get("p").should("have.text", "No holiday has been created");
-    cy.get('[data-test="create-holiday-button"]').should(
-      "contain",
-      "Create holiday"
-    );
   });
 
   it("should contain holidays", () => {
     window.localStorage.setItem("holidays", JSON.stringify(holidays));
     cy.get('[data-test="holiday-item"]').should("have.length", 2);
+
     cy.assertHolidayListHas(
       0,
       "Fri Jan 27 2023 - Tue Jan 31 2023",

@@ -2,35 +2,33 @@
   <div>
     <label for="email" class="text-gray-500">{{ label }}</label>
     <div
-      data-test="email-field"
+      data-test="password-field"
       :class="[
-        error ? 'border-2 border-red-500' : 'border-gray-300',
-        'border rounded-lg shadow-2xl shadow-gray-200 flex flex-row w-full justify-between align-center px-4 mt-2',
+        'rounded-lg shadow-2xl shadow-gray-200 flex flex-row w-full justify-between align-center px-4 my-2  bg-gray md:bg-transparent',
+        error ? 'border-2 border-red-500' : 'border border-gray-300',
       ]"
     >
-      <MailIcon class="mt-4 w-6 h-6" />
+      <LockIcon class="mt-4 w-6 h-6" />
       <input
         class="w-full p-4 bg-transparent outline-none"
-        type="email"
+        type="password"
         name="email"
         :placeholder="placeholder"
         :value="modelValue"
-        @input="
-          $emit('update:modelValue', ($event.target as HTMLInputElement).value)
-        "
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       />
     </div>
     <p
       class="text-red-600 mt-2 transition duration-500"
       v-if="error"
-      data-test="email-input-text-error"
+      data-test="password-input-text-error"
     >
-      This field is required
+      {{ error }}
     </p>
   </div>
 </template>
 <script setup lang="ts">
-import MailIcon from "./icons/MailIcon.vue";
+import LockIcon from "./LockIcon.vue";
 
 const props = defineProps<{
   error: string;

@@ -90,14 +90,14 @@
 
 <script setup lang="ts">
 import BaseButton from "./BaseButton.vue";
-import DateInput from "./DateInput.vue";
-import SelectInput from "./SelectInput.vue";
-import TextArea from "./TextArea.vue";
-import NumberInput from "./NumberInput.vue";
+import DateInput from "./form/DateInput.vue";
+import SelectInput from "./form/SelectInput.vue";
+import TextArea from "./form/TextArea.vue";
+import NumberInput from "./form/NumberInput.vue";
 import { watch, computed, reactive, ref } from "@vue/runtime-core";
 import { useRouter } from "vue-router";
 
-const router = useRouter()
+const router = useRouter();
 
 const timestampOfOneDay = 24 * 3600 * 1000;
 const emit = defineEmits(["close"]);
@@ -215,7 +215,8 @@ const create = () => {
     };
     holidays.push(holiday);
     localStorage.setItem("holidays", JSON.stringify(holidays));
-    router.push("/list");
+    close();
+    router.replace("/list");
   }
 };
 

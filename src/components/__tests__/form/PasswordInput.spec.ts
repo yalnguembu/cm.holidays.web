@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
-import PasswordInput from "../PasswordInput.vue";
+import PasswordInput from "../../icons/PasswordInput.vue";
 
 describe("PasswordInput", () => {
   const wrapper = mount(PasswordInput, {

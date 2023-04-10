@@ -2,10 +2,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mount, VueWrapper } from "@vue/test-utils";
 import CreationHolidayForm from "../CreationHolidayForm.vue";
 import BaseButton from "../BaseButton.vue";
-import DateInput from "../DateInput.vue";
-import SelectInput from "../SelectInput.vue";
-import NumberInput from "../NumberInput.vue";
-import TextArea from "../TextArea.vue";
+import DateInput from "../form/DateInput.vue";
+import SelectInput from "../form/SelectInput.vue";
+import NumberInput from "../form/NumberInput.vue";
+import TextArea from "../form/TextArea.vue";
 
 describe("CreationHolidayForm", () => {
   let wrapper = mount(CreationHolidayForm);

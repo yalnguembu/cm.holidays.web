@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
-import TextArea from "../TextArea.vue";
+import TextArea from "../../form/TextArea.vue";
 
 describe("TextArea", () => {
   const wrapper = mount(TextArea, {

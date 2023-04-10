@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
-import DateInput from "../DateInput.vue";
-import AgendaIcon from "../icons/AgendaIcon.vue";
+import DateInput from "../../form/DateInput.vue";
+import AgendaIcon from "../../icons/AgendaIcon.vue";
 
 describe("DateInput", () => {
   const wrapper = mount(DateInput, {

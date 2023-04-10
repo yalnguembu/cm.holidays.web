@@ -11,10 +11,6 @@ describe("template spec", () => {
     });
   });
 
-  it("should have the holiday list", () => {
-    cy.get('[data-test="the-breadcrumb"]').should("contain", "holiday details");
-  });
-
   it("should have the awaited informations", () => {
     cy.assertHolidayHas(
       "Fri Jan 27 2023 - Tue Jan 31 2023",

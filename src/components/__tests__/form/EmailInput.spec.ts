@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
-import EmailInput from "../EmailInput.vue";
-import MailIcon from "../icons/MailIcon.vue"
+import EmailInput from "../../form/EmailInput.vue";
+import MailIcon from "../../icons/MailIcon.vue"
 
 describe("EmailInput", () => {
     const wrapper = mount(EmailInput, {

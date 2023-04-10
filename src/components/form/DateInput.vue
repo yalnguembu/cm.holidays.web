@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { ref } from "@vue/reactivity";
-import AgendaIcon from "./icons/AgendaIcon.vue";
+import AgendaIcon from "../icons/AgendaIcon.vue";
 
 const props = defineProps<{
   modelValue: string;

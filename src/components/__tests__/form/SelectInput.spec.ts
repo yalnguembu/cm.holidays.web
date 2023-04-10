@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
-import SelectInput from "../SelectInput.vue";
+import SelectInput from "../../form/SelectInput.vue";
 
 describe("SelectInput", () => {
   const options = ["Annual", "Maternite", "Christmas"];
