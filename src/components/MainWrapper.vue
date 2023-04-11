@@ -10,8 +10,10 @@ import { onMounted } from "@vue/runtime-core";
 import TheMainNavbar from "./TheMainNavbar.vue";
 import { useRouter } from "vue-router";
 
+type User = { email: string; username: string };
+
 const router = useRouter();
-const filteredUser = (userSession:{ email: string; username: string }) => {
+const filteredUser = (userSession: User) => {
   const users = JSON.parse(localStorage.getItem("users") ?? "");
   return users.filter(
     (user: { email: string; username: string }) =>

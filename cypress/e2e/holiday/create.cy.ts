@@ -1,4 +1,6 @@
-describe("create holiday", () => {
+import { assertHolidayListHas } from "../../utils/common";
+
+describe("Create holiday", () => {
   beforeEach(() => {
     cy.login();
     cy.viewport("macbook-16");
@@ -7,18 +9,26 @@ describe("create holiday", () => {
     });
   });
 
-  it("should create the holiday", () => {
-    createHoliday();
+  afterEach(() => {
+    cy.clock().then((clock) => {
+      clock.restore();
+    });
   });
 
-  it("should create from holiday list", () => {
-    cy.visit("/list");
-    
-    createHoliday();
+  describe("should succeed", () => {
+    it("from home page", () => {
+      createHoliday();
+    });
+
+    it("from list", () => {
+      cy.visit("/list");
+
+      createHoliday();
+    });
   });
 });
 
-const createHoliday = () => {
+const createHoliday = (): void => {
   cy.get('[data-test="create-holiday-button"]').click();
 
   cy.get('[data-test="holiday-type"] select').select(1);
@@ -27,7 +37,7 @@ const createHoliday = () => {
   cy.get('[data-test="description"] textarea').type("description test");
   cy.get('[data-test="submit-button"]').click();
 
-  cy.assertHolidayListHas(
+  assertHolidayListHas(
     0,
     "Wed Feb 15 2023 - Sun Feb 19 2023",
     "01:00",
@@ -36,4 +46,3 @@ const createHoliday = () => {
     "Annual"
   );
 };
-export {};

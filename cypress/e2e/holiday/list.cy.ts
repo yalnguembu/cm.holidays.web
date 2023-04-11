@@ -1,4 +1,5 @@
 import { holidays } from "../../utils/data";
+import { assertHolidayListHas } from "../../utils/common";
 
 describe("template spec", () => {
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe("template spec", () => {
     window.localStorage.setItem("holidays", JSON.stringify(holidays));
     cy.get('[data-test="holiday-item"]').should("have.length", 2);
 
-    cy.assertHolidayListHas(
+    assertHolidayListHas(
       0,
       "Fri Jan 27 2023 - Tue Jan 31 2023",
       "09:29",
@@ -28,7 +29,7 @@ describe("template spec", () => {
       "Maternite"
     );
 
-    cy.assertHolidayListHas(
+    assertHolidayListHas(
       1,
       "Mon Jun 12 2023 - Sat Jul 01 2023",
       "17:00",

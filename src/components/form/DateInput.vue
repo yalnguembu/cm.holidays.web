@@ -15,7 +15,9 @@
         class="bg-transparent w-full p-2 outline-none"
         ref="dateInput"
         :value="modelValue"
-        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+        @input="
+          $emit('update:modelValue', ($event.target as HTMLInputElement).value)
+        "
         @focus="toggleFocus(), changeTypeToDate()"
         @blur="toggleFocus(), changeTypeToText()"
       />
@@ -47,10 +49,8 @@ const focused = ref(false);
 const toggleFocus = () => {
   focused.value = !focused.value;
 };
-const changeTypeToText = () => {
+const changeTypeToText = () =>
   dateInput.value && (dateInput.value.type = "text");
-};
-const changeTypeToDate = () => {
+const changeTypeToDate = () =>
   dateInput.value && (dateInput.value.type = "date");
-};
 </script>
