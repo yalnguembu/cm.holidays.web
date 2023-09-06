@@ -1,0 +1,337 @@
+openapi: 3.0.3
+info:
+  title: Holiday Rest API
+  description: REST API endpoints for managing the quonte's related resources
+  version: 0.1bespace.x
+servers:
+  - url: "http"
+tags:
+  - name: HolidayRequest
+    description: Everything about the holidayRequest
+  - name: User
+    description: Everything about the users
+  - name: Auth
+    description: Everything about the authentication
+paths:
+  /auth/signin:
+    post:
+      tags:
+        - Auth
+      summary: Singin the user
+      description: Signin the user
+      operationId: signin
+      requestBody:
+        required: true
+        description: Auth object that we need to signin
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthDTO"
+      responses:
+        200:
+          description: successfull sigin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponseDTO"
+        403:
+          description: wrong crudentials
+  /auth/signup:
+    post:
+      tags:
+        - Auth
+      summary: Signup the user
+      description: Signup the user
+      operationId: signup
+      requestBody:
+        required: true
+        description: Auth object that we need to signup
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignUpDTO"
+      responses:
+        200:
+          description: successfull sigin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponseDTO"
+        403:
+          description: wrong crudentials
+  /auth/refresh-token:
+    post:
+      tags:
+        - Auth
+      summary: refresh the user token
+      description: refresh the user token
+      operationId: refreshToken
+      requestBody:
+        required: true
+        description: refresh token that we need to refresh the token
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RefreshTokenDTO"
+      responses:
+        200:
+          description: token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RefreshTokenResponseDTO"
+        403:
+          description: invalid refresh token
+  /auth/verify-token:
+    post:
+      tags:
+        - Auth
+      summary: verify the user token
+      description: verify the user token
+      operationId: verifyToken
+      requestBody:
+        required: true
+        description: verify token that we need to verify the token
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AccessTokenDTO"
+      responses:
+        200:
+          description: token verifyhed successfully
+        403:
+          description: invalid refresh token
+  /holidayRequests/:
+    get:
+      tags:
+        - HolidayRequest
+      summary: fetch all holidayRequests
+      description: fetch all holidayRequest
+      operationId: getAllHolidayRequests
+      responses:
+        200:
+          description: holidayRequests successfull fecthed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/HolidayRequestDTO"
+        403:
+          description: access forbidden
+  /holidayRequest:
+    post:
+      tags:
+        - HolidayRequest
+      summary: create new holidayRequest
+      description: create new holidayRequest
+      operationId: createHolidayRequest
+      requestBody:
+        required: true
+        description: holidayRequest informations needed to create new holidayRequest
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HolidayRequestDTO"
+      responses:
+        200:
+          description: holidayRequest created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HolidayRequestDTO"
+        403:
+          description: access forbidden
+  /holidayRequest/{id}:
+    get:
+      tags:
+        - HolidayRequest
+      summary: fetch all holidayRequests
+      description: fetch all by id
+      operationId: getHolidayRequestById
+      responses:
+        200:
+          description: holidayRequests successfull fecthed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HolidayRequestDTO"
+        403:
+          description: access forbidden
+      parameters:
+        - name: id
+          description: the holidayRequest's id to get
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+components:
+  schemas:
+    SignUpDTO:
+      type: object
+      required:
+        - email
+        - password
+        - name
+      properties:
+        name:
+          type: string
+          description: user's name
+        email:
+          type: string
+        password:
+          type: string
+    AuthDTO:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          description: user's name
+        email:
+          type: string
+        password:
+          type: string
+    AuthResponseDTO:
+      type: object
+      required:
+        - id
+        - access_token
+        - refresh_token
+      properties:
+        id:
+          type: integer
+          description: user's id
+        email:
+          type: string
+          description: user's email
+        name:
+          type: string
+          description: user's name
+        picture:
+          type: string
+          description: user's picture
+        access_token:
+          type: string
+          description: user's accessToken
+        refresh_token:
+          type: string
+          description: user's refreshToken
+    RefreshTokenDTO:
+      type: object
+      required:
+        - refresh_token
+      properties:
+        refresh_token:
+          type: string
+          description: refresh token
+    RefreshTokenResponseDTO:
+      type: object
+      required:
+        - access_token
+        - id
+        - email
+      properties:
+        id:
+          type: integer
+          description: user's id
+        email:
+          type: string
+          description: user's email
+        name:
+          type: string
+          description: user's email
+        picture:
+          type: string
+          description: user's email
+        access_token:
+          type: string
+          description: user's accessToken
+    AccessTokenDTO:
+      type: object
+      required:
+        - access_token
+      properties:
+        access_token:
+          type: string
+          description: new access token
+    UserDTO:
+      type: object
+      required:
+        - id
+        - createdAt
+        - email
+        - name
+      properties:
+        id:
+          type: integer
+          description: identifier
+        createdAt:
+          type: string
+          description: user's creation date
+        updateAt:
+          type: string
+          description: user's updated date
+        email:
+          type: string
+          description: user's email
+        firstName:
+          type: string
+          description: user's firstname
+        lastName:
+          type: string
+          description: user's lastname
+    HolidayTypeDTO:
+      type: object
+      required:
+        - id
+        - title
+      properties:
+        id:
+          type: string
+          description: identifier
+        title:
+          type: string
+          description: holidayType's creation date
+        description:
+          type: string
+          description: user's updated date
+    HolidayRequestDTO:
+      type: object
+      required:
+        - id
+        - title
+      properties:
+        id:
+          type: string
+          description: identifier
+        title:
+          type: string
+          description: holidayRequest's title
+        content:
+          type: string
+          description: holidayRequest's content
+        createdAt:
+          type: string
+          description: holidayRequest's creation date
+        holidayTypes:
+          type: string
+          description: holidayRequest's holidayTypes
+        startDate:
+          type: string
+          description: holidayRequest's startDate
+        endDate:
+          type: string
+          description: holidayRequest's endDate
+        returnDate:
+          type: string
+          description: holidayRequest's returnDate
+        status:
+          type: string
+          description: holidayRequest's description
+        ownerId:
+          type: string
+          description: holidayRequest's ownerId

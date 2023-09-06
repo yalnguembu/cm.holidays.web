@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <link rel="stylesheet" href="./css/holiday-list.css" />
+    <title>LOGO | Home</title>
+  </head>
+  <body>
+    <section class="header">
+      <div>
+        <h2>Logo</h2>
+        <p class="date" id="date">Monday November 7 2022</p>
+      </div>
+      <div>
+        <img src="images/account.svg" alt="" />
+      </div>
+    </section>
+    <section class="main">
+      <div class="row menu">
+        <div class="breackcrums">
+          <a href="home.html" class="web">Home > </a>
+          <a href="" class="active"> holidays list</a>
+        </div>
+        <button
+          type="button"
+          title="create new holiday"
+          class="btn btn-create"
+          id="create-modal"
+        >
+          <span class="web">Create holiday</span>
+          <svg
+            class="btn mobile"
+            width="18"
+            height="17"
+            viewBox="0 0 18 17"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17.75 9.70829H10.25V16.9583H7.75V9.70829H0.25V7.29163H7.75V0.041626H10.25V7.29163H17.75V9.70829Z"
+              fill="#4D4D4D"
+            />
+          </svg>
+        </button>
+      </div>
+      <div id="empty" class="visible main-container">
+        <img src="images/no-results.svg" alt="" />
+
+        <div class="card-head">
+          <p class="desc">No holiday has been created</p>
+        </div>
+      </div>
+      <div class="holidays-container hidden" id="holidays-wrapper"></div>
+    </section>
+
+    <section class="modal" id="modal">
+      <div class="main-container" id="modal-card">
+        <div class="card-head">
+          <h2 class="title">Create holiday</h2>
+          <p class="desc">Lorem ipsum dolor sit amet consectetur.</p>
+        </div>
+        <form action="" method="post">
+          <div class="row">
+            <div class="a">
+              <label for="email" class="form-label">Type</label>
+              <div class="form-group" id="email-group">
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Choose your holiday type"
+                />
+                <button class="btn-select" title="pick date" type="button">
+                  <img src="images/arrow-down.svg" alt="" />
+                </button>
+              </div>
+            </div>
+            <div class="b">
+              <label for="email" class="form-label">Starting date</label>
+              <div class="form-group" id="email-group">
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Date"
+                />
+                <button class="btn-select" title="pick date" type="button">
+                  <img src="images/calendar.svg" alt="" />
+                </button>
+              </div>
+            </div>
+            <div class="b">
+              <label for="email" class="form-label">Ending date</label>
+              <div class="form-group" id="email-group">
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Date"
+                />
+                <button class="btn-select" title="pick date" type="button">
+                  <img src="images/calendar.svg" alt="" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label for="email" class="form-label">Summary</label>
+            <div class="form-group">
+              <textarea
+                type="text"
+                name="email"
+                id="email"
+                class="form-control"
+                rows="4"
+                placeholder="Veillez saisir votre description"
+              ></textarea>
+            </div>
+          </div>
+          <button type="submit" value="" class="login-btn" id="submit-button">
+            SUBMIT
+          </button>
+        </form>
+      </div>
+    </section>
+    <script src="./js/script.js"></script>
+    <script src="./js/holidaylist.js"></script>
+  </body>
+</html>

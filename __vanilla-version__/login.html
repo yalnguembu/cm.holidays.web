@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <link rel="stylesheet" href="./css/login.css" />
+    <title>LOGO | login</title>
+  </head>
+  <body>
+    <section class="header">
+      <h2>Logo</h2>
+      <p class="date" id="date">Monday November 7</p>
+    </section>
+    <section class="main">
+      <div class="card">
+        <div class="card-head">
+          <h1 class="title">Login</h1>
+          <p class="desc">Lorem ipsum dolor sit amet consectetur.</p>
+        </div>
+        <form action="home.html" method="post" name="login">
+          <div>
+            <label for="email" class="form-label">Email</label>
+            <div class="form-group" id="email-group">
+              <img src="images/mail.svg" alt="">
+              <input
+                type="text"
+                name="email"
+                id="email"
+                class="form-control"
+                placeholder="Enter your email"
+              />
+            </div>
+            <span class="text-error" id="email-eror-msg">Invalid email</span>
+          </div>
+          <div>
+            <label for="password" class="form-label">Password</label>
+            <div class="form-group" id="password-group">
+              <img src="images/lock.svg" alt="">
+              <input
+                type="password"
+                name="password"
+                id="password"
+                class="form-control"
+                placeholder="Enter your password"
+              />
+            </div>
+            <span class="text-error" id="password-eror-msg"
+              >Invalid password</span
+            >
+          </div>
+          <div class="row">
+            <div>
+              <input type="checkbox" name="remind" id="remind" />
+              <label for="remind">Remember me</label>
+            </div>
+            <a href="forgot-password.html" class="btn-forget"
+              >Forgot password ?</a
+            >
+          </div>
+          <button type="submit" value="" class="login-btn">LOGIN</button>
+        </form>
+      </div>
+    </section>
+    <script src="./js/script.js"></script>
+    <script src="./js/login.js"></script>
+  </body>
+</html>

@@ -10,7 +10,6 @@
       </p>
       <div class="w-full md:flex justify-center gap-4 mt-4">
         <button
-          data-test="create-holiday-button"
           title="Create new holiday"
           class="w-full shadow-xl shadow-blue-400 bg-blue-primary mb-4 text-left text-base text-white p-4 rounded-md font-bold md:text-center shadow-lg md:w-[248px] md:mb-0"
           @click="toggleFormModal"
@@ -21,7 +20,6 @@
           Create new holiday
         </button>
         <RouterLink
-          data-test="holiday-list-button"
           to="/list"
           class="w-full bg-blue-light shadow-lg shadow-blue-200 inline-block text-blue-500 text-left text-base p-4 rounded-md font-bold mb-4 md:mb-0 md:text-center md:w-[248px]"
         >
@@ -31,7 +29,7 @@
       </div>
       <div class="w-full">
         <img
-          src="../assets/illustration-home.svg"
+          src="@/assets/illustration-home.svg"
           alt="welcome"
           class="mx-auto w-full md:w-auto lg:w-2/5"
         />
@@ -42,12 +40,12 @@
 </template>
 
 <script setup lang="ts">
-import AddIcon from "../components/icons/AddIcon.vue";
-import CalendarIcon from "../components/icons/CalendarIcon.vue";
-import CreationHolidayForm from "../components/CreationHolidayForm.vue";
+import AddIcon from "@/components/icons/AddIcon.vue";
+import CalendarIcon from "@/components/icons/CalendarIcon.vue";
+import CreationHolidayForm from "@/components/CreationHolidayForm.vue";
 import { ref } from "vue";
 
-const isFormVisible = ref<boolean>(false);
+const isFormVisible = ref(false);
 
 const toggleFormModal = () => {
   isFormVisible.value = !isFormVisible.value;

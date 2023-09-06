@@ -6,22 +6,26 @@
       name="description"
       :placeholder="placeholder"
       :value="modelValue"
-      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      @input="$emit('update:modelValue', $event.target.value)"
       :class="[
         { 'border-2 border-red-500': error },
-        'text-md text-gray-500 h-20 w-full bg-gray-25 md:bg-transparent border rounded-md mb-4 p-4 outline-none',
+        'text-md text-gray-500 h-24 w-full bg-gray-25 md:bg-transparent border rounded-md p-4 outline-none',
       ]"
     />
-    <p class="text-red-500" v-if="error" data-test="textarea-input-text-error">
+    <p class="text-red-500 mb-2" v-if="error" data-test="textarea-input-text-error">
       {{ error }}
     </p>
   </div>
 </template>
 <script setup lang="ts">
-const props = defineProps<{
-  modelValue: string;
-  error: string;
+
+interface Props {
   label: string;
-  placeholder: string;
-}>();
+  modelValue: string;
+  placeholder?: string;
+  error?: string;
+  readonly?: boolean;
+}
+
+const props = defineProps<Props>();
 </script>

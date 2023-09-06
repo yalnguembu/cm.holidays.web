@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/home.css" />
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <header class="header">
+      <div>
+        <h2>Logo</h2>
+        <p class="date" id="date">Monday November 7 2022</p>
+      </div>
+      <div>
+        <img src="images/account.svg" alt="" />
+      </div>
+    </header>
+    <section class="main">
+      <h1 class="title">Hello, welcome...</h1>
+      <p class="desc">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nisl eget
+        consectetur amet, quam. Amet mattis adipiscing in massa. At erat
+        elementum pharetra cursus laoreet risus. Placerat fames sit tristique
+        ornare erat magna tellus.
+      </p>
+      <div class="button-wrapper">
+        <button class="btn create" id="create-modal">
+          <img src="images/add.svg" alt="" />
+          Create new holiday
+        </button>
+        <a href="./holiday-list.html" class="btn list" id="btn-create">
+          <img src="images/calendar-blue.svg" alt="" />
+          holiday list
+        </a>
+      </div>
+      <img src="images/illustration-home.svg" class="main-image" alt="" />
+    </section>
+    <section class="modal" id="modal">
+      <div class="main-container" id="modal-card">
+        <div class="card-head">
+          <h2 class="title">Create holiday</h2>
+          <p class="desc">Lorem ipsum dolor sit amet consectetur.</p>
+        </div>
+        <form action="" method="post">
+          <div class="row">
+            <div class="a">
+              <label for="email" class="form-label">Type</label>
+              <div class="form-group" id="email-group">
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Choose your holiday type"
+                />
+                <button class="btn-select" title="pick date" type="button">
+                  <img src="images/arrow-down.svg" alt="" />
+                </button>
+              </div>
+            </div>
+            <div class="b">
+              <label for="email" class="form-label">Starting date</label>
+              <div class="form-group" id="email-group">
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Date"
+                />
+                <button class="btn-select" title="pick date" type="button">
+                  <img src="images/calendar.svg" alt="" />
+                </button>
+              </div>
+            </div>
+            <div class="b">
+              <label for="email" class="form-label">Ending date</label>
+              <div class="form-group" id="email-group">
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Date"
+                />
+                <button class="btn-select" title="pick date" type="button">
+                  <img src="images/calendar.svg" alt="" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label for="email" class="form-label">Summary</label>
+            <div class="form-group">
+              <textarea
+                type="text"
+                name="email"
+                id="email"
+                class="form-control"
+                rows="4"
+                placeholder="Veillez saisir votre description"
+              ></textarea>
+            </div>
+          </div>
+          <button type="submit" value="" class="login-btn" id="submit-button">
+            SUBMIT
+          </button>
+        </form>
+      </div>
+    </section>
+    <script src="js/script.js"></script>
+    <script src="js/home.js"></script>
+  </body>
+</html>

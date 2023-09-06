@@ -1,27 +1,21 @@
 <template>
   <div>
-    <label class="text-md text-gray-500"> {{ label }} </label>
+    <label class="text-md text-gray-500 mr-2"> {{ label }} </label>
     <div
       :class="[
-        ' border rounded-md w-full p-2 mt-2  bg-gray-25 md:bg-transparent relative',
+        ' border rounded-md w-full px-2 mt-2  bg-gray-25 md:bg-transparent relative',
         { 'border-blue-500 border-2': focused },
         { 'border-red-500 border-2': error },
       ]"
       data-test="date-input-container"
     >
       <input
-        type="text"
-        :placeholder="placeholder"
+        type="date"
         class="bg-transparent w-full p-2 outline-none"
-        ref="dateInput"
         :value="modelValue"
-        @input="
-          $emit('update:modelValue', ($event.target as HTMLInputElement).value)
-        "
-        @focus="toggleFocus(), changeTypeToDate()"
-        @blur="toggleFocus(), changeTypeToText()"
+        @input="$emit('update:modelValue', $event.target?.value)"
       />
-      <span class="absolute top-4 right-4 pointer-events-none"
+      <span class="absolute top-2 right-4 pointer-events-none"
         ><AgendaIcon
       /></span>
     </div>
@@ -32,25 +26,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "@vue/reactivity";
+import { ref } from "vue";
 import AgendaIcon from "../icons/AgendaIcon.vue";
 
-const props = defineProps<{
-  modelValue: string;
-  placeholder: string;
+interface Props {
   label: string;
-  error: string;
+  modelValue: string;
+  error?: string;
   readonly?: boolean;
-}>();
+}
 
-const dateInput = ref<HTMLInputElement | null>(null);
-const focused = ref(false);
+defineProps<Props>();
 
-const toggleFocus = () => {
-  focused.value = !focused.value;
-};
-const changeTypeToText = () =>
-  dateInput.value && (dateInput.value.type = "text");
-const changeTypeToDate = () =>
-  dateInput.value && (dateInput.value.type = "date");
+const focused = ref<boolean>(false);
 </script>
