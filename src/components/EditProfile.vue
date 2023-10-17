@@ -35,7 +35,7 @@
 import TextField from "./form/TextField.vue";
 import BaseButton from "./BaseButton.vue";
 import AccountIcon from "./icons/AccountIcon.vue";
-import { PropType, reactive } from "vue";
+import { type PropType, reactive } from "vue";
 
 const emits = defineEmits<{
   (event: "close"): void;

@@ -1,34 +1,82 @@
-export const assertHolidayListHas = (
-  id: number,
-  dateRange: string,
-  creationTime: string,
-  createdSince: string,
-  description: string,
-  type: string
-) => {
-  cy.get('[data-test="holiday-item"]')
-    .eq(id)
-    .within(() => {
-      cy.get('[data-test="created-at"]').should("contain", createdSince);
-      cy.get('[data-test="creation-time"]').should("contain", creationTime);
-      cy.get('[data-test="date-range"]').should("contain", dateRange);
-      cy.get('[data-test="description"]').should("contain", description);
-      cy.get('[data-test="type"]').should("contain", type);
-    });
-};
+/// <reference types="cypress" />
+import { services, posts } from "./data"
+export function useCypressCommands() {
+    cy.viewport(1920, 1080);
 
-export const assertHolidayHas = (
-  dateRange: string,
-  numberOfDays: string,
-  startingDate: string,
-  endingDate: string,
-  returningDate: string,
-  description: string,
-  type: string
-) => {
-  cy.get('[data-test="starting-date"]').should("contain", startingDate);
-  cy.get('[data-test="ending-date"]').should("contain", endingDate);
-  cy.get('[data-test="returning-date"]').should("contain", returningDate);
-  cy.get('[data-test="holiday-description"]').should("contain", description);
-  cy.get('[data-test="holiday-type"]').should("contain", type);
-};
+    const login = (username: string, password: string) => {
+        cy.visit("/");
+        cy.get("#username").type(username).get("#password").type(password);
+        cy.get("#kc-login").click();
+        localStorage.setItem("firstLoggin", "true");
+    };
+    interface Service{
+        id: string,
+        name: string,
+        posts: Post[],
+        description: string,
+        isActive: boolean,
+        createdAt: string
+    }
+
+    interface Post{
+        id: string,
+        name: string,
+        service: Service,
+        description: string,
+        isActive: boolean,
+        createdAt: string
+    }
+
+    const goToMenu = (item:string)=>{
+        cy.get('[data-test="nav-bar"]').within(()=>{
+            cy.get(`[data-test="nav-${item}"]`)
+        });
+    }
+
+    const stubGetAllServices = (services:Service[] = services) =>{
+        cy.intercept({
+            method: "GET",
+            url: "/services",
+        }, {
+            statusCode: 200,
+            body: services,
+        }).as("business-clients");
+    }
+    const stubGetServiceById = (service:Service = services[0]) =>{
+        cy.intercept({
+            method: "GET",
+            url: `/services/${service.id}`,
+        }, {
+            statusCode: 200,
+            body: service,
+        }).as("business-clients");
+    }
+    const stubGetAllPosts = (posts:Post[] = posts) =>{
+        cy.intercept({
+            method: "GET",
+            url: "/services",
+        }, {
+            statusCode: 200,
+            body: posts,
+        }).as("business-clients");
+    }
+
+    const stubGetPostById = (post:Post = posts[0]) =>{
+        cy.intercept({
+            method: "GET",
+            url: `/services/${post.id}`,
+        }, {
+            statusCode: 200,
+            body: post,
+        }).as("business-clients");
+    }
+
+    return {
+        login,
+        stubGetAllServices,
+        stubGetServiceById,
+        goToMenu,
+        stubGetAllPosts,
+        stubGetPostById,
+    }
+}

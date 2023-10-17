@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
-import NumberInput from "../../form/NumberInput.vue";
+import NumberInput from "@/components/forms/NumberInput.vue";
 
 describe("NumberInput", () => {
   const wrapper = mount(NumberInput, {

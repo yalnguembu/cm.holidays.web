@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
-import DateInput from "../../form/DateInput.vue";
+import DateInput from "@/components/forms/DateInput.vue";
 import AgendaIcon from "../../icons/AgendaIcon.vue";
 
 describe("DateInput", () => {

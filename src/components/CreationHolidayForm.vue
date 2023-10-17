@@ -82,7 +82,7 @@ import NumberInput from "./form/NumberInput.vue";
 import { watch, computed, reactive, toRef } from "vue";
 import AutoComplete from "./form/AutoComplete.vue";
 import { soutractTwoDates, setDateToWorkingDay } from "@/utils/date";
-import { HolidayErrors } from "@/utils/type";
+import type { HolidayErrors } from "@/utils/type";
 import { Holiday } from "@/domain/Holiday";
 import { useHolidayStore } from "../store/holiday";
 import { useRouter } from "vue-router";

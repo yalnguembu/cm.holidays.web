@@ -1,6 +1,6 @@
 import { assertHolidayListHas } from "../../utils/common";
 
-describe("Create holiday", () => {
+describe("Create holidays", () => {
   beforeEach(() => {
     cy.login();
     cy.viewport("macbook-16");
@@ -29,9 +29,9 @@ describe("Create holiday", () => {
 });
 
 const createHoliday = (): void => {
-  cy.get('[data-test="create-holiday-button"]').click();
+  cy.get('[data-test="create-holidays-button"]').click();
 
-  cy.get('[data-test="holiday-type"] select').select(1);
+  cy.get('[data-test="holidays-type"] select').select(1);
   cy.get('[data-test="starting-date"] input').type("2023-02-15");
   cy.get('[data-test="ending-date"] input').type("2023-02-19");
   cy.get('[data-test="description"] textarea').type("description test");

@@ -1,337 +1,1031 @@
-openapi: 3.0.3
+openapi: 3.0.1
 info:
-  title: Holiday Rest API
-  description: REST API endpoints for managing the quonte's related resources
-  version: 0.1bespace.x
+  title: Holiday Management
+  description: REST API endpoints for managing Holiday
+  version: 0.0.0-SNAPSHOT
 servers:
-  - url: "http"
-tags:
-  - name: HolidayRequest
-    description: Everything about the holidayRequest
-  - name: User
-    description: Everything about the users
-  - name: Auth
-    description: Everything about the authentication
+  - url: 'api/v1'
 paths:
-  /auth/signin:
+  /service:
     post:
       tags:
-        - Auth
-      summary: Singin the user
-      description: Signin the user
-      operationId: signin
+        - Service
+      summary: add a new service
+      description: add a new service
+      operationId: createService
       requestBody:
+        description: Service object that need to be add
         required: true
-        description: Auth object that we need to signin
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AuthDTO"
+              $ref: '#/components/schemas/ServiceDTO'
       responses:
-        200:
-          description: successfull sigin
+        201:
+          description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AuthResponseDTO"
-        403:
-          description: wrong crudentials
-  /auth/signup:
-    post:
-      tags:
-        - Auth
-      summary: Signup the user
-      description: Signup the user
-      operationId: signup
-      requestBody:
-        required: true
-        description: Auth object that we need to signup
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SignUpDTO"
-      responses:
-        200:
-          description: successfull sigin
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AuthResponseDTO"
-        403:
-          description: wrong crudentials
-  /auth/refresh-token:
-    post:
-      tags:
-        - Auth
-      summary: refresh the user token
-      description: refresh the user token
-      operationId: refreshToken
-      requestBody:
-        required: true
-        description: refresh token that we need to refresh the token
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/RefreshTokenDTO"
-      responses:
-        200:
-          description: token refreshed successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/RefreshTokenResponseDTO"
-        403:
-          description: invalid refresh token
-  /auth/verify-token:
-    post:
-      tags:
-        - Auth
-      summary: verify the user token
-      description: verify the user token
-      operationId: verifyToken
-      requestBody:
-        required: true
-        description: verify token that we need to verify the token
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AccessTokenDTO"
-      responses:
-        200:
-          description: token verifyhed successfully
-        403:
-          description: invalid refresh token
-  /holidayRequests/:
+                type: string
+                format: uuid
+        409:
+          description: HOLIDAY-4009
+        400:
+          description: HOLIDAY-3009 | HOLIDAY-3010 | HOLIDAY-3011 | HOLIDAY-3012
     get:
       tags:
-        - HolidayRequest
-      summary: fetch all holidayRequests
-      description: fetch all holidayRequest
-      operationId: getAllHolidayRequests
+        - Service
+      summary: get all services
+      description: get all services
+      operationId: getAllServices
       responses:
         200:
-          description: holidayRequests successfull fecthed
+          description: successful operation
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/HolidayRequestDTO"
-        403:
-          description: access forbidden
-  /holidayRequest:
-    post:
+                  $ref: '#/components/schemas/ServiceDTO'
+  /service/{id}/activate:
+    put:
       tags:
-        - HolidayRequest
-      summary: create new holidayRequest
-      description: create new holidayRequest
-      operationId: createHolidayRequest
-      requestBody:
-        required: true
-        description: holidayRequest informations needed to create new holidayRequest
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/HolidayRequestDTO"
-      responses:
-        200:
-          description: holidayRequest created successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HolidayRequestDTO"
-        403:
-          description: access forbidden
-  /holidayRequest/{id}:
-    get:
-      tags:
-        - HolidayRequest
-      summary: fetch all holidayRequests
-      description: fetch all by id
-      operationId: getHolidayRequestById
-      responses:
-        200:
-          description: holidayRequests successfull fecthed
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HolidayRequestDTO"
-        403:
-          description: access forbidden
+        - Service
+      summary: activate a new service
+      description: activate a new service
+      operationId: activateServiceById
       parameters:
         - name: id
-          description: the holidayRequest's id to get
           in: path
+          description: service id to activate
           required: true
           schema:
             type: string
             format: uuid
+      responses:
+        204:
+          description: successful operation
+        422:
+          description: HOLIDAY-3029
+        404:
+          description: HOLIDAY-4004
+  /service/{id}/deactivate:
+    put:
+      tags:
+        - Service
+      summary: deactivate a new service
+      description: deactivate a new service
+      operationId: deactivateServiceById
+      parameters:
+        - name: id
+          in: path
+          description: service id to deactivate
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: successful operation
+        422:
+          description: HOLIDAY-3029
+        404:
+          description: HOLIDAY-3029
+  /service/{id}:
+    get:
+      tags:
+        - Service
+      summary: get a service
+      description: get an service
+      operationId: getServiceById
+      parameters:
+        - name: id
+          in: path
+          description: service id to be fetch
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/ServiceDTO'
+        404:
+          description: HOLIDAY-4004
+    put:
+      tags:
+        - Service
+      summary: update service
+      description: update service
+      operationId: updateService
+      parameters:
+        - name: id
+          in: path
+          description: Service id to be update
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Service object that need to be update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceDTO'
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: HOLIDAY-SERVICE-4004
+
+  /post:
+    post:
+      tags:
+        - Post
+      summary: add a new post
+      description: add a new post
+      operationId: createPost
+      requestBody:
+        description: Post object that need to be add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostDTO'
+      responses:
+        201:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                format: uuid
+        409:
+          description: HOLIDAY-4009 | HOLIDAY-5001
+        400:
+          description: HOLIDAY-3009 | HOLIDAY-3010 | HOLIDAY-3011 | HOLIDAY-3012 | HOLIDAY-3030
+    get:
+      tags:
+        - Post
+      summary: get all posts
+      description: get all posts
+      operationId: getAllPosts
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PostDTO'
+  /post/{id}/activate:
+    put:
+      tags:
+        - Post
+      summary: activate a new post
+      description: activate a new post
+      operationId: activatePostById
+      parameters:
+        - name: id
+          in: path
+          description: post id to activate
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: successful operation
+        422:
+          description: HOLIDAY-3029
+        404:
+          description: HOLIDAY-3029 | HOLIDAY-3030 | HOLIDAY-3031 | HOLIDAY-3032
+  /post/{id}/deactivate:
+    put:
+      tags:
+        - Post
+      summary: deactivate a new post
+      description: deactivate a new post
+      operationId: deactivatePostById
+      parameters:
+        - name: id
+          in: path
+          description: post id to deactivate
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: successful operation
+        422:
+          description: HOLIDAY-3029
+        404:
+          description: HOLIDAY-3029 | HOLIDAY-3031
+
+  /post/{id}:
+    get:
+      tags:
+        - Post
+      summary: get a post
+      description: get a post
+      operationId: getPostById
+      parameters:
+        - name: id
+          in: path
+          description: post id to be fetch
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/PostDTO'
+        404:
+          description: HOLIDAY-4004
+    put:
+      tags:
+        - Post
+      summary: update post
+      description: update post
+      operationId: updatePost
+      parameters:
+        - name: id
+          in: path
+          description: Post id to be update
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Post object that need to be update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostDTO'
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: HOLIDAY-4004
+  /post/service/{id}:
+    get:
+      tags:
+        - Post
+      summary: get a post by service
+      description: get a post
+      operationId: getPostByServiceId
+      parameters:
+        - name: id
+          in: path
+          description: service id to be use to fetch posts
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/PostDTO'
+        404:
+          description: HOLIDAY-3030
+
+  /employee:
+    post:
+      tags:
+        - Employee
+      summary: add a new employee
+      description: add a new employee
+      operationId: createEmployee
+      requestBody:
+        description: Employee object that need to be add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeDTOForCreation'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeTokenDTO'
+        409:
+          description: HOLIDAY-4009 | HOLIDAY-5001
+        404:
+          description: HOLIDAY-3033
+        422:
+          description: HOLIDAY-3036 | HOLIDAY-4000
+        400:
+          description: HOLIDAY-3000 | HOLIDAY-3001 | HOLIDAY-3002 | HOLIDAY-3003 | HOLIDAY-3004 | HOLIDAY-3005 | HOLIDAY-3006 | HOLIDAY-3007 | HOLIDAY-3008
+    get:
+      tags:
+        - Employee
+      summary: get all employees
+      description: get all employees
+      operationId: getAllEmployees
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeDTO'
+  /employee/login:
+    post:
+      tags:
+        - Employee
+      summary: employee authentication
+      description: employee authentication
+      operationId: authenticateEmployee
+      requestBody:
+        description: Employee object that we need to authenticate the user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeDTOForLogin'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeTokenDTO'
+        404:
+          description: HOLIDAY-4004
+  /employee/{id}:
+    get:
+      tags:
+        - Employee
+      summary: get an employee
+      description: get an employee
+      operationId: getEmployeeById
+      parameters:
+        - name: id
+          in: path
+          description: employee id to be fetch
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/EmployeeDTO'
+        404:
+          description: HOLIDAY-4004
+    put:
+      tags:
+        - Employee
+      summary: update employee
+      description: update employee
+      operationId: updateEmployee
+      parameters:
+        - name: id
+          in: path
+          description: Employee id to be update
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Employee object that need to be update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeDTOForUpdate'
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: HOLIDAY-4004
+
+  /role:
+    post:
+      tags:
+        - Role
+      summary: add a new role
+      description: add a new role
+      operationId: createRole
+      requestBody:
+        description: Role object that need to be add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleDTO'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                format: uuid
+        409:
+          description: HOLIDAY-4009 | HOLIDAY-5001
+        400:
+          description: HOLIDAY-3009 | HOLIDAY-3010 | HOLIDAY-3011 | HOLIDAY-3012 | HOLIDAY-3030
+    get:
+      tags:
+        - Role
+      summary: get all roles
+      description: get all roles
+      operationId: getAllRoles
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleDTO'
+  /role/{id}:
+    get:
+      tags:
+        - Role
+      summary: get an role
+      description: get an role
+      operationId: getRoleById
+      parameters:
+        - name: id
+          in: path
+          description: role id to be fetch
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/RoleDTO'
+        404:
+          description: HOLIDAY-4004
+    put:
+      tags:
+        - Role
+      summary: update role
+      description: update role
+      operationId: updateRole
+      parameters:
+        - name: id
+          in: path
+          description: Role id to be update
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Role object that need to be update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleDTO'
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: HOLIDAY-4004
+  /role/{id}/assign-permissions:
+    put:
+      tags:
+        - Role
+      summary: assign permissions to role
+      description: assign permissions to role
+      operationId: assignPermissionToRoleId
+      parameters:
+        - name: id
+          in: path
+          description: post id to activate
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: List of permissions that need to be add to this role
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleDTO'
+      responses:
+        200:
+          description: successful operation
+        409:
+          description: HOLIDAY-4009
+        401:
+          description: HOLIDAY-4001
+  /role/{id}/activate:
+    put:
+      tags:
+        - Role
+      summary: activate a new role
+      description: activate a new role
+      operationId: activateRoleById
+      parameters:
+        - name: id
+          in: path
+          description: role id to activate
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: successful operation
+        409:
+          description: HOLIDAY-4009
+        401:
+          description: HOLIDAY-4001
+  /role/{id}/deactivate:
+    put:
+      tags:
+        - Role
+      summary: deactivate a new role
+      description: deactivate a new role
+      operationId: deactivateRoleById
+      parameters:
+        - name: id
+          in: path
+          description: role id to deactivate
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        204:
+          description: successful operation
+        409:
+          description: HOLIDAY-4009
+        404:
+          description: HOLIDAY-4004
+
+  /holidayRequest:
+    post:
+      tags:
+        - HolidayRequest
+      summary: create a new holiday request
+      description: create a new holiday request
+      operationId: createHolidayRequest
+      requestBody:
+        description: holiday request object that need to be add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HolidayRequestDTO'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                format: uuid
+        409:
+          description: HOLIDAY-3038 | HOLIDAY-4004 | HOLIDAY-5001
+        404:
+          description: HOLIDAY-3037
+    get:
+      tags:
+        - HolidayRequest
+      summary: get all holiday requests
+      description: get all holiday requests
+      operationId: getAllHolidayRequest
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HolidayRequestDTO'
+        400:
+          description: HOLIDAY-REQUEST-4000
+        401:
+          description: HOLIDAY-REQUEST-4001
+  /holidayRequest/{id}:
+    get:
+      tags:
+        - HolidayRequest
+      summary: get an holiday request
+      description: get an holiday request
+      operationId: getHolidayRequestById
+      parameters:
+        - name: id
+          in: path
+          description: holiday request id to be fetch
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/HolidayRequestDTO'
+        404:
+          description: HOLIDAY-4004
+    put:
+      tags:
+        - HolidayRequest
+      summary: update holiday request
+      description: update holiday request
+      operationId: updateHolidayRequest
+      parameters:
+        - name: id
+          in: path
+          description: Holiday Request id to be update
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Holiday Request object that need to be update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HolidayRequestDTO'
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: HOLIDAY-REQUEST-4004
+        400:
+          description: HOLIDAY-REQUEST-4000
+        401:
+          description: HOLIDAY-REQUEST-4001
+        409:
+          description: HOLIDAY-REQUEST-4009 | HOLIDAY-REQUEST-3000
+  /holidayRequest/{id}/status/{status}:
+    put:
+      tags:
+        - HolidayRequest
+      summary: update a holiday request
+      description: update a holiday request
+      operationId: updateHolidayRequest
+      parameters:
+        - name: id
+          in: path
+          description: holiday request id to validate
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: path
+          description: holiday status to apply
+          required: true
+          schema:
+            $ref: '#/components/schemas/HolidayStatusDTO'
+      responses:
+        204:
+          description: successful operation
+        422:
+          description: HOLIDAY-4022
+        404:
+          description: HOLIDAY-4004
+        401:
+          description: HOLIDAY-4001
+
+  /holidayType:
+    post:
+      tags:
+        - HolidayType
+      summary: create a new holiday type
+      description: create a new holiday type
+      operationId: createHolidayType
+      requestBody:
+        description: holiday type object that need to be add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HolidayTypeDTO'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                format: uuid
+        409:
+          description: HOLIDAY-3040 | HOLIDAY-5001
+        400:
+          description: HOLIDAY-3009 | HOLIDAY-3010
+    get:
+      tags:
+        - HolidayType
+      summary: get all holiday types
+      description: get all holiday types
+      operationId: getAllHolidayTypes
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HolidayTypeDTO'
 components:
   schemas:
-    SignUpDTO:
+    EmployeeDTO:
       type: object
-      required:
-        - email
-        - password
-        - name
-      properties:
-        name:
-          type: string
-          description: user's name
-        email:
-          type: string
-        password:
-          type: string
-    AuthDTO:
-      type: object
-      required:
-        - email
-        - password
-      properties:
-        name:
-          type: string
-          description: user's name
-        email:
-          type: string
-        password:
-          type: string
-    AuthResponseDTO:
-      type: object
-      required:
-        - id
-        - access_token
-        - refresh_token
       properties:
         id:
-          type: integer
-          description: user's id
-        email:
           type: string
-          description: user's email
-        name:
+          format: uuid
+          description: identifier the user id
+        firstname:
           type: string
-          description: user's name
-        picture:
-          type: string
-          description: user's picture
-        access_token:
-          type: string
-          description: user's accessToken
-        refresh_token:
-          type: string
-          description: user's refreshToken
-    RefreshTokenDTO:
-      type: object
-      required:
-        - refresh_token
-      properties:
-        refresh_token:
-          type: string
-          description: refresh token
-    RefreshTokenResponseDTO:
-      type: object
-      required:
-        - access_token
-        - id
-        - email
-      properties:
-        id:
-          type: integer
-          description: user's id
-        email:
-          type: string
-          description: user's email
-        name:
-          type: string
-          description: user's email
-        picture:
-          type: string
-          description: user's email
-        access_token:
-          type: string
-          description: user's accessToken
-    AccessTokenDTO:
-      type: object
-      required:
-        - access_token
-      properties:
-        access_token:
-          type: string
-          description: new access token
-    UserDTO:
-      type: object
-      required:
-        - id
-        - createdAt
-        - email
-        - name
-      properties:
-        id:
-          type: integer
-          description: identifier
-        createdAt:
-          type: string
-          description: user's creation date
-        updateAt:
-          type: string
-          description: user's updated date
-        email:
-          type: string
-          description: user's email
-        firstName:
-          type: string
-          description: user's firstname
+          description: user firstname
         lastName:
           type: string
-          description: user's lastname
-    HolidayTypeDTO:
-      type: object
-      required:
-        - id
-        - title
-      properties:
-        id:
+          description: user lastname
+        email:
           type: string
-          description: identifier
-        title:
-          type: string
-          description: holidayType's creation date
-        description:
-          type: string
-          description: user's updated date
-    HolidayRequestDTO:
-      type: object
-      required:
-        - id
-        - title
-      properties:
-        id:
-          type: string
-          description: identifier
-        title:
-          type: string
-          description: holidayRequest's title
-        content:
-          type: string
-          description: holidayRequest's content
+          description: user email
         createdAt:
           type: string
-          description: holidayRequest's creation date
-        holidayTypes:
+          format: date-time
+          description: user arriving date
+        updatedAt:
           type: string
-          description: holidayRequest's holidayTypes
-        startDate:
+          format: date-time
+          description: user updating date
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleDTO'
+        holidays:
+          type: array
+          description: holidays request for a user
+          items:
+            $ref: "#/components/schemas/HolidayRequestDTO"
+        setting:
+          $ref: '#/components/schemas/SettingDTO'
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostDTO'
+    EmployeeDTOForCreation:
+      type: object
+      properties:
+        firstname:
           type: string
-          description: holidayRequest's startDate
-        endDate:
+          description: user firstname
+          required: true
+        lastName:
           type: string
-          description: holidayRequest's endDate
-        returnDate:
+          description: user lastname
+          required: true
+        password:
           type: string
-          description: holidayRequest's returnDate
+          description: user password
+          required: true
+        email:
+          type: string
+          description: user email
+          required: true
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleDTO'
+          required: true
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostDTO'
+          required: true
+    EmployeeDTOForUpdate:
+      type: object
+      properties:
+        firstname:
+          type: string
+          description: user firstname
+        lastName:
+          type: string
+          description: user lastname
+        email:
+          type: string
+          description: user email
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleDTO'
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostDTO'
+    EmployeeDTOForLogin:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: employee email
+        password:
+          type: string
+          description: user password
+    EmployeeTokenDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: identifier the user id
+          required: true
+        token:
+          type: string
+          description: token use to have access to all operations need inside
+          required: true
+    RoleDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: identifier the role
+        type:
+          $ref: '#/components/schemas/USER_ROLE'
+        description:
+          type: string
+          description: role description
+    ServiceDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: service identifier
+        name:
+          type: string
+          description: service name
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostDTO'
+          description: All the posts present in this service
+        description:
+          type: string
+          description: service description
+        isActive:
+          type: boolean
+          description: describe if the service is active or not
+        createdAt:
+          type: string
+          format: date-time
+          description: service creation date
+        updatedAt:
+          type: string
+          format: date-time
+          description: service modification date
+    PostDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: service identifier
+        name:
+          type: string
+          description: service name
+        description:
+          type: string
+          description: department description
+        service:
+          $ref: '#/components/schemas/ServiceDTO'
+        isActive:
+          type: boolean
+          description: describe if the post is active or not
+        createdAt:
+          type: string
+          format: date-time
+          description: service creation date
+        updatedAt:
+          type: string
+          format: date-time
+          description: service modification date
+    HolidayRequestDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: identifier the holiday id
+        description:
+          type: string
+          description: holiday request description
+        startingDate:
+          type: string
+          format: date-time
+          description: user arriving date
+        endingDate:
+          type: string
+          format: date-time
+          description: user updating date
+        returningDate:
+          type: string
+          format: date-time
+          description: user updating date
+        type:
+          $ref: '#/components/schemas/HolidayTypeDTO'
         status:
+          $ref: '#/components/schemas/HolidayStatusDTO'
+        employee:
+          $ref: '#/components/schemas/EmployeeDTO'
+    HolidayTypeDTO:
+      type: object
+      properties:
+        id:
           type: string
-          description: holidayRequest's description
-        ownerId:
+          format: uuid
+          description: identifier the holiday type id
+        description:
           type: string
-          description: holidayRequest's ownerId
+          description: holiday type description
+        name:
+          type: string
+          description: holiday type name
+        holidaysRequests:
+          type: array
+          items:
+            $ref: '#/components/schemas/HolidayRequestDTO'
+    HolidayStatusDTO:
+      type: string
+      enum:
+        - DRAFT
+        - PENDING
+        - APPROVED
+        - REJECTED
+    SettingDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: identifier the setting
+        defaultEmailNotification:
+          type: string
+          description: default email notification which will be the company email
+        customEmailNotification:
+          type: string
+          description: another email notification chose by the user
+    USER_ROLE:
+      type: string
+      enum:
+        - ADMIN
+        - EMPLOYEE
+        - HUMAN_RESOURCE
+    PERMISSIONS:
+      type: string
+      enum:
+        - employee:create
+        - employee:read
+        - employee:edit

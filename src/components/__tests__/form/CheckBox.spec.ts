@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, expect, it } from "vitest";
-import CheckBox from "../../form/CheckBox.vue";
+import CheckBox from "@/components/forms/CheckBox.vue";
 
 describe("CheckBox", () => {
   let wrapper;

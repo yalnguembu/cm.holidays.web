@@ -1,6 +1,6 @@
 <template>
   <button
-    class="bg-blue-primary text-white text-center py-2 px-4 rounded-md font-bold text-xl shadow-xl shadow-blue-400 mb-4"
+    class="text-center py-2 px-4 rounded-md font-bold text-xl"
   >
     <slot name="icon" />
     {{ props.title }}

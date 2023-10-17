@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
-import EmailInput from "../../form/EmailInput.vue";
+import EmailInput from "@/components/forms/EmailInput.vue";
 import MailIcon from "../../icons/MailIcon.vue"
 
 describe("EmailInput", () => {

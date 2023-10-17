@@ -43,10 +43,10 @@ import CardWrapper from "@/components/CardWrapper.vue";
 import ErrorAlert from "@/components/ErrorAlert.vue";
 import CheckBox from "@/components/form/CheckBox.vue";
 import { reactive, ref, watch } from "vue";
-import { Router, useRouter } from "vue-router";
-import { User } from "../utils/types";
+import { useRouter } from "vue-router";
+import type { User } from "../utils/types";
 
-const router: Router = useRouter();
+const router = useRouter();
 
 const email = ref("");
 const password = ref("");

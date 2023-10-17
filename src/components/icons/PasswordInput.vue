@@ -1,16 +1,16 @@
 <template>
   <div>
-    <label for="email" class="text-gray-500">{{ label }}</label>
+    <label for="email" class="text-gray-500 font-semibold mb-2">{{ label }}</label>
     <div
       data-test="password-field"
       :class="[
-        'rounded-lg shadow-2xl shadow-gray-200 flex flex-row w-full justify-between align-center px-4 my-2  bg-gray md:bg-transparent',
+        'border rounded-lg flex flex-row w-full justify-between items-center px-4',
         error ? 'border-2 border-red-500' : 'border border-gray-300',
       ]"
     >
-      <LockIcon class="mt-4 w-6 h-6" />
+      <LockIcon class="mt-4 w-4 h-4" />
       <input
-        class="w-full p-4 bg-transparent outline-none"
+        class="w-full px-0 py-2 bg-transparent outline-none text-gray-800 ml-4"
         type="password"
         name="email"
         :placeholder="placeholder"

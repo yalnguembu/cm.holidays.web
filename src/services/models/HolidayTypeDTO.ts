@@ -2,18 +2,21 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { HolidayRequestDTO } from './HolidayRequestDTO';
+
 export type HolidayTypeDTO = {
     /**
-     * identifier
+     * identifier the holiday type id
      */
-    id: string;
+    id?: string;
     /**
-     * holidayType's creation date
-     */
-    title: string;
-    /**
-     * user's updated date
+     * holiday type description
      */
     description?: string;
+    /**
+     * holiday type name
+     */
+    name?: string;
+    holidaysRequests?: Array<HolidayRequestDTO>;
 };
 

@@ -1,6 +1,6 @@
 import { mount, VueWrapper } from "@vue/test-utils";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import HolidayItem from "../HolidayItem.vue";
+import HolidayItem from "@/src/components/holidays/HolidayRequestListItem.vue";
 
 describe("HolidayItem", () => {
   let wrapper: VueWrapper;
@@ -55,7 +55,7 @@ describe("HolidayItem", () => {
     );
   });
 
-  it("should have the awaited holiday type", () => {
+  it("should have the awaited holidays type", () => {
     expect(wrapper.find("[data-test='type']").text()).toBe("Maternite");
   });
 

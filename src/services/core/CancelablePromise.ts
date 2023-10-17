@@ -84,7 +84,7 @@ export class CancelablePromise<T> implements Promise<T> {
         });
     }
 
-     get [Symbol.toStringHolidayType]() {
+     get [Symbol.toStringTag]() {
             return "Cancellable Promise";
      }
 

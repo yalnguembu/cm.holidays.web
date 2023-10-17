@@ -17,23 +17,27 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: "TextField",
-
-  props: {
-    modelValue: String,
-
-    name: String,
-
+<script lang="ts" setup>
+defineProps({
+  modelValue: {
     type: String,
-
-    placeholder: "",
-
-    label: "",
+    required: true,
   },
-
-  inheritAttrs: false,
-};
+  name: {
+    type: String,
+    required: true,
+  },
+  type: {
+    type: String,
+    required: true,
+  },
+  placeholder: {
+    type: String,
+    default: "",
+  },
+  label: {
+    type: String,
+    default: "",
+  },
+});
 </script>

@@ -2,46 +2,33 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { EmployeeDTO } from './EmployeeDTO';
+import type { HolidayStatusDTO } from './HolidayStatusDTO';
+import type { HolidayTypeDTO } from './HolidayTypeDTO';
+
 export type HolidayRequestDTO = {
     /**
-     * identifier
+     * identifier the holiday id
      */
-    id: string;
+    id?: string;
     /**
-     * holidayRequest's title
+     * holiday request description
      */
-    title: string;
+    description?: string;
     /**
-     * holidayRequest's content
+     * user arriving date
      */
-    content?: string;
+    startingDate?: string;
     /**
-     * holidayRequest's creation date
+     * user updating date
      */
-    createdAt?: string;
+    endingDate?: string;
     /**
-     * holidayRequest's holidayTypes
+     * user updating date
      */
-    holidayTypes?: string;
-    /**
-     * holidayRequest's startDate
-     */
-    startDate?: string;
-    /**
-     * holidayRequest's endDate
-     */
-    endDate?: string;
-    /**
-     * holidayRequest's returnDate
-     */
-    returnDate?: string;
-    /**
-     * holidayRequest's description
-     */
-    status?: string;
-    /**
-     * holidayRequest's ownerId
-     */
-    ownerId?: string;
+    returningDate?: string;
+    type?: HolidayTypeDTO;
+    status?: HolidayStatusDTO;
+    employee?: EmployeeDTO;
 };
 

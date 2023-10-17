@@ -4,21 +4,21 @@ import { assertHolidayListHas } from "../../utils/common";
 describe("template spec", () => {
   beforeEach(() => {
     cy.login();
-    cy.get('[data-test="holiday-list-button"]').click();
+    cy.get('[data-test="holidays-list-button"]').click();
     cy.viewport("macbook-16");
     cy.clock().then((clock) => {
       clock.setSystemTime(new Date("2023-02-12"));
     });
   });
 
-  it("should have the awaited design when the holiday list is empty", () => {
+  it("should have the awaited design when the holidays list is empty", () => {
     cy.get("img").should("exist");
-    cy.get("p").should("have.text", "No holiday has been created");
+    cy.get("p").should("have.text", "No holidays has been created");
   });
 
   it("should contain holidays", () => {
     window.localStorage.setItem("holidays", JSON.stringify(holidays));
-    cy.get('[data-test="holiday-item"]').should("have.length", 2);
+    cy.get('[data-test="holidays-item"]').should("have.length", 2);
 
     assertHolidayListHas(
       0,
