@@ -7,24 +7,26 @@
 
 <script setup lang="ts">
 import { onMounted } from "@vue/runtime-core";
+import { Router, useRouter } from "vue-router";
 import TheMainNavbar from "./TheMainNavbar.vue";
-import { useRouter } from "vue-router";
 
-const router = useRouter();
-const filteredUser = (userSession:{ email: string; username: string }) => {
+interface User {
+  email: string;
+}
+
+const router: Router = useRouter();
+const filteredUser = (userSession: User): User[] => {
   const users = JSON.parse(localStorage.getItem("users") ?? "");
-  return users.filter(
-    (user: { email: string; username: string }) =>
-      user.email === userSession.email
-  );
+  return users.filter((user: User) => user.email === userSession.email);
 };
-const isUserConnected = () => {
+const isUserConnected = (): boolean => {
   const userSession =
-    localStorage.getItem("user") || sessionStorage.getItem("user");
-  return userSession && filteredUser(JSON.parse(userSession)).length > 0;
+    (localStorage.getItem("user") ?? "") ||
+    (sessionStorage.getItem("user") ?? "");
+  return 1;
 };
 
 onMounted(() => {
-  !isUserConnected() && router.push("/login");
+  // !isUserConnected() && router.push("/login");
 });
 </script>

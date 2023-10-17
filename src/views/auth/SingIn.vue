@@ -35,12 +35,12 @@
 </template>
 
 <script setup lang="ts">
-import PasswordInput from "../../components/PasswordInput.vue";
-import EmailInput from "../../components/EmailInput.vue";
+import PasswordInput from "../../components/icons/PasswordInput.vue";
+import EmailInput from "../../components/form/EmailInput.vue";
 import BaseButton from "../../components/BaseButton.vue";
 import CardWrapper from "../../components/CardWrapper.vue";
 import ErrorAlert from "../../components/ErrorAlert.vue";
-import CheckBox from "../../components/CheckBox.vue";
+import CheckBox from "../../components/form/CheckBox.vue";
 import { reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 

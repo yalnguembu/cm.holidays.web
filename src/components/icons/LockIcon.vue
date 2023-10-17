@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="h-8 w-8 inline align-middle inline"
+    class="inline align-middle inline"
     viewBox="0 0 20 26"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

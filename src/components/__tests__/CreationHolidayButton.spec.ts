@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { mount } from "@vue/test-utils";
-import CreationHolidayButton from "../CreationHolidayButton.vue";
+import CreationHolidayButton from "../CreationButton.vue";
 import AddIcon from '../icons/AddIcon.vue'
 
 describe("CreationHolidayButton", () => {
@@ -11,7 +11,7 @@ describe("CreationHolidayButton", () => {
   });
 
   it("should have the awaited title", () => {
-    expect(wrapper.text()).toBe("New holiday");
+    expect(wrapper.text()).toBe("New holidays");
   });
 
   it("should have the add icon", () => {

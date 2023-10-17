@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Empty list</title>
+    <style>
+      .text-shadow {
+        color: #303030;
+        text-shadow: 2px 0 #e1e1e1e1, -2px 0 #e1e1e1e1, 0 2px #e1e1e1e1,
+          0 -2px #fff, 1px 1px #e1e1e1e1, -1px -1px #e1e1e1e1,
+          1px -1px #e1e1e1e1, -1px 1px #e1e1e1e1;
+      }
+    </style>
+    <script>
+      const nav = document.getElementById("nav");
+      const headerScrollHeight = document.getElementById("");
+
+      //   window.document.addEventListener("scroll", () => {
+      //     console.log(
+      //       document.getElementById("nav").scrollHeight,
+      //       document.documentElement.scrollTop
+      //     );
+      //     if (
+      //       document.getElementById("nav").scrollHeight >
+      //       document.documentElement.scrollTop
+      //     ) {
+      //         document.getElementById("nav").classList.add("bg-dark");
+      //       console.log("yeah");
+      //     } else document.getElementById("nav").classList.remove("fixed");
+      //   });
+    </script>
+  </head>
+  <body class="h-100">
+    <div class="w-full relative">
+      <div class="w-full text-white absolute inset-0 top-0 fixed" id="nav">
+        <div
+          class="border-b border-gray-500 p-2 px-6 flex flex-row align-center justify-between hidden lg:flex text-xs font-light xl:px-28 text-gray-100"
+        >
+          <div>
+            <a href="#" class="p-y pr-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-4 h-4 mr-1 inline"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              Visite time: Mon-Sat 9:00-19:20
+            </a>
+            <a href="#" class="py-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-4 h-4 mr-1 inline"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+                />
+              </svg>
+              Call us now: + 237-696-851-231
+            </a>
+          </div>
+          <div>
+            <div class="inline relative overflow-auto">
+              <button class="" id="select-language">
+                English
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-4 h-4 inline"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                  />
+                </svg>
+              </button>
+              <div
+                id="drop-1"
+                class="shadow bg-white text-gray-500 fixed top-6 block z-10 w-16 hidden"
+              >
+                <p class="p-4 border-b">Select language</p>
+                <ul>
+                  <li>
+                    <a href="" class="border-b block padding-4">Espagne</a>
+                  </li>
+                  <li>
+                    <a href="" class="border-b block padding-4">Espagne</a>
+                  </li>
+                  <li>
+                    <a href="" class="border-b block padding-4">Espagne</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <a href="" class="px-3">Contact</a>
+            <a href="" class="px-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-4 h-4 inline align-middle mr-1"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                />
+              </svg>
+              Login
+            </a>
+            <a href="" class="px-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-4 h-4 inline"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25"
+                />
+              </svg>
+            </a>
+            <a href="" class="px-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-4 h-4 inline"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25"
+                />
+              </svg>
+            </a>
+            <a href="" class="px-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-4 h-4 inline"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div
+          class="w-full flex flex-row justify-between align-center px-6 mt-4 xl:px-28"
+        >
+          <p class="text-white text-4xl py-2 m-0">
+            Folio <span class="text-red-500 text-2xl">.</span>
+          </p>
+          <div
+            class="w-full absolute -bottom-96 left-0 bg-white text-gray-500 lg:text-white shadow-xl shadow-gray-100 lg:inset-0 lg:max-w-2xl lg:shadow-none lg:relative lg:bg-transparent self-center"
+          >
+            <ul
+              class="md:flex md:flex-row md:h-full mx-auto md:justify-center items-center transition-all text-sm"
+            >
+              <li class="border-b md:border-0 relative">
+                <a
+                  href="#"
+                  class="block justify-between align-center flex flew-row p-3 px-4"
+                >
+                  <span>Demos</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 inline my-auto"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                    />
+                  </svg>
+                </a>
+                <div
+                  class="w-[500px] bg-white shadow-xl grid grid-cols-2 text-gray-700 absolute hidden"
+                >
+                  <div class="p-4">
+                    <ul>
+                      <li class="font-bold text-lg p-4 px-3">
+                        Digital maketing
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Clasic default 1</a
+                        >
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Agency classic</a
+                        >
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block">Modern agency</a>
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Trending agence</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="p-4">
+                    <ul>
+                      <li>
+                        <a href="#1" class="p-4">Menu 1</a>
+                      </li>
+                      <li>
+                        <a href="#1" class="p-4">Menu 1</a>
+                      </li>
+                      <li>
+                        <a href="#1" class="p-4">Menu 1</a>
+                      </li>
+                      <li>
+                        <a href="#1" class="p-4">Menu 1</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-span-2 w-full h-52 relative">
+                    <div
+                      class="bg-[#ff012070] p-6 py-10 text-center text-white w-full h-52 absolute inset-0"
+                    >
+                      <p class="text-xl font-bold">Get free quote today!</p>
+                      <p class="text-md my-2">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      </p>
+                      <button
+                        class="bg-white text-gray-700 font-bold px-6 py-2 mt-2 text-center"
+                      >
+                        Contact us
+                      </button>
+                    </div>
+                    <img src="./pexels-alfauzikri-6003052.jpg" alt="" />
+                  </div>
+                </div>
+              </li>
+              <li class="border-b md:border-0 relative">
+                <a
+                  href="#"
+                  class="block justify-between align-center flex flew-row p-3 px-4 text-red-500 hover:text-red-600"
+                >
+                  <span>Page</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 inline my-auto"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                    />
+                  </svg>
+                </a>
+                <div
+                  class="w-[200px] hidden bg-white shadow-xl text-gray-700 absolute p-4"
+                >
+                  <ul>
+                    <li class="relative">
+                      <a href="#1" class="p-3 text-md block text-red-500">
+                        Clasic default 1
+                      </a>
+                      <ul class="w-[200px] p-4 absolute inset-0 left-40">
+                        <div class="bg-white shadow-lg">
+                          <li>
+                            <a href="#1" class="p-3 text-md block text-red-500"
+                              >Clasic default 1</a
+                            >
+                          </li>
+                          <li>
+                            <a href="#1" class="p-3 text-md block"
+                              >Agency classic</a
+                            >
+                          </li>
+                          <li>
+                            <a href="#1" class="p-3 text-md block"
+                              >Modern agency</a
+                            >
+                          </li>
+                          <li>
+                            <a href="#1" class="p-3 text-md block"
+                              >Trending agence</a
+                            >
+                          </li>
+                        </div>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="#1" class="p-3 text-md block">Agency classic</a>
+                    </li>
+                    <li>
+                      <a href="#1" class="p-3 text-md block">Modern agency</a>
+                    </li>
+                    <li>
+                      <a href="#1" class="p-3 text-md block">Trending agence</a>
+                    </li>
+                    <li>
+                      <a href="#1" class="p-3 text-md block">Modern agency</a>
+                    </li>
+                    <li>
+                      <a href="#1" class="p-3 text-md block">Trending agence</a>
+                    </li>
+                    <li>
+                      <a href="#1" class="p-3 text-md block">Modern agency</a>
+                    </li>
+                    <li>
+                      <a href="#1" class="p-3 text-md block">Trending agence</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="border-b md:border-0 relative">
+                <a
+                  href="#"
+                  class="block justify-between align-center flex flew-row p-3 px-4 hover:text-red-600"
+                >
+                  <span>Portfolio</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 inline my-auto"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                    />
+                  </svg>
+                </a>
+                <div
+                  class="w-[900px] bg-white shadow-xl grid grid-cols-4 text-gray-700 absolute -left-80 top-20"
+                >
+                  <div class="p-4">
+                    <ul>
+                      <li class="font-bold text-lg p-4 px-3">
+                        Digital maketing
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Clasic default 1</a
+                        >
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Agency classic</a
+                        >
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block">Modern agency</a>
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Trending agence</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="p-4">
+                    <ul>
+                      <li class="font-bold text-lg p-4 px-3">
+                        Digital maketing
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Clasic default 1</a
+                        >
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Agency classic</a
+                        >
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block">Modern agency</a>
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Trending agence</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="p-4">
+                    <ul>
+                      <li class="font-bold text-lg p-4 px-3">
+                        Digital maketing
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Clasic default 1</a
+                        >
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Agency classic</a
+                        >
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block">Modern agency</a>
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Trending agence</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="p-4">
+                    <ul>
+                      <li class="font-bold text-lg p-4 px-3">
+                        Digital maketing
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Clasic default 1</a
+                        >
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Agency classic</a
+                        >
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block">Modern agency</a>
+                      </li>
+                      <li>
+                        <a href="#1" class="p-3 text-md block"
+                          >Trending agence</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li class="border-b md:border-0 relative">
+                <a
+                  href="#"
+                  class="block justify-between align-center flex flew-row p-3 px-4 hover:text-red-600"
+                >
+                  <span>Elements</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 inline my-auto"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                    />
+                  </svg>
+                </a>
+              </li>
+              <li class="border-b md:border-0 relative">
+                <a
+                  href="#"
+                  class="block justify-between align-center flex flew-row p-3 px-4 hover:text-red-600"
+                >
+                  <span>Help</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 inline my-auto"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                    />
+                  </svg>
+                </a>
+              </li>
+              <li class="border-b md:border-0">
+                <a
+                  href="#"
+                  class="block justify-between align-center flex flew-row p-3 px-4 hover:text-red-600"
+                >
+                  <span>About</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <p class="text-white align-middle py-2 flex flex-row">
+            <span id="btn-responsive" class="xl:hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-8 h-8 inline mx-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+            </span>
+            <span id="search-btn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-7 h-7 inline mx-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                />
+              </svg>
+            </span>
+            <button
+              class="bg-red-600 px-4 py-2 text-sm text-white mx-2 block hidden xl:block"
+            >
+              Get quote!
+            </button>
+
+            <span id="btn-second-nav">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-8 h-8 inline mx-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+            </span>
+          </p>
+        </div>
+        <div class="fixed top-0 right-0 md:w-1/2 bg-black hidden overflow-auto">
+          <p class="p-4">
+            <button
+              id="close-btn"
+              class="rounded-full bg-red-600 text-white p-3 float-right"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="3.5"
+                stroke="currentColor"
+                class="w-4 h-4"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </p>
+          <ul class="mt-16 text-4xl tracking-widest">
+            <li>
+              <a href="#" class="block p-4 px-14">
+                <span class="text-shadow">Home</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="block p-4 px-14">
+                <span class="text-shadow">About</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="block p-4 px-14">
+                <span class="text-shadow">Work</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="block p-4 px-14">
+                <span class="text-shadow">Services</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="blockp-4 px-14">
+                <span class="text-shadow">Our Journal</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="block p-4 px-14">
+                <span class="text-shadow">Contact Us</span>
+              </a>
+            </li>
+          </ul>
+          <div class="text-gray-200 p-14 font-light">
+            <p class="mb-4">Hello@gmail.com</p>
+            <p>+(237)696 581 231</p>
+          </div>
+        </div>
+      </div>
+      <img src="./pexels-alfauzikri-6003052.jpg" alt="" />
+    </div>
+    bar
+    <br />
+    <br /><b>
+      <br />
+      rbr
+    </b>
+    <br />
+
+    <br />
+    yeah
+  </body>
+</html>

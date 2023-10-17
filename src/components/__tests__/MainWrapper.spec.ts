@@ -1,4 +1,4 @@
-import { mount } from "@vue/test-utils";
+import { VueWrapper, mount } from "@vue/test-utils";
 import { useRouter } from "vue-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import MainWrapper from "../MainWrapper.vue";
@@ -18,7 +18,7 @@ describe("MainWrapper", () => {
     },
   ]);
 
-  let wrapper, push;
+  let wrapper: VueWrapper, push;
   beforeEach(() => {
     global.Storage.prototype.getItem = vi.fn((key) => {
       if (key === "user") {

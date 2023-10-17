@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-red-200 border-l-4 border-red-500 p-4" data-test="error-alert">
+  <div class="bg-red-200 border-l-4 border-red-500 p-4">
     <p class="text-red-500 font-bold">
       <InfoIcon class="mr-2 align-middle" />
       {{ title }}
@@ -10,5 +10,9 @@
 <script setup lang="ts">
 import InfoIcon from "./icons/InfoIcon.vue";
 
-const props = defineProps<{ title: string }>();
+interface Props {
+  title: string;
+}
+
+const props = defineProps<Props>();
 </script>

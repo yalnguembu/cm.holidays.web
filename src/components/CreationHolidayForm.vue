@@ -12,55 +12,40 @@
         <h2 class="text-3xl font-bold text-center" data-test="form-title">
           Create a holiday
         </h2>
-        <div class="flex flex-row flex-wrap w-full my-4">
-          <div
-            class="basis-full md:basis-2/3 mb-4 md:p-2"
-            data-test="holiday-type"
-          >
-            <SelectInput
+        <div class="grid md:grid-cols-3 gap-4 w-full mt-4">
+          <div class="md:col-span-2" data-test="holiday-type">
+            <AutoComplete
               label="Type"
-              defaultOption="Choose your holiday's type..."
+              placeholder="Choose your holiday's type..."
               :options="types"
-              v-model="holidayType"
+              v-model="holiday.holidayType"
               :error="error.holidayType"
             />
           </div>
-          <div
-            class="basis-1/2 md:basis-1/3 pr-2 md:p-2"
-            data-test="starting-date"
-          >
+          <div class="basis-1/2 md:basis-1/3" data-test="starting-date">
             <DateInput
               placeholder="Date"
               label="Starting date"
-              v-model="startingDate"
+              v-model="holiday.startingDate"
               :error="error.startingDate"
             />
           </div>
-          <div
-            class="basis-1/2 md:basis-1/3 pl-2 md:p-2"
-            data-test="ending-date"
-          >
+          <div class="basis-1/2 md:basis-1/3" data-test="ending-date">
             <DateInput
               placeholder="Date"
               label="Ending date"
-              v-model="endingDate"
+              v-model="holiday.endingDate"
               :error="error.endingDate"
             />
           </div>
-          <div
-            class="basis-1/2 md:basis-1/3 pr-2 md:p-2"
-            data-test="number-of-days"
-          >
+          <div class="basis-1/2 md:basis-1/3" data-test="number-of-days">
             <NumberInput
               label="Number of day"
               v-model="numbersOfdays"
               placeholder="Number of days"
             />
           </div>
-          <div
-            class="basis-1/2 md:basis-1/3 pl-2 md:p-2"
-            data-test="returning-date"
-          >
+          <div class="" data-test="returning-date">
             <DateInput
               placeholder="Date"
               label="Returning date"
@@ -68,21 +53,22 @@
               :error="''"
             />
           </div>
+          <div data-test="description" class="md:col-span-3">
+            <TextArea
+              placeholder="Enter the description"
+              label="Description"
+              v-model="holiday.description"
+              :error="error.description"
+            />
+          </div>
+          <div class="md:col-span-3 md:flex md:justify-center">
+            <BaseButton
+              title="Continue"
+              data-test="submit-button"
+              class="w-full shadow-none text-base md:w-1/2 mt-4 hover:shadow-md hover:shadow-blue-primary"
+            />
+          </div>
         </div>
-        <div class="w-full md:p-2" data-test="description">
-          <TextArea
-            placeholder="Enter the description"
-            label="Description"
-            v-model="description"
-            :error="error.description"
-          />
-        </div>
-        <BaseButton
-          type="submit"
-          class="w-full mt-8 md:mt-3"
-          title="SUBMIT"
-          data-test="submit-button"
-        />
       </div>
     </form>
   </section>
@@ -90,101 +76,83 @@
 
 <script setup lang="ts">
 import BaseButton from "./BaseButton.vue";
-import DateInput from "./DateInput.vue";
-import SelectInput from "./SelectInput.vue";
-import TextArea from "./TextArea.vue";
-import NumberInput from "./NumberInput.vue";
-import { watch, computed, reactive, ref } from "@vue/runtime-core";
+import DateInput from "./form/DateInput.vue";
+import TextArea from "./form/TextArea.vue";
+import NumberInput from "./form/NumberInput.vue";
+import { watch, computed, reactive, toRef } from "vue";
+import AutoComplete from "./form/AutoComplete.vue";
+import { soutractTwoDates, setDateToWorkingDay } from "@/utils/date";
+import type { HolidayErrors } from "@/utils/type";
+import { Holiday } from "@/domain/Holiday";
+import { useHolidayStore } from "../store/holiday";
 import { useRouter } from "vue-router";
 
-const router = useRouter()
+const holidayStore = useHolidayStore();
+const router = useRouter();
 
-const timestampOfOneDay = 24 * 3600 * 1000;
 const emit = defineEmits(["close"]);
 
-const types = ["Annual", "Maternite", "Abscence", "christmas"];
-const holidayType = ref("");
-const startingDate = ref("");
-const endingDate = ref("");
-const description = ref("");
-const error = reactive({
+const types: string[] = ["Annual", "Maternite", "Abscence", "christmas"];
+
+const holiday = reactive({
   holidayType: "",
   startingDate: "",
   endingDate: "",
   description: "",
 });
 
-const numbersOfdays = computed(() => {
-  const differenceOfStartingAndEndingDate =
-    (endingDateTimestamp.value - startingDateTimestamp.value) /
-    timestampOfOneDay;
-  return differenceOfStartingAndEndingDate > 0
-    ? differenceOfStartingAndEndingDate
-    : "";
-});
-const startingDateTimestamp = computed(() => {
-  return new Date(startingDate.value).getTime();
-});
-const endingDateTimestamp = computed(() => {
-  return new Date(endingDate.value).getTime();
-});
-const returningDay = computed(() => {
-  return new Date(endingDate.value).getDay();
-});
-const returningDate = computed(() => {
-  let date;
-  switch (endingDate.value.length > 0) {
-    case false:
-      return "";
-    case returningDay.value === 6:
-      date = new Date(endingDate.value).getTime() + timestampOfOneDay * 2;
-      return new Date(date).toISOString().substring(0, 10);
-    case returningDay.value === 0:
-      date = new Date(endingDate.value).getTime() + timestampOfOneDay;
-      return new Date(date).toISOString().substring(0, 10);
-    default:
-      return endingDate.value;
-  }
+const error = reactive<HolidayErrors>({
+  holidayType: "",
+  startingDate: "",
+  endingDate: "",
+  description: "",
 });
 
-const close = () => {
+const numbersOfdays = computed((): number | string =>
+  soutractTwoDates(holiday.endingDate, holiday.startingDate)
+);
+const returningDate = computed((): string =>
+  setDateToWorkingDay(holiday.endingDate)
+);
+
+const close = (): void => {
   emit("close");
 };
-const checkholidayType = () => {
-  if (holidayType.value === "") {
+const checkholidayType = (): void => {
+  if (holiday.holidayType === "") {
     error.holidayType = "This field is required";
   } else error.holidayType = "";
 };
-const isStartingDateBeforeReturningDate = () => {
+const isStartingDateBeforeReturningDate = (): boolean => {
   return (
-    new Date(startingDate.value).getTime() <
-    new Date(endingDate.value).getTime()
+    new Date(holiday.startingDate).getTime() <
+    new Date(holiday.endingDate).getTime()
   );
 };
-const isStartingDateAfterToday = () => {
-  return new Date().getTime() < new Date(startingDate.value).getTime();
+const isStartingDateAfterToday = (): boolean => {
+  return new Date().getTime() < new Date(holiday.startingDate).getTime();
 };
-const checkStartingDate = () => {
-  if (startingDate.value.length <= 0) {
+const checkStartingDate = (): void => {
+  if (holiday.startingDate.length <= 0) {
     error.startingDate = "This field is required";
   } else if (!isStartingDateAfterToday()) {
     error.startingDate = "It must be after today";
   } else error.startingDate = "";
 };
-const checkEndingDate = () => {
-  if (!startingDate.value || !endingDate.value)
+const checkEndingDate = (): void => {
+  if (!holiday.startingDate && !holiday.endingDate)
     error.endingDate = "This field is required";
   else if (!isStartingDateBeforeReturningDate())
     error.endingDate = "It must be after starting date";
-  else if (endingDate.value.length > 0) error.endingDate = "";
+  else if (holiday.endingDate.length > 0) error.endingDate = "";
   else error.endingDate = "";
 };
-const checkDescription = () => {
-  if (description.value.length <= 0) {
+const checkDescription = (): void => {
+  if (holiday.description.length <= 0) {
     error.description = "This field is required";
   } else error.description = "";
 };
-const checkForm = () => {
+const checkForm = (): Boolean => {
   checkholidayType();
   checkStartingDate();
   checkEndingDate();
@@ -196,41 +164,28 @@ const checkForm = () => {
     error.description.length <= 0
   );
 };
-const getHolidays = () => {
-  const holidays = localStorage.getItem("holidays");
-  return holidays ? JSON.parse(holidays) : [];
-};
-const create = () => {
+
+const create = async (): void => {
   if (checkForm()) {
-    console.log(getHolidays());
-    const holidays = getHolidays();
-    const holiday = {
-      id: holidays.length,
-      holidayType: holidayType.value,
-      startingDate: startingDate.value,
-      endingDate: endingDate.value,
-      returningDate: returningDate.value,
-      description: description.value,
-      createdAt: new Date().getTime(),
-    };
-    holidays.push(holiday);
-    localStorage.setItem("holidays", JSON.stringify(holidays));
-    router.push("/list");
+    const newHoliday: Holiday = new Holiday(holiday);
+    const newHolidayId = await holidayStore.createHoliday(newHoliday);
+    router.push(`/list/${newHolidayId}`);
   }
 };
 
-watch(holidayType, () => {
+watch(toRef(holiday, "holidayType"), (value) => {
   checkholidayType();
+  console.log(value);
 });
-watch(startingDate, () => {
+watch(toRef(holiday, "startingDate"), () => {
   checkStartingDate();
-  if (endingDate.value.length > 0) checkEndingDate();
+  if (holiday.endingDate.length > 0) checkEndingDate();
 });
-watch(endingDate, () => {
+watch(toRef(holiday, "endingDate"), () => {
   checkStartingDate();
   checkEndingDate();
 });
-watch(description, () => {
+watch(toRef(holiday, "description"), () => {
   checkDescription();
 });
 </script>

@@ -1,42 +1,96 @@
 import { createRouter, createWebHistory } from "vue-router";
-import MainWrapper from "../components/MainWrapper.vue";
-import HomePage from "../views/HomePage.vue";
+import ThePageLayout from "@/components/ThePageLayout.vue";
 
 export const routes = [
   {
     path: "/",
-    component: MainWrapper,
+    component: ThePageLayout,
     children: [
       {
         name: "Home",
         path: "",
-        component: HomePage,
+        component: () => import("@/views/DashBoard.vue"),
+        meta: {
+          requiredRolesList: ["ADMIN", "EMPLOYEE", "HUMAN_RESOURCE"],
+          isPublic: false,
+        },
       },
       {
-        name: "list",
-        path: "list",
-        component: () => import("../views/holiday/HolidaysList.vue"),
+        name: "holiday_requests_list",
+        path: "holiday-requests",
+        component: () => import("@/views/HolidayRequestsList.vue"),
+        meta: {
+          requiredRolesList: ["ADMIN", "EMPLOYEE", "HUMAN_RESOURCE"],
+          isPublic: false,
+        },
       },
       {
-        name: "details",
-        path: "list/:id",
-        component: () => import("../views/holiday/HolidayDetails.vue"),
+        name: "human_resources",
+        path: "human-resource",
+        meta: {
+          isPublic: false,
+          requiredRolesList: ["ADMIN", "HUMAN_RESOURCE"],
+        },
+        children: [
+          {
+            name: "human_resources_holidays_request_list",
+            path: "holiday-requests",
+            component: () =>
+                import("@/views/humanResources/HolidaysRequestsList.vue"),
+          },
+          {
+            name: "employees_list",
+            path: "employees",
+            component: () => import("@/views/humanResources/HolidaysRequestsList.vue"),
+          },
+        ],
       },
       {
-        path: "/:patchMatch(.*)*",
-        name: "NotFound",
-        component: () => import("../views/NotFound.vue"),
+        name: "admin",
+        path: "admin",
+        meta: {
+          requiredRolesList: ["ADMIN"],
+          isPublic: false,
+        },
+        children: [
+          {
+            name: "service_list",
+            path: "services",
+            component: () => import("@/views/admin/ServicesList.vue"),
+          },
+          {
+            name: "posts_list",
+            path: "posts",
+            component: () => import("@/views/admin/PostsList.vue"),
+          },
+          {
+            name: "users_list",
+            path: "users",
+            component: () => import("@/views/admin/UsersList.vue"),
+          },
+          {
+            name: "roles_list",
+            path: "roles",
+            component: () => import("@/views/admin/RolesList.vue"),
+          },
+        ],
       },
-    ],
-  },
-  {
-    path: "/",
-    component: () => import("../components/AuthenticationWrapper.vue"),
-    children: [
       {
         name: "login",
-        path: "login",
-        component: () => import("../views/auth/SingIn.vue"),
+        path: "auth/sign-in",
+        component: () => import("@/views/authentication/SingIn.vue"),
+        meta: {
+          isPublic: true,
+        },
+      },
+      {
+        name: "NotFound",
+        path: "/:patchMatch(.*)*",
+        component: () => import("@/views/NotFound.vue"),
+        meta: {
+          isPublic: true,
+          requiredRolesList: [],
+        },
       },
     ],
   },

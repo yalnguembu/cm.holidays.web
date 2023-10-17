@@ -62,7 +62,7 @@ describe("TheBreadcrumb", () => {
     );
   });
 
-  it("Should display correctly in holiday details page", () => {
+  it("Should display correctly in holidays details page", () => {
     useRoute.mockImplementationOnce(() => ({
       params: {
         id: 1,
@@ -104,7 +104,7 @@ describe("TheBreadcrumb", () => {
     );
 
     expect(lastItem.exists()).toBe(true);
-    expect(lastItem.text()).toBe("holiday details");
+    expect(lastItem.text()).toBe("holidays details");
     expect(lastItem.attributes().class).toContain(
       "text-black text-2xl font-bold"
     );

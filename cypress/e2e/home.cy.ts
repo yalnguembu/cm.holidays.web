@@ -14,15 +14,15 @@ describe("home page", () => {
     cy.get("h1").should("have.text", "Hello, welcome...");
   });
 
-  it("should have the holiday creation button", () => {
-    cy.get('[data-test="create-holiday-button"]').should(
+  it("should have the holidays creation button", () => {
+    cy.get('[data-test="create-holidays-button"]').should(
       "contain",
-      "Create new holiday"
+      "Create new holidays"
     );
   });
 
-  it("should have the holiday list button", () => {
-    cy.get('[data-test="holiday-list-button"]').should(
+  it("should have the holidays list button", () => {
+    cy.get('[data-test="holidays-list-button"]').should(
       "contain",
       "Liste des conges"
     );

@@ -1,27 +1,110 @@
 <template>
-  <div
-    class="w-full flex items-center justify-between p-4 border bg-white shadow-md lg:px-20"
-  >
-    <div>
-      <h2 class="text-2xl font-bold mt-3.5" data-test="navbar-title">Logo</h2>
-      <h6 class="text-gray-500" data-test="navbar-date">{{ date }}</h6>
-    </div>
-    <div>
-      <AccountIcon class="cursor-pointer mt-3.5" />
-    </div>
+  <div class="w-full shadow-md flex justify-center">
+    <nav
+      data-test="nav-bar"
+      :class="[
+        'w-full flex items-center px-8 bg-white md:px-5 md:px-12 xl:max-w-[98vw] 2xl:max-w-[95vw]',
+        user.isNull ? 'justify-center' : 'justify-between',
+      ]"
+    >
+      <RouterLink to="/" class="text-xl p-4 font-bold text-blue-500"
+        >HOLIDAYS</RouterLink
+      >
+      <div class="flex items-center">
+        <ul class="flex">
+          <li
+            v-for="(item, index) in items"
+            :key="index"
+            :data-test="`nav-${index}`"
+            class="relative overflow-hidden transition"
+          >
+            <RouterLink
+              :to="item.path"
+              :class="[
+                'block px-4 p-4 mx-2 font-semibold text-lg hover:text-blue-300',
+                isTheActiveRoute(item.name)
+                  ? 'text-blue-primary'
+                  : 'text-gray-500',
+              ]"
+              >{{ item.label }}</RouterLink
+            >
+            <div
+              class="absolute w-full -bottom-1 left-0 bg-blue-primary transition p-1 rounded-full"
+              v-if="isTheActiveRoute(item.name)"
+            />
+          </li>
+        </ul>
+      </div>
+      <div class="relative" v-if="!user.isNull">
+        <button
+          class="flex items-center hover:bg-gray-100 py-2 px-4 rounded-lg"
+          @click.stop="toggleIsShouldDisplayProfileOverviewModal"
+        >
+          <AccountIcon class="cursor-pointer h-8 w-8" />
+          <span class="font-bold text-base ml-2 text-gray-500">{{
+            user.fullName
+          }}</span>
+        </button>
+        <UserProfile
+          :user="user"
+          v-if="shouldDisplayProfileOverviewModal"
+          @close="toggleIsShouldDisplayProfileOverviewModal"
+          @signOut="displaySignOutModal"
+        />
+      </div>
+      <ConfirmationModal
+        title="Sign Out"
+        description="Are you sure that you realy want tot sign out?, after click on this button your will be redirected to the login page"
+        v-if="shouldDisplaySignOutModal"
+        @confirm="signOut"
+        :theme="COLOR_THEME.RED"
+        @close="shouldDisplaySignOutModal = false"
+      />
+    </nav>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "@vue/runtime-core";
+import { PropType, ref } from "vue";
 import AccountIcon from "./icons/AccountIcon.vue";
+import UserProfile from "./modals/UserProfileModal.vue";
+import type { NavaBarItem } from "@/utils/menu";
+import { Session } from "@/domain/Session";
+import { useRoute } from "vue-router";
+import ConfirmationModal from "@/components/modals/ConfirmationModal.vue";
+import { useSessionStore } from "@/store/session";
+import router from "@/router";
+import { COLOR_THEME } from "@/utils/enum"
 
-const date = computed(() => {
-  return new Date().toLocaleDateString("fr-fr", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+defineProps({
+  items: {
+    type: Array as PropType<Array<NavaBarItem>>,
+  },
+  user: {
+    type: Object as PropType<Session>,
+    required: true,
+  },
 });
+
+const isTheActiveRoute = (route: string): boolean => useRoute().name === route;
+const shouldDisplayProfileOverviewModal = ref<boolean>(false);
+
+const toggleIsShouldDisplayProfileOverviewModal = (): void => {
+  shouldDisplayProfileOverviewModal.value =
+    !shouldDisplayProfileOverviewModal.value;
+};
+
+const shouldDisplaySignOutModal = ref<boolean>(false);
+
+const signOut = async () => {
+  useSessionStore().signOut();
+  await router.push("/");
+  shouldDisplaySignOutModal.value = false;
+};
+
+const displaySignOutModal = (): void => {
+  toggleIsShouldDisplayProfileOverviewModal();
+  window.location.replace("/")
+  shouldDisplaySignOutModal.value = true;
+};
 </script>
