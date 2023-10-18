@@ -107,8 +107,9 @@ const services = [
 
 export const useServiceStore = defineStore("service", () => {
   const getAllServices = async (): Promise<RequestResponse<Service[]>> => {
-    return handelRequest(
-      async () => services.map((service) => new Service(service)) // await ServiceService.getAllServices();
+    return handelRequest(async () =>{
+      const services = await ServiceService.getAllServices();
+      return services.map((service) => new Service(service))}
     );
   };
   const getServiceById = async (
