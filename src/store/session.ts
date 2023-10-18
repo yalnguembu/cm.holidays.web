@@ -32,8 +32,9 @@ const sessionP = {
     },
   ],
 };
-export const useSessionStore = defineStore("employee", () => {
-  const session = ref<Session>(newNullSession());
+export const useSessionStore = defineStore("session", () => {
+  const session = ref<Session>(new Session(sessionP));
+  // const session = ref<Session>(newNullSession());
 
   const login = async (
     credential: Credential
