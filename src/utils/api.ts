@@ -1,5 +1,5 @@
 import { UserInformation } from "@/utils/types";
-import { ApiError } from "@/services";
+import { ApiError, OpenAPI } from "@/services";
 
 export const storeUserInformationsInsideStorage = (
   informations: UserInformation
@@ -13,7 +13,14 @@ export const fetchUSerInformationsInsideStorage = (): UserInformation => {
   return JSON.parse(informations);
 };
 
-export const prepareApis = (): void => {};
+export const prepareApis = (): void => {
+  OpenAPI.BASE = import.meta.env.VITE_BASE_URL;
+  OpenAPI.TOKEN = fetchUSerInformationsInsideStorage()?.token;
+};
+
+export const setRequestHeaderToken = (token: string): void => {
+  OpenAPI.TOKEN = token;
+};
 
 export class ErrorResponse {
   constructor(
