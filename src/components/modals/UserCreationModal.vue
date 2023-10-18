@@ -11,45 +11,44 @@
         </h2>
       </div>
       <TextField
-          class="mt-2"
-          label="Firstname *"
-          data-test="holiday-type"
-          placeholder="Enter the firstname here"
-          v-model="user.firstName"
-          :error="error.title"
+        class="mt-2"
+        label="Firstname *"
+        data-test="holiday-type"
+        placeholder="Enter the firstname here"
+        v-model="user.firstName"
+        :error="error.title"
       />
       <TextField
-          class="mt-2"
-          label="Lastname"
-          data-test="holiday-type"
-          placeholder="Enter the lastname here"
-          v-model="user.lastName"
-          :error="error.title"
+        class="mt-2"
+        label="Lastname"
+        data-test="holiday-type"
+        placeholder="Enter the lastname here"
+        v-model="user.lastName"
+        :error="error.title"
       />
       <TextField
-          class="mt-2"
-          label="Email *"
-          data-test="holiday-type"
-          placeholder="Enter the email address here"
-          v-model="user.email"
-          :error="error.title"
+        class="mt-2"
+        label="Email *"
+        data-test="holiday-type"
+        placeholder="Enter the email address here"
+        v-model="user.email"
+        :error="error.title"
       />
-      <SelectInput
-          class="mt-2"
-          data-test="holiday-type"
-          label="Role"
-          placeholder="Select a role"
-          :options="roles"
-          v-model="user.role"
-          :error="error.service"
-      />
+      <div class="mt-2 mb-4">
+        <p class="py-2 font-semibold text-gray-700">Roles</p>
+        <div class="flex space-x-6 items-center">
+          <CheckBox v-model="roles" label="Admin" />
+          <CheckBox v-model="roles" label="Human ressources" />
+          <CheckBox v-model="roles" label="Employee" />
+        </div>
+      </div>
       <TextField
-          label="Password *"
-          type="password"
-          data-test="holiday-type"
-          placeholder="Enter the password here"
-          v-model="user.password"
-          :error="error.title"
+        label="Password *"
+        type="password"
+        data-test="holiday-type"
+        placeholder="Enter the password here"
+        v-model="user.password"
+        :error="error.title"
       />
       <div class="grid md:grid-cols-2 mt-4 gap-x-4">
         <BaseButton
@@ -64,8 +63,10 @@
           data-test="submit-button"
           @click="create"
           :class="[
-              'w-full shadow-none text-base mt-4 font-semibold md:mt-0',
-              shouldCreationButtonEnable ? 'bg-blue-primary/100 hover:shadow-blue-primary hover:shadow-md cursor-pointer':' bg-blue-primary/40 cursor-not-allowed'
+            'w-full shadow-none text-base mt-4 font-semibold md:mt-0',
+            shouldCreationButtonEnable
+              ? 'bg-blue-primary/100 hover:shadow-blue-primary hover:shadow-md cursor-pointer'
+              : ' bg-blue-primary/40 cursor-not-allowed',
           ]"
         />
       </div>
@@ -76,10 +77,10 @@
 <script setup lang="ts">
 import BaseButton from "../BaseButton.vue";
 import TextField from "@/components/forms/TextField.vue";
-import SelectInput from "@/components/forms/SelectInput.vue";
 import { reactive, computed, ref } from "vue";
 import ModalWrapper from "../modals/ModalWrapper.vue";
 import { HolidayErrors } from "@/utils/type";
+import CheckBox from "../forms/CheckBox.vue";
 
 const emit = defineEmits<{
   (event: "close"): void;
@@ -88,10 +89,10 @@ const emit = defineEmits<{
 
 enum ROLES {
   ADMIN = "ADMIN",
-  EMPLOYEE= "EMPLOYEE",
-  HUMAN_RESOURCE ="HUMAN_RESOURCE"
+  EMPLOYEE = "EMPLOYEE",
+  HUMAN_RESOURCE = "HUMAN_RESOURCE",
 }
-const roles = Object.keys(ROLES).map((role)=> role.toLowerCase())
+const roles = Object.keys(ROLES).map((role) => role.toLowerCase());
 
 const user = reactive({
   firstName: "",
@@ -103,7 +104,10 @@ const user = reactive({
 
 const isProcessing = ref<boolean>(false);
 
-const shouldCreationButtonEnable = computed(()=> !!user.firstName && !!user.email && !!user.password && !isProcessing.value)
+const shouldCreationButtonEnable = computed(
+  () =>
+    !!user.firstName && !!user.email && !!user.password && !isProcessing.value
+);
 const error = reactive<HolidayErrors>({
   title: "",
   description: "",
@@ -111,7 +115,7 @@ const error = reactive<HolidayErrors>({
 });
 
 const create = () => {
-  emit("created")
+  emit("created");
 };
 const close = (): void => {
   emit("close");
