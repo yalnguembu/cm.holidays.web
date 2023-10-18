@@ -7,6 +7,7 @@ import {useSessionStore} from "@/store/session";
 import {USER_ROLE} from "@/utils/enum";
 import {fetchUSerInformationsInsideStorage, prepareApis} from "@/utils/api";
 import {userHasRole} from "@/utils/user";
+import { ResquestStatus } from "./utils/api";
 
 prepareApis();
 
@@ -32,7 +33,7 @@ router.beforeEach(async (to, from, next) => {
         else {
             const cachedUserInformations = fetchUSerInformationsInsideStorage()
             const fetchUSerInformationsResponse = await  sessionStore.fetchUSerInformations(cachedUserInformations?.id ?? "");
-            if (fetchUSerInformationsResponse.success) next();
+            if (fetchUSerInformationsResponse.status === ResquestStatus.SUCCESS) next();
             else await router.push("/auth/sign-in");
         }
     }
