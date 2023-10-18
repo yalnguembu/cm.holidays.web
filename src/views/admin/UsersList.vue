@@ -30,6 +30,7 @@ import { onBeforeMount } from "vue";
 import CreationButton from "@/components/CreationButton.vue";
 import HeaderComponent from "@/components/HeaderComponent.vue";
 import UserCreationModal from "@/components/modals/UserCreationModal.vue";
+import { ResquestStatus } from "@/utils/api";
 
 const users = ref<Employee[]>([]);
 
@@ -42,7 +43,7 @@ const toggleshoulCreateUser = () =>
 const fetchUsers = async (): Promise<void> => {
   isLoading.value = true;
   const fecthedUsersResponse = await useEmployeeStore().getAllEmployees();
-  if (fecthedUsersResponse.success)
+  if (fecthedUsersResponse.status === ResquestStatus.SUCCESS)
     users.value = fecthedUsersResponse.data ?? [];
   isLoading.value = false;
 };
