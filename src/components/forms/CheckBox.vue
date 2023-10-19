@@ -7,7 +7,7 @@
       :checked="props.modelValue"
       @change="emit('update:modelValue', $event.target.checked)"
     />
-    <label for="remind" class="inline text-gray-500 ml-2">
+    <label for="remind" class="inline ml-2 text-gray-500 font-semibold mb-2">
       {{ props.label }}
     </label>
   </div>

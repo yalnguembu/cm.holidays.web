@@ -47,6 +47,7 @@ import { Router, useRouter } from "vue-router";
 import { User } from "../../utils/types";
 import {useSessionStore} from "@/store/session";
 import { Credential } from "@/domain/Credential"
+import { ResquestStatus } from "@/utils/api";
 
 const router: Router = useRouter();
 
@@ -91,7 +92,7 @@ const login = async () => {
     password: password.value
   })
   const loginRequest = await useSessionStore().login(credential);
-  if (loginRequest.success)  await router.push("/")
+  if (loginRequest.status === ResquestStatus.SUCCESS)  await router.push("/")
   else error.crudentials = "error occured please retry"
 };
 

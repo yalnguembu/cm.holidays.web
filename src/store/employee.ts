@@ -29,7 +29,7 @@ const employees = [
 export const useEmployeeStore = defineStore("employee", () => {
   const getAllEmployees = async (): Promise<void> => {
     return handelRequest(async () => {
-      // const employees = await EmployeeService.getAllEmployees();
+      const employees = await EmployeeService.getAllEmployees();
       return employees.map((employee) => new Employee(employee));
     });
   };

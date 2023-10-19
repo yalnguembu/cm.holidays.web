@@ -50,7 +50,7 @@ const posts = [
 export const usePostStore = defineStore("post", () => {
   const getAllPosts = async (): Promise<RequestResponse<Post[]>> => {
     return handelRequest(async () => {
-      //const posts = await PostService.getAllPosts();
+      const posts = await PostService.getAllPosts();
       return posts.map((post) => new Post(post));
     });
   };

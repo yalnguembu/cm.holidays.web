@@ -1,5 +1,5 @@
 import { UserInformation } from "@/utils/types";
-import { ApiError } from "@/services";
+import { ApiError, OpenAPI } from "@/services";
 
 export const storeUserInformationsInsideStorage = (
   informations: UserInformation
@@ -13,7 +13,14 @@ export const fetchUSerInformationsInsideStorage = (): UserInformation => {
   return JSON.parse(informations);
 };
 
-export const prepareApis = (): void => {};
+export const prepareApis = (): void => {
+  OpenAPI.BASE = import.meta.env.VITE_BASE_URL;
+  OpenAPI.TOKEN = fetchUSerInformationsInsideStorage()?.token;
+};
+
+export const setRequestHeaderToken = (token: string): void => {
+  OpenAPI.TOKEN = token;
+};
 
 export class ErrorResponse {
   constructor(
@@ -40,18 +47,18 @@ export enum ResquestStatus {
 export class RequestResponse<AwaitedData> {
   constructor(
     private readonly requestResponse: {
-      success: boolean;
+      status: ResquestStatus;
       data?: AwaitedData;
       error?: ErrorResponse;
     }
   ) {}
 
-  get success(): boolean {
-    return this.requestResponse.success;
+  get status(): ResquestStatus {
+    return this.requestResponse.status;
   }
 
-  set success(status: ResquestStatus) {
-    this.requestResponse.success = !!status;
+  set status(status: ResquestStatus) {
+    this.requestResponse.status = status;
   }
 
   get data(): AwaitedData | undefined {
@@ -72,18 +79,19 @@ export class RequestResponse<AwaitedData> {
 }
 
 export const handelRequest = async <ResponseType>(
-  callback: Function
+  executeRequest: Function
 ): Promise<RequestResponse<ResponseType>> => {
-  const requestResponse = new RequestResponse<ResponseType>({ success: false });
+  const requestResponse = new RequestResponse<ResponseType>({ status: ResquestStatus.FAILLED });
+  
   try {
-    requestResponse.data = await callback();
-    requestResponse.success = ResquestStatus.SUCCESS;
+    requestResponse.data = await executeRequest();
+    requestResponse.status = ResquestStatus.SUCCESS;
   } catch (error: ApiError | any) {
     requestResponse.error = new ErrorResponse({
       message: error?.statusText ?? "",
       statusCode: error?.status ?? 500,
     });
-    requestResponse.success = ResquestStatus.FAILLED;
+    requestResponse.status = ResquestStatus.FAILLED;
   } finally {
     return requestResponse;
   }
