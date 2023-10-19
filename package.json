@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "vitest",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview --port 5173",
+    "test": "vitest --environment happy-dom",
     "coverage": "vitest run --coverage",
     "openapi-generate": "openapi --useOptions --client axios --input ./specs/contract.yaml --output ./src/services/"
   },
   "dependencies": {
+    "@babel/core": "^7.18.9",
     "@vuelidate/core": "^2.0.2",
     "@vuelidate/validators": "^2.0.2",
     "pinia": "^2.1.4",
@@ -21,12 +22,16 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/test-utils": "^2.2.7",
+    "@vue/tsconfig": "~0.4.0",
     "autoprefixer": "^10.4.13",
+    "axios": "~1.5.1",
+    "form-data": "~4.0.0",
     "happy-dom": "^8.1.4",
     "openapi-typescript-codegen": "^0.24.0",
     "postcss": "^8.4.20",
     "tailwindcss": "^3.2.4",
     "vite": "^4.0.0",
-    "vitest": "^0.27.1"
+    "vitest": "^0.27.1",
+    "vue-tsc": "~1.8.19"
   }
 }
