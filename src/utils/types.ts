@@ -12,7 +12,7 @@ interface HolidayErrors {
 
 interface DataGridRow {
   getId: () => string;
-  getTextFor: (key: string) => string;
+  getTextFor: (key: string) => string | string[];
 }
 
 interface DataGridColumnHeader {

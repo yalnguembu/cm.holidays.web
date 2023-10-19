@@ -27,6 +27,7 @@ import PostCreationModal from "@/components/modals/PostCreationModal.vue";
 import PostListItem from "@/components/PostListItem.vue";
 import { Post } from "@/domain/Post";
 import { usePostStore } from "@/store/post";
+import { ResquestStatus } from "@/utils/api";
 
 const shouldDisplayCreationModal = ref<boolean>(false);
 const toggleShouldDisPlayCreationModal = () =>
@@ -38,7 +39,7 @@ const posts = ref<Post[]>([]);
 const fetchPosts = async () => {
   isPostListLoading.value = true;
   const apiResponse = await usePostStore().getAllPosts();
-  if (apiResponse.success) posts.value = apiResponse.data;
+  if (apiResponse.status  === ResquestStatus.SUCCESS) posts.value = apiResponse.data;
   isPostListLoading.value = false;
 };
 

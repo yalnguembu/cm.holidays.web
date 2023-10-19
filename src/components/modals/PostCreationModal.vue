@@ -68,6 +68,7 @@ import { Service } from "@/domain/Service";
 import { ServiceOptionItem } from "@/utils/options";
 import { usePostStore } from "@/store/post";
 import { Post } from "@/domain/Post";
+import { ResquestStatus } from "@/utils/api";
 
 const emit = defineEmits<{
   (event: "close"): void;
@@ -81,7 +82,7 @@ const services = ref<Service[]>([]);
 const fetchServices = async (): Promise<void> => {
   isLoadingServices.value = true;
   const apiResponse = await useServiceStore().getAllServices();
-  if (apiResponse.success) services.value = apiResponse.data;
+  if (apiResponse.status === ResquestStatus.SUCCESS) services.value = apiResponse.data;
   isLoadingServices.value = false;
 };
 
@@ -121,7 +122,7 @@ const create = async () => {
   });
 
   const apiResponse = await usePostStore().createPost(newPost);
-  if (apiResponse.success) emit("created");
+  if (apiResponse.status === ResquestStatus.SUCCESS) emit("created");
   isLoading.value = false;
 };
 </script>

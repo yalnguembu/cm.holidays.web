@@ -7,6 +7,7 @@ import {
   type RequestResponse,
   handelRequest,
   storeUserInformationsInsideStorage,
+  setRequestHeaderToken,
 } from "../utils/api";
 
 const sessionP = {
@@ -32,7 +33,8 @@ const sessionP = {
     },
   ],
 };
-export const useSessionStore = defineStore("employee", () => {
+export const useSessionStore = defineStore("session", () => {
+  // const session = ref<Session>(new Session(sessionP));
   const session = ref<Session>(newNullSession());
 
   const login = async (
@@ -47,6 +49,7 @@ export const useSessionStore = defineStore("employee", () => {
         email: credential.email,
       });
       storeUserInformationsInsideStorage(authenticationResponse);
+      setRequestHeaderToken(authenticationResponse)
     });
   };
 
