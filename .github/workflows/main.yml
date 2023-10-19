@@ -19,8 +19,20 @@ jobs:
       with: 
         node-version: 16
         
-    - name: npm install and test
+    - name: install dependencies
       run: |
         npm install
-        npm run test
+          
+    - name: run unit tests
+      run: |
+        npm run test:unit
         
+    - name: lanch app
+      run: |
+        npm run build
+        npm run preview
+      
+    - name: Cypress run --config baseUrl=\"http://localhost:4000\"
+      uses: cypress-io/github-action@v5
+  
+      
