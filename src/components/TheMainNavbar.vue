@@ -7,8 +7,10 @@
         user.isNull ? 'justify-center' : 'justify-between',
       ]"
     >
-      <RouterLink to="/" class="text-xl p-4 font-bold text-blue-500"
-        >HOLIDAYS</RouterLink
+      <RouterLink to="/" class="flex">
+        <img v-if="!user.isNull" alt="LAO logo" title="LAO logo" src="@/assets/logo.svg" class="w-14" />
+        <span class="text-2xl p-4 font-bold text-blue-900">HOLIDAYS</span>
+      </RouterLink
       >
       <div class="flex items-center">
         <ul class="flex">
