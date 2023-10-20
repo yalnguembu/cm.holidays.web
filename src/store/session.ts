@@ -9,6 +9,7 @@ import {
   storeUserInformationsInsideStorage,
   setRequestHeaderToken,
 } from "../utils/api";
+import {computed} from "@vue/runtime-core";
 
 const sessionP = {
   email: "yal@holiday.cm",
@@ -49,7 +50,7 @@ export const useSessionStore = defineStore("session", () => {
         email: credential.email,
       });
       storeUserInformationsInsideStorage(authenticationResponse);
-      setRequestHeaderToken(authenticationResponse)
+      setRequestHeaderToken(authenticationResponse.token)
     });
   };
 
@@ -67,12 +68,9 @@ export const useSessionStore = defineStore("session", () => {
     localStorage.clear();
   };
 
-  const isLoggedIn = ref<boolean>(!session.value.isNull);
-
   return {
     login,
     session,
-    isLoggedIn,
     fetchUSerInformations,
     signOut,
   };

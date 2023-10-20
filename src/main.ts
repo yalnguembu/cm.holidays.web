@@ -24,7 +24,7 @@ router.beforeEach(async (to, from, next) => {
 
     if(isPublicRoute) next()
     else{
-        if (sessionStore.isLoggedIn) {
+        if (!sessionStore.session.isNull) {
             if (canUserGoToTheWantedPage()) {
                 next();
             }
