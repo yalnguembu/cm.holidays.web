@@ -3,7 +3,7 @@
     <nav
       data-test="nav-bar"
       :class="[
-        'w-full flex items-center px-8 bg-white md:px-5 md:px-12 xl:max-w-[98vw] 2xl:max-w-[95vw]',
+        'w-full flex items-center px-8 bg-white md:px-12 xl:max-w-[98vw] 2xl:max-w-[92vw]',
         user.isNull ? 'justify-center' : 'justify-between',
       ]"
     >
@@ -72,10 +72,9 @@ import AccountIcon from "./icons/AccountIcon.vue";
 import UserProfile from "./modals/UserProfileModal.vue";
 import type { NavaBarItem } from "@/utils/menu";
 import { Session } from "@/domain/Session";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import ConfirmationModal from "@/components/modals/ConfirmationModal.vue";
 import { useSessionStore } from "@/store/session";
-import router from "@/router";
 import { COLOR_THEME } from "@/utils/enum"
 
 defineProps({
@@ -100,13 +99,13 @@ const shouldDisplaySignOutModal = ref<boolean>(false);
 
 const signOut = async () => {
   useSessionStore().signOut();
-  await router.push("/");
+  localStorage.clear()
   shouldDisplaySignOutModal.value = false;
+  window.location.replace("/auth/sign-in")
 };
 
 const displaySignOutModal = (): void => {
   toggleIsShouldDisplayProfileOverviewModal();
-  window.location.replace("/")
   shouldDisplaySignOutModal.value = true;
 };
 </script>

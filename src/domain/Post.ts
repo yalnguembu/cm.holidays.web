@@ -9,23 +9,23 @@ export class Post {
   }
 
   get id(): string {
-    return this.post.id;
+    return this.post.id ?? "";
   }
 
   get name(): string {
-    return this.post.name;
+    return this.post.name ?? "";
   }
 
   set name(name: string) {
-    this.post.name = name;
+    this.post.name = name ?? "";
   }
 
   get description(): string {
-    return this.post.description;
+    return this.post.description ?? "";
   }
 
   set description(description: string) {
-    this.post.description = description;
+    this.post.description = description ?? "";
   }
 
   get service(): Service {

@@ -65,7 +65,6 @@ export const useSessionStore = defineStore("session", () => {
 
   const signOut = () => {
     session.value = newNullSession();
-    localStorage.clear();
   };
 
   return {

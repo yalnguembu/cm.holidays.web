@@ -20,7 +20,7 @@ export const routes = [
         path: "holiday-requests",
         component: () => import("@/views/HolidayRequestsList.vue"),
         meta: {
-          requiredRolesList: ["ADMIN", "EMPLOYEE", "HUMAN_RESOURCE"],
+          requiredRolesList: ["EMPLOYEE"],
           isPublic: false,
         },
       },
@@ -29,7 +29,7 @@ export const routes = [
         path: "human-resource",
         meta: {
           isPublic: false,
-          requiredRolesList: ["ADMIN", "HUMAN_RESOURCE"],
+          requiredRolesList: ["HUMAN_RESOURCE"],
         },
         children: [
           {

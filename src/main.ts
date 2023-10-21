@@ -25,6 +25,8 @@ router.beforeEach(async (to, from, next) => {
     if(isPublicRoute) next()
     else{
         if (!sessionStore.session.isNull) {
+            console.log(canUserGoToTheWantedPage());
+            
             if (canUserGoToTheWantedPage()) {
                 next();
             }

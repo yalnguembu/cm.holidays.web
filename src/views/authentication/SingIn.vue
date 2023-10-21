@@ -44,13 +44,10 @@ import CardWrapper from "@/components/CardWrapper.vue";
 import ErrorAlert from "@/components/ErrorAlert.vue";
 import CheckBox from "@/components/forms/CheckBox.vue";
 import { reactive, ref, watch } from "vue";
-import { Router, useRouter } from "vue-router";
-import { User } from "../../utils/types";
+import { useRouter } from "vue-router";
 import {useSessionStore} from "@/store/session";
 import { Credential } from "@/domain/Credential"
 import { ResquestStatus } from "@/utils/api";
-
-const router: Router = useRouter();
 
 const email = ref("");
 const password = ref("");
@@ -75,17 +72,6 @@ const checkForm = (): boolean => {
   return error.email.length === 0 && error.password.length === 0;
 };
 
-const getUsers = (): User[] => {
-  return JSON.parse(localStorage.getItem("users") ?? "[]");
-};
-const findUser = (): User => {
-  return (
-    getUsers().find(
-      (user) => user.email === email.value && user.password === password.value
-    ) ?? ({} as User)
-  );
-};
-
 const login = async () => {
   if (!checkForm()) return
   const credential = new Credential({
@@ -93,7 +79,7 @@ const login = async () => {
     password: password.value
   })
   const loginRequest = await useSessionStore().login(credential);
-  if (loginRequest.status === ResquestStatus.SUCCESS)  await router.push("/")
+  if (loginRequest.status === ResquestStatus.SUCCESS) window.location.replace("/")
   else error.crudentials = "error occured please retry"
 };
 

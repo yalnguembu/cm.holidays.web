@@ -39,7 +39,7 @@ const posts = ref<Post[]>([]);
 const fetchPosts = async () => {
   isPostListLoading.value = true;
   const apiResponse = await usePostStore().getAllPosts();
-  if (apiResponse.status  === ResquestStatus.SUCCESS) posts.value = apiResponse.data;
+  if (apiResponse.status  === ResquestStatus.SUCCESS) posts.value = apiResponse.data ?? [];
   isPostListLoading.value = false;
 };
 
