@@ -33,6 +33,7 @@ const sessionP = {
     },
   ],
 };
+
 export const useSessionStore = defineStore("session", () => {
   // const session = ref<Session>(new Session(sessionP));
   const session = ref<Session>(newNullSession());
@@ -49,7 +50,7 @@ export const useSessionStore = defineStore("session", () => {
         email: credential.email,
       });
       storeUserInformationsInsideStorage(authenticationResponse);
-      setRequestHeaderToken(authenticationResponse)
+      setRequestHeaderToken(authenticationResponse.token)
     });
   };
 
@@ -67,12 +68,9 @@ export const useSessionStore = defineStore("session", () => {
     localStorage.clear();
   };
 
-  const isLoggedIn = ref<boolean>(!session.value.isNull);
-
   return {
     login,
     session,
-    isLoggedIn,
     fetchUSerInformations,
     signOut,
   };

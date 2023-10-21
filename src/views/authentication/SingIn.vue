@@ -1,12 +1,13 @@
 <template>
-  <div class="w-full h-[80vh] flex items-center justify-center">
-    <CardWrapper class="border-gray-100">
+  <div class="w-full min-h-[80vh] overflow-y-auto flex flex-col items-center justify-center">
+
+    <img alt="LAO logo" title="LAO logo" src="@/assets/logo.svg" class="w-32 mb-4" />
+    <CardWrapper class="border-gray-100 p-4 bg-blue-50/50">
       <form @submit.prevent="login" autocomplete="on">
-        <div class="md:text-center mb-2">
+        <div class="text-center mb-2">
           <h1 class="font-bold text-3xl text-blue-800 mb-4">Login</h1>
-          <p class="text-gray-500 px-12">
-            Nous somme content de vous revoir, veillez entrez vos informations pour
-            continuer
+          <p class="text-gray-500">
+            We're glad to see you again, please enter your information to continue.
           </p>
         </div>
         <ErrorAlert v-if="error.crudentials" :title="error.crudentials" />
