@@ -8,6 +8,7 @@ import {
   handelRequest,
   storeUserInformationsInsideStorage,
   setRequestHeaderToken,
+  setRequestHeaderToken,
 } from "../utils/api";
 import {computed} from "@vue/runtime-core";
 
@@ -34,6 +35,8 @@ const sessionP = {
     },
   ],
 };
+export const useSessionStore = defineStore("session", () => {
+  // const session = ref<Session>(new Session(sessionP));
 export const useSessionStore = defineStore("session", () => {
   // const session = ref<Session>(new Session(sessionP));
   const session = ref<Session>(newNullSession());
