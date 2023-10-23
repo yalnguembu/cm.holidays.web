@@ -2,12 +2,12 @@
   <div
     class="container h-full w-full text-center px-4 flex justify-between items-center"
   >
-    <section v-if="false" class="h-[70vh] w-full max-w-screen-xl mx-auto text-center px-4 flex center items-center">
+    <section v-if="isAdmin" class="h-[70vh] w-full max-w-screen-xl mx-auto text-center px-4 flex center items-center">
       <div class="w-full h-fit mt-4 space-x-8 grid grid-cols-4 items-center justify-center">
         <DashboardButton v-for="option in adminOptions" :icon="option.icon" :label="option.label" :path="option.path" />
       </div>
     </section>
-    <section v-else-if="true" class="w-full h-[85vh] mt-4 items-center justify-center space-x-8 md:flex lg:h-[75vh]">
+    <section v-else-if="isHumanResource" class="w-full h-[85vh] mt-4 items-center justify-center space-x-8 md:flex lg:h-[75vh]">
       <div class="w-full h-fit mt-4 grid justify-items-center">
         <DashboardButton v-for="option in humanResourceOptions" :icon="option.icon" :label="option.label" :path="option.path" />
       </div>
