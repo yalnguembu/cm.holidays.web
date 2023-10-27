@@ -39,7 +39,7 @@
     title="Activate Service"
     :description="`By click on the confirm button the service ${service.name} will be activate are you agree`"
     @close="toggleShouldActivateService"
-    @confirm="toggleShouldActivateService"
+    @confirm="activate"
     v-if="shouldActivateService"
     :isLoading="isLoading"
   />
@@ -49,7 +49,7 @@
     :theme="COLOR_THEME.RED"
     :description="`By click on the confirm button the service will ${service.name} be deactivate are you agree`"
     @close="toggleShouldDeactivateService"
-    @confirm="toggleShouldDeactivateService"
+    @confirm="deactivate"
     v-if="shouldDeactivateService"
     :isLoading="isLoading"
   />
@@ -61,18 +61,19 @@ import { PropType, ref } from "vue";
 import { Service } from "@/domain/Service";
 import ListItemOption from "@/components/ListItemOption.vue";
 import { COLOR_THEME } from "@/utils/enum";
+import { useServiceStore } from "@/store/service";
+import { ResquestStatus } from "@/utils/api";
 
-defineProps({
+const props = defineProps({
   service: {
     type: Object as PropType<Service>,
+    required: true,
   },
 });
 
-defineEmits(["update"]);
+const emit = defineEmits(["update"]);
 
 const isLoading = ref<boolean>(false);
-const isRequesting = ref<boolean>(false);
-const isRequested = ref<boolean>(false);
 
 const shouldEditService = ref<boolean>(false);
 const toggleEditionFormVisibility = () =>
@@ -89,4 +90,28 @@ const toggleShouldActivateService = () =>
 const shouldDeactivateService = ref<boolean>(false);
 const toggleShouldDeactivateService = () =>
   (shouldDeactivateService.value = !shouldDeactivateService.value);
+
+const activate = async () => {
+  isLoading.value = true;
+  const activationResponse = await useServiceStore().activateServiceById(
+    props.service.id
+  );
+  if (activationResponse.status === ResquestStatus.SUCCESS) {
+    toggleShouldActivateService();
+    emit("update");
+  }
+  isLoading.value = false;
+};
+
+const deactivate = async () => {
+  isLoading.value = true;
+  const deactivationResponse = await useServiceStore().deactivateServiceById(
+    props.service.id
+  );
+  if (deactivationResponse.status === ResquestStatus.SUCCESS) {
+    toggleShouldActivateService();
+    emit("update");
+  }
+  isLoading.value = false;
+};
 </script>

@@ -66,7 +66,7 @@ export const usePostStore = defineStore("post", () => {
 
   const createPost = async (post: Post): Promise<RequestResponse<void>> => {
     return handelRequest(
-      async () => await PostService.createPost({ requestBody: post.postAsDTO })
+      async () =>  await PostService.createPost({ requestBody: post.postAsDTO })
     );
   };
 

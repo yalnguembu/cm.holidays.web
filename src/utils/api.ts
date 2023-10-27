@@ -82,7 +82,7 @@ export const handelRequest = async <ResponseType>(
   executeRequest: Function
 ): Promise<RequestResponse<ResponseType>> => {
   const requestResponse = new RequestResponse<ResponseType>({ status: ResquestStatus.FAILLED });
-  
+
   try {
     requestResponse.data = await executeRequest();
     requestResponse.status = ResquestStatus.SUCCESS;
@@ -91,6 +91,7 @@ export const handelRequest = async <ResponseType>(
       message: error?.statusText ?? "",
       statusCode: error?.status ?? 500,
     });
+    console.log(error);
     requestResponse.status = ResquestStatus.FAILLED;
   } finally {
     return requestResponse;

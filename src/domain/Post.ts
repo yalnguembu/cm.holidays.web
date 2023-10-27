@@ -2,18 +2,18 @@ import { PostDTO } from "@/services";
 import { Service, newNullService } from "./Service";
 
 export class Post {
-  isNull: boolean;
+  isNull = true;
 
   constructor(private readonly post: PostDTO) {
     this.isNull = false;
   }
 
   get id(): string {
-    return this.post.id;
+    return this.post.id ?? "";
   }
 
   get name(): string {
-    return this.post.name;
+    return this.post.name ?? "";
   }
 
   set name(name: string) {
@@ -21,7 +21,7 @@ export class Post {
   }
 
   get description(): string {
-    return this.post.description;
+    return this.post.description ?? "";
   }
 
   set description(description: string) {
@@ -39,15 +39,12 @@ export class Post {
   }
 
   get isActive(): boolean {
-    return this.service.isActive;
+    return !!this.post.isActive;
   }
 
   get postAsDTO(): PostDTO {
-    console.log( this.service.serviceAsDTO);
-    return {
-      ...this.post,
-      service: this.service.serviceAsDTO,
-    };
+    const { id, name, description} = this.post
+    return { id, name, description, service: {...this.service.serviceAsDTO } };
   }
 }
 

@@ -13,6 +13,6 @@ export class Credential {
     }
 
     get credentialAsDTO (){
-        return this.credential
+        return {...this.credential}
     }
 }

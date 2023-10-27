@@ -12,9 +12,9 @@
       <TextField
         label="Title"
         data-test="holiday-type"
-        placeholder="Enter a title for the post"
-        v-model="post.title"
-        :error="error.title"
+        placeholder="Enter the post's name"
+        v-model="post.name"
+        :error="error.name"
       />
       <SelectInput
         class="mt-3"
@@ -39,7 +39,7 @@
           class="w-full shadow-none text-base mt-4 hover:shadow-md bg-blue-100 font-semibold text-gray-800 md:mt-0"
         />
         <BaseButton
-          title="Create"
+          :title="isLoading ? 'Saving' : 'Create'"
           :disabled="!shouldCreatePost"
           data-test="submit-button"
           @click="create"
@@ -82,7 +82,8 @@ const services = ref<Service[]>([]);
 const fetchServices = async (): Promise<void> => {
   isLoadingServices.value = true;
   const apiResponse = await useServiceStore().getAllServices();
-  if (apiResponse.status === ResquestStatus.SUCCESS) services.value = apiResponse.data;
+  if (apiResponse.status === ResquestStatus.SUCCESS)
+    services.value = apiResponse.data ?? [];
   isLoadingServices.value = false;
 };
 
@@ -95,19 +96,18 @@ onBeforeMount(() => {
 });
 
 const post = reactive({
-  title: "",
+  name: "",
   description: "",
   service: "",
 });
 const isLoading = ref<boolean>(false);
 
 const shouldCreatePost = computed(
-  () =>
-    !!post.title && !!post.service && !isProcessing.value && !isLoading.value
+  () => !!post.name && !!post.service && !isProcessing.value && !isLoading.value
 );
 
 const error = reactive<HolidayErrors>({
-  title: "",
+  name: "",
   description: "",
   service: "",
 });
@@ -116,13 +116,16 @@ const create = async () => {
   isLoading.value = true;
 
   const newPost = new Post({
-    name: post.title,
+    name: post.name,
     description: post.description,
-    service: services.value.find((service) => (service.name = post.service)),
+    service: services.value.find((service) => (service.name = post.service))
+      ?.serviceAsDTO,
   });
 
   const apiResponse = await usePostStore().createPost(newPost);
-  if (apiResponse.status === ResquestStatus.SUCCESS) emit("created");
-  isLoading.value = false;
+  if (apiResponse.status === ResquestStatus.SUCCESS)
+    /*emit("created");*/
+
+    isLoading.value = false;
 };
 </script>
