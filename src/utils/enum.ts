@@ -15,3 +15,8 @@ export enum COLOR_THEME{
   RED = 'RED',
   BLUE = 'BLUE',
 }
+
+export enum StatusCode{
+  BAD_REQUEST =  400,
+  UNAUTHORIZE = 401,
+}

@@ -34,12 +34,23 @@
         v-model="user.email"
         :error="error.title"
       />
-      <div class="mt-2 mb-4">
-        <p class="py-2 font-semibold text-gray-700">Roles</p>
-        <div class="flex space-x-6 items-center">
-          <CheckBox v-model="roles" label="Admin" />
-          <CheckBox v-model="roles" label="Human ressources" />
-          <CheckBox v-model="roles" label="Employee" />
+      <SelectInput
+        class="mt-2"
+        label="Post"
+        placeholder="Select a post"
+        :isLoading="isLoadingPost"
+        :options="postOptions"
+        v-model="user.post"
+      />
+      <div class="mb-4">
+        <p class="pb-2 font-semibold text-gray-700">Roles</p>
+        <div class="flex space-x-5 items-center">
+          <CheckBox
+              v-for="role in fetchedRoles"
+              :key="role.id"
+              v-model="user.roles"
+              :label="role.type.toLowerCase()"
+              :value="role"/>
         </div>
       </div>
       <TextField
@@ -65,7 +76,7 @@
           :class="[
             'w-full shadow-none text-base mt-4 font-semibold md:mt-0',
             shouldCreationButtonEnable
-              ? 'bg-blue-primary/100 hover:shadow-blue-primary hover:shadow-md cursor-pointer'
+              ? 'bg-blue-primary/100 hover:shadow-blue-primary text-white hover:shadow-md cursor-pointer'
               : ' bg-blue-primary/40 cursor-not-allowed',
           ]"
         />
@@ -77,45 +88,92 @@
 <script setup lang="ts">
 import BaseButton from "../BaseButton.vue";
 import TextField from "@/components/forms/TextField.vue";
-import { reactive, computed, ref } from "vue";
+import { computed, onBeforeMount, reactive, ref} from "vue";
 import ModalWrapper from "../modals/ModalWrapper.vue";
 import { HolidayErrors } from "@/utils/type";
 import CheckBox from "../forms/CheckBox.vue";
+import { Employee } from "@/domain/Employee";
+import { useEmployeeStore } from "@/store/employee";
+import { RequestsStatus } from "@/utils/api";
+import {newNullPost, Post} from "@/domain/Post";
+import { PostOptionItem } from "@/utils/options";
+import { usePostStore } from "@/store/post";
+import SelectInput from "@/components/forms/SelectInput.vue";
+import {useRoleStore} from "@/store/role";
+import {Role} from "@/domain/Role";
 
 const emit = defineEmits<{
   (event: "close"): void;
   (event: "created"): void;
 }>();
 
-enum ROLES {
-  ADMIN = "ADMIN",
-  EMPLOYEE = "EMPLOYEE",
-  HUMAN_RESOURCE = "HUMAN_RESOURCE",
-}
-const roles = Object.keys(ROLES).map((role) => role.toLowerCase());
-
 const user = reactive({
   firstName: "",
   lastName: "",
   email: "",
-  role: "",
+  roles: [],
   password: "",
+  post: new PostOptionItem(newNullPost())
 });
 
-const isProcessing = ref<boolean>(false);
+const isLoading = ref<boolean>(false);
 
 const shouldCreationButtonEnable = computed(
   () =>
-    !!user.firstName && !!user.email && !!user.password && !isProcessing.value
+    !!user.firstName && !!user.email && !!user.password && !isLoading.value
 );
 const error = reactive<HolidayErrors>({
   title: "",
   description: "",
-  service: "",
+  post: "",
 });
 
-const create = () => {
-  emit("created");
+const isLoadingPost = ref<boolean>(false);
+
+const fetchedPosts = ref<Post[]>([]);
+const postOptions = computed((): PostOptionItem[] =>
+    fetchedPosts.value.map((post) => new PostOptionItem(post))
+);
+
+const fetchServices = async (): Promise<void> => {
+  isLoadingPost.value = true;
+  const apiResponse = await usePostStore().getAllPosts();
+  if (apiResponse.status === RequestsStatus.SUCCESS)
+    fetchedPosts.value = apiResponse.data ?? [];
+  isLoadingPost.value = false;
+};
+
+const fetchedRoles = ref<Role[]>([]);
+const fetchRoles = async (): Promise<void> => {
+  isLoadingPost.value = true;
+  const apiResponse = await useRoleStore().getAllRoles();
+  if (apiResponse.status === RequestsStatus.SUCCESS)
+    fetchedRoles.value = apiResponse.data ?? [];
+  isLoadingPost.value = false;
+};
+
+onBeforeMount(()=>{
+  fetchServices();
+  fetchRoles();
+})
+const create = async () => {
+  isLoading.value = true;
+  const newUser = new Employee({
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    roles: user.roles,
+    password: user.password,
+    posts:[user.post.basePost.postAsDTO]
+  });
+  console.log(user.roles)
+  user.password = "";
+  
+  const userCreationResponse = await useEmployeeStore().createEmployee(newUser);
+  if (userCreationResponse.status === RequestsStatus.SUCCESS)
+    emit("created");
+
+  isLoading.value = false;
 };
 const close = (): void => {
   emit("close");

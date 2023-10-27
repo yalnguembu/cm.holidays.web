@@ -11,11 +11,11 @@ export class Employee {
   }
 
   get id(): string {
-    return this.employee.id;
+    return this.employee.id ?? "";
   }
 
   get firstname(): string {
-    return this.employee.firstname;
+    return this.employee.firstname ?? "";
   }
 
   set firstname(firstname: string) {
@@ -23,7 +23,7 @@ export class Employee {
   }
 
   get lastName(): string {
-    return this.employee.lastName;
+    return this.employee.lastName ?? "";
   }
 
   set lastName(lastName: string) {
@@ -31,18 +31,27 @@ export class Employee {
   }
 
   get email(): string {
-    return this.employee.email;
+    return this.employee.email ?? "";
   }
 
   get createdAt(): string {
-    return this.employee.createdAt;
+    return this.employee.createdAt ?? "";
   }
+
   get posts(): Post[] {
     return this.employee.posts?.map((post) => new Post(post));
   }
 
+  set posts (posts:Post[]){
+    this.employee.posts = posts;
+  }
+
   get roles(): Role[] {
     return this.employee.roles?.map((role) => new Role(role));
+  }
+
+  set roles(roles: Role[]) {
+    this.employee.roles = roles;
   }
 
   get holidays(): HolidayRequest[] {

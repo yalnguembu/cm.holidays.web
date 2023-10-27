@@ -1,5 +1,8 @@
 import { UserInformation } from "@/utils/types";
 import { ApiError, OpenAPI } from "@/services";
+import {StatusCode} from "@/utils/enum";
+import { useRouter } from "vue-router";
+import {useSessionStore} from "@/store/session";
 
 export const storeUserInformationsInsideStorage = (
   informations: UserInformation
@@ -39,7 +42,7 @@ export class ErrorResponse {
   }
 }
 
-export enum ResquestStatus {
+export enum RequestsStatus {
   FAILLED,
   SUCCESS,
 }
@@ -47,17 +50,17 @@ export enum ResquestStatus {
 export class RequestResponse<AwaitedData> {
   constructor(
     private readonly requestResponse: {
-      status: ResquestStatus;
+      status: RequestsStatus;
       data?: AwaitedData;
       error?: ErrorResponse;
     }
   ) {}
 
-  get status(): ResquestStatus {
+  get status(): RequestsStatus {
     return this.requestResponse.status;
   }
 
-  set status(status: ResquestStatus) {
+  set status(status: RequestsStatus) {
     this.requestResponse.status = status;
   }
 
@@ -81,19 +84,29 @@ export class RequestResponse<AwaitedData> {
 export const handelRequest = async <ResponseType>(
   executeRequest: Function
 ): Promise<RequestResponse<ResponseType>> => {
-  const requestResponse = new RequestResponse<ResponseType>({ status: ResquestStatus.FAILLED });
-
+  const requestResponse = new RequestResponse<ResponseType>({ status: RequestsStatus.FAILLED });
+const router = useRouter();
   try {
     requestResponse.data = await executeRequest();
-    requestResponse.status = ResquestStatus.SUCCESS;
+    requestResponse.status = RequestsStatus.SUCCESS;
   } catch (error: ApiError | any) {
     requestResponse.error = new ErrorResponse({
       message: error?.statusText ?? "",
       statusCode: error?.status ?? 500,
     });
     console.log(error);
-    requestResponse.status = ResquestStatus.FAILLED;
+    requestResponse.status = RequestsStatus.FAILLED;
   } finally {
+    const isTheRequestUnauthorized =
+        requestResponse.status === RequestsStatus.FAILLED
+        && requestResponse.error?.statusCode === StatusCode.UNAUTHORIZE
+
+    if (isTheRequestUnauthorized) {
+      useSessionStore().signOut();
+      localStorage.clear();
+      await router.push({replace: true, path: "/auth/sign-in"})
+    }
+
     return requestResponse;
   }
 };

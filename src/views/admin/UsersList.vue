@@ -7,14 +7,14 @@
     >
       <CreationButton
         title="New User"
-        @click.stop="toggleshoulCreateUser"
+        @click.stop="toggleShouldCreateUser"
       />
     </HeaderComponent>
     <UserListFilter v-if="true" class="mb-8" />
-    <UsersDataGrid :isLoading="false" :users="users" />
+    <UsersDataGrid :isLoading="isLoading" :users="users" />
     <UserCreationModal
-      v-if="shoulCreateUser"
-      @close="toggleshoulCreateUser"
+      v-if="isPermittedToCreateUser"
+      @close="toggleShouldCreateUser"
 
     />
   </div>
@@ -30,21 +30,21 @@ import { onBeforeMount } from "vue";
 import CreationButton from "@/components/CreationButton.vue";
 import HeaderComponent from "@/components/HeaderComponent.vue";
 import UserCreationModal from "@/components/modals/UserCreationModal.vue";
-import { ResquestStatus } from "@/utils/api";
+import { RequestsStatus } from "@/utils/api";
 
 const users = ref<Employee[]>([]);
 
 const isLoading = ref<boolean>(false);
 
-const shoulCreateUser = ref<boolean>(false);
-const toggleshoulCreateUser = () =>
-  (shoulCreateUser.value = !shoulCreateUser.value);
+const isPermittedToCreateUser = ref<boolean>(false);
+const toggleShouldCreateUser = () =>
+  (isPermittedToCreateUser.value = !isPermittedToCreateUser.value);
 
 const fetchUsers = async (): Promise<void> => {
   isLoading.value = true;
-  const fecthedUsersResponse = await useEmployeeStore().getAllEmployees();
-  if (fecthedUsersResponse.status === ResquestStatus.SUCCESS)
-    users.value = fecthedUsersResponse.data ?? [];
+  const fetchedUsersResponse = await useEmployeeStore().getAllEmployees();
+  if (fetchedUsersResponse.status === RequestsStatus.SUCCESS)
+    users.value = fetchedUsersResponse.data ?? [];
   isLoading.value = false;
 };
 

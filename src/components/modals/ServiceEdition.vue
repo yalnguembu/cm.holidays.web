@@ -72,7 +72,7 @@ import SpinnerLoader from "../SpinnerLoader.vue";
 import { Service } from "@/domain/Service";
 import { useServiceStore } from "@/store/service";
 import { computed } from "@vue/runtime-core";
-import { ResquestStatus } from "@/utils/api";
+import { RequestsStatus } from "@/utils/api";
 
 const props = defineProps({
   service: {
@@ -121,7 +121,7 @@ const save = async () => {
   });
   const editionResponse = await useServiceStore().updateService(updatedService);
 
-  if (editionResponse.status === ResquestStatus.SUCCESS) emit("created");
+  if (editionResponse.status === RequestsStatus.SUCCESS) emit("created");
 
   isLoading.value = false;
 };

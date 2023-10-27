@@ -22,7 +22,7 @@
       :post="post"
       v-if="shouldEditPost"
       @cancel="toggleEditionFormVisibility"
-      @edited="$emit('update')"
+      @edited="$emit('updated')"
     />
     <ConfirmationModal
       data-test="post-delete-modal"
@@ -63,7 +63,7 @@ import ConfirmationModal from "@/components/modals/ConfirmationModal.vue";
 import ListItemOption from "@/components/ListItemOption.vue";
 import PostEdition from "@/components/modals/PostEdition.vue";
 import { usePostStore } from "@/store/post";
-import { ResquestStatus } from "@/utils/api";
+import { RequestsStatus } from "@/utils/api";
 
 const props = defineProps({
   post: {
@@ -72,7 +72,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["update"]);
+const emit = defineEmits(["updated"]);
 
 const shouldEditPost = ref<boolean>(false);
 const toggleEditionFormVisibility = () =>
@@ -96,9 +96,9 @@ const activate = async () => {
   const activationResponse = await usePostStore().activatePostById(
     props.post.id
   );
-  if (activationResponse.status === ResquestStatus.SUCCESS) {
+  if (activationResponse.status === RequestsStatus.SUCCESS) {
     toggleShouldActivatePost();
-    emit("update");
+    emit("updated");
   }
   isLoading.value = false;
 };
@@ -108,9 +108,9 @@ const deactivate = async () => {
   const deactivationResponse = await usePostStore().deactivatePostById(
     props.post.id
   );
-  if (deactivationResponse.status === ResquestStatus.SUCCESS) {
+  if (deactivationResponse.status === RequestsStatus.SUCCESS) {
     toggleShouldDeactivatePost();
-    emit("update");
+    emit("updated");
   }
   isLoading.value = false;
 };

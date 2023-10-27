@@ -29,7 +29,7 @@
         <EditIcon />
       </button>
       <button
-        class="p-2 h-fit border-2 rounded-full hover:bg-gray-100 bg-white border-transparent font-bold text-gray-500 transition hover:shadow-md duration-500 hover:text-red-600"
+        class="ml-2 p-2 h-fit border-2 rounded-full hover:bg-gray-100 bg-white border-transparent font-bold text-gray-500 transition hover:shadow-md duration-500 hover:text-red-600"
         @click.stop="$emit('delete')"
       >
         <TrashIcon />

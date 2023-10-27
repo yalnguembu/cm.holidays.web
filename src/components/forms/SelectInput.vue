@@ -32,11 +32,14 @@
             class="px-4 py-2 hover:bg-gray-100 cursor-ponter text-gray-600"
             v-for="(option) in options"
             :key="options.key"
-            @click="handelSelect(option.key)"
+            @click="handelSelect(option)"
           >
             {{ option.label }}
           </li>
         </template>
+        <div v-else-if="isLoading" class="p-3 w-full flex justify-center items-center">
+          <SpinnerLoader class="w-10 h-10" />
+        </div>
         <div v-else>Nothing found</div>
       </ul>
     </div>
@@ -54,30 +57,32 @@
 import { computed, ref, watch, watchEffect } from "vue";
 import { useDetectOutsideClick } from "@/utils/outsideClick";
 import ArrowDownIcon from "@/components/icons/ArrowDownIcon.vue";
-import { OptionItem } from "@/utils/options"
+import { OptionItem } from "@/utils/types"
+import SpinnerLoader from "@/components/SpinnerLoader.vue";
 
 const props = defineProps<{
   label?: string;
   placeholder?: string;
-  defaultValue?: string;
-  modelValue: string;
+  defaultValue?: OptionItem;
+  modelValue: OptionItem;
   options: OptionItem[];
   error?: "";
   isValid?: boolean;
+  isLoading: boolean
 }>();
 
 const optionsList = ref<HTMLUListElement | undefined>();
 const emit = defineEmits(["update:modelValue"]);
-const text = ref<string>(props.modelValue ?? "");
-const select = ref<string>(props.defaultValue ?? "");
+const text = ref<string>(props.modelValue.label ?? "");
+const select = ref<OptionItem | undefined>(props.defaultValue);
 const options = computed(()=> props.options);
 const shouldDisplayOptions = ref<boolean>(false);
 
 const toggleShouldDisplayOptions = () =>
   (shouldDisplayOptions.value = !shouldDisplayOptions.value);
-const handelSelect = (value: string) => {
-  text.value = value;
-  select.value = value;
+const handelSelect = (option: OptionItem) => {
+  text.value = option.label;
+  select.value = option;
   shouldDisplayOptions.value = false;
 };
 
@@ -90,7 +95,7 @@ watch(select, (value) => {
   emit("update:modelValue", value);
 });
 watch(text, (value: string) => {
-  if (value.length > 0) filter(value?.toLowerCase());
+  if (value.length > 0) filter(value?.toLowerCase() ?? "");
   else options.value = props.options;
 });
 

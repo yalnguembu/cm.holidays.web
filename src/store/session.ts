@@ -62,7 +62,7 @@ console.log("request finished");
     id: string
   ): Promise<RequestResponse<void>> => {
     return handelRequest(async () => {
-      const informations =  sessionP// await EmployeeService.getEmployeeById({ id });
+      const informations = await EmployeeService.getEmployeeById({ id });
       session.value = new Session(informations);
     });
   };

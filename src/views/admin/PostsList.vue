@@ -29,7 +29,7 @@
       class="grid grid-cols-2 lg:grid-cols-3 gap-6 pt-8 xl:grid-cols-4"
       v-else-if="posts.length"
     >
-      <PostListItem v-for="post in posts" :post="post" @created="fetchPosts" />
+      <PostListItem v-for="post in posts" :post="post" @created="fetchPosts" @updated="fetchPosts" />
     </section>
     <section
       v-else
@@ -52,7 +52,7 @@ import PostCreationModal from "@/components/modals/PostCreationModal.vue";
 import PostListItem from "@/components/PostListItem.vue";
 import { Post } from "@/domain/Post";
 import { usePostStore } from "@/store/post";
-import { ResquestStatus } from "@/utils/api";
+import { RequestsStatus } from "@/utils/api";
 import OpenFolderIcon from "@/components/icons/OpenFolderIcon.vue";
 import SpinnerLoader from "@/components/SpinnerLoader.vue";
 
@@ -66,7 +66,7 @@ const posts = ref<Post[]>([]);
 const fetchPosts = async () => {
   isPostListLoading.value = true;
   const apiResponse = await usePostStore().getAllPosts();
-  if (apiResponse.status === ResquestStatus.SUCCESS)
+  if (apiResponse.status === RequestsStatus.SUCCESS)
     posts.value = apiResponse.data;
   isPostListLoading.value = false;
 };

@@ -58,7 +58,7 @@ import ServiceListItem from "@/components/ServiceListItem.vue";
 import { Service } from "@/domain/Service";
 import { useServiceStore } from "@/store/service";
 import OpenFolderIcon from "@/components/icons/OpenFolderIcon.vue";
-import { ResquestStatus } from "@/utils/api";
+import { RequestsStatus } from "@/utils/api";
 import SpinnerLoader from "@/components/SpinnerLoader.vue";
 
 const shouldDisplayCreationModal = ref<boolean>(false);
@@ -72,7 +72,7 @@ const fetchServices = async () => {
   isServiceListLoading.value = true;
   const apiResponse = await useServiceStore().getAllServices();
 
-  if (apiResponse.status === ResquestStatus.SUCCESS)
+  if (apiResponse.status === RequestsStatus.SUCCESS)
     services.value = apiResponse.data ?? [];
 
   isServiceListLoading.value = false;

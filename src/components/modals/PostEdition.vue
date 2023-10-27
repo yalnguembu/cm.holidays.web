@@ -1,5 +1,5 @@
 <template>
-  <ModalWrapper @close="$emit('close')">
+  <ModalWrapper @close="$emit('cancel')">
     <form
       method="post"
       @submit.prevent="save"
@@ -24,7 +24,8 @@
         label="Service"
         placeholder="Select a service"
         :options="serviceOptions"
-        modeVale=""
+        v-model="post.service"
+        :isLoading="isLoadingServices"
       />
       <TextArea
         v-model.trim="post.description"
@@ -63,7 +64,7 @@ import BaseButton from "../BaseButton.vue";
 import TextArea from "@/components/forms/TextArea.vue";
 import TextField from "@/components/forms/TextField.vue";
 import SelectInput from "@/components/forms/SelectInput.vue";
-import { PropType, reactive, ref } from "vue";
+import {onBeforeMount, PropType, reactive, ref, watchEffect} from "vue";
 import ModalWrapper from "../modals/ModalWrapper.vue";
 import { Post } from "@/domain/Post";
 import { usePostStore } from "@/store/post";
@@ -71,35 +72,42 @@ import { computed } from "@vue/runtime-core";
 import { useServiceStore } from "@/store/service";
 import { Service } from "@/domain/Service";
 import { ServiceOptionItem } from "@/utils/options";
+import {RequestsStatus} from "@/utils/api";
 
 const props = defineProps({
   post: {
     type: Object as PropType<Post>,
+    required: true,
   },
 });
 const emit = defineEmits<{
   (event: "cancel"): void;
-  (event: "created"): void;
+  (event: "edited"): void;
 }>();
 
 const isLoadingServices = ref<boolean>(false);
-const services = ref<Service[]>([]);
+const fetchedServices = ref<Service[]>([]);
 const serviceOptions = computed((): ServiceOptionItem[] =>
-  services.value.map((service) => ServiceOptionItem(service))
+    fetchedServices.value.map((service) => new ServiceOptionItem(service))
 );
 
 const fetchServices = async (): Promise<void> => {
   isLoadingServices.value = true;
-  services.value = await useServiceStore().getAllServices();
+  const apiResponse = await useServiceStore().getAllServices();
+  if (apiResponse.status === RequestsStatus.SUCCESS)
+    fetchedServices.value = apiResponse.data ?? [];
   isLoadingServices.value = false;
 };
 
-const post = reactive<Post>(
-  new Post({
-    name: props.post.name,
-    description: props.post.description,
-  })
-);
+onBeforeMount(()=>{
+  fetchServices()
+})
+
+const post = reactive({
+      name: props.post?.name ?? "",
+      description: props.post?.description ?? "",
+      service: new ServiceOptionItem(props.post.service)
+});
 
 const error = reactive<{
   name: string;
@@ -113,20 +121,28 @@ const isProcessing = ref<boolean>(false);
 
 const shouldSaveModification = computed((): boolean => {
   const oldValue = JSON.stringify({
-    name: props.post.name,
-    description: props.post.description,
+    name: props.post?.name,
+    description: props.post?.description,
+    service: props.post?.service
   });
   const newValue = JSON.stringify({
     name: post.name,
     description: post.description,
+    service: post?.service
   });
   return oldValue !== newValue && !isProcessing.value;
 });
 
 const save = async () => {
   isProcessing.value = true;
-  await usePostStore().updatePost(post);
+  const newPost = new Post({
+    id:props.post?.id,
+    name: post.name,
+    description: post.description,
+    service: post.service.baseService.serviceAsDTO
+  })
+  await usePostStore().updatePost(newPost);
   isProcessing.value = false;
-  emit("created");
+  emit("edited");
 };
 </script>

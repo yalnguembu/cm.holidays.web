@@ -62,7 +62,7 @@ import { Service } from "@/domain/Service";
 import ListItemOption from "@/components/ListItemOption.vue";
 import { COLOR_THEME } from "@/utils/enum";
 import { useServiceStore } from "@/store/service";
-import { ResquestStatus } from "@/utils/api";
+import { RequestsStatus } from "@/utils/api";
 
 const props = defineProps({
   service: {
@@ -96,7 +96,7 @@ const activate = async () => {
   const activationResponse = await useServiceStore().activateServiceById(
     props.service.id
   );
-  if (activationResponse.status === ResquestStatus.SUCCESS) {
+  if (activationResponse.status === RequestsStatus.SUCCESS) {
     toggleShouldActivateService();
     emit("update");
   }
@@ -108,7 +108,7 @@ const deactivate = async () => {
   const deactivationResponse = await useServiceStore().deactivateServiceById(
     props.service.id
   );
-  if (deactivationResponse.status === ResquestStatus.SUCCESS) {
+  if (deactivationResponse.status === RequestsStatus.SUCCESS) {
     toggleShouldActivateService();
     emit("update");
   }

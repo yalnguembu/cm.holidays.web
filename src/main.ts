@@ -7,7 +7,7 @@ import { useSessionStore } from "@/store/session";
 import { USER_ROLE } from "@/utils/enum";
 import { fetchUSerInformationsInsideStorage, prepareApis } from "@/utils/api";
 import { userHasRole } from "@/utils/user";
-import { ResquestStatus } from "./utils/api";
+import { RequestsStatus } from "./utils/api";
 
 prepareApis();
 
@@ -34,14 +34,12 @@ router.beforeEach(async (to, from, next) => {
         return next();
       }
     } else {
-      console.log("User is not connected");
       const cachedUserInformations = fetchUSerInformationsInsideStorage();
       const fetchUSerInformationsResponse =
         await sessionStore.fetchUSerInformations(
           cachedUserInformations?.id ?? ""
         );
-      if (fetchUSerInformationsResponse.status === ResquestStatus.SUCCESS) {
-        console.log("User can Go To TheWantedPage after fetch");
+      if (fetchUSerInformationsResponse.status === RequestsStatus.SUCCESS) {
         next();
       } else {
         await router.push({ replace: true, path: "/auth/sign-in" });

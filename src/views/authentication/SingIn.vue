@@ -64,7 +64,7 @@ import { computed, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useSessionStore } from "@/store/session";
 import { Credential } from "@/domain/Credential";
-import { ResquestStatus } from "@/utils/api";
+import { RequestsStatus } from "@/utils/api";
 
 const router = useRouter();
 
@@ -113,7 +113,7 @@ const login = async () => {
 
   console.log("3");
 
-  if (signInResponse.status === ResquestStatus.SUCCESS)
+  if (signInResponse.status === RequestsStatus.SUCCESS)
     window.location.href = "/";
   else
     error.crudentials =

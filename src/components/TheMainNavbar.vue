@@ -70,10 +70,11 @@
       />
     </nav>
   </div>
+  <OfflineModal />
 </template>
 
 <script setup lang="ts">
-import { PropType, computed, ref } from "vue";
+import {PropType, computed, ref } from "vue";
 import AccountIcon from "./icons/AccountIcon.vue";
 import UserProfile from "./modals/UserProfileModal.vue";
 import type { NavaBarItem } from "@/utils/menu";
@@ -82,6 +83,7 @@ import { useRoute, useRouter } from "vue-router";
 import ConfirmationModal from "@/components/modals/ConfirmationModal.vue";
 import { useSessionStore } from "@/store/session";
 import { COLOR_THEME } from "@/utils/enum";
+import OfflineModal from "@/components/modals/OfflineModal.vue";
 
 const props = defineProps({
   items: {
