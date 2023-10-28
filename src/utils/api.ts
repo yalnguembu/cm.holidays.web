@@ -43,7 +43,7 @@ export class ErrorResponse {
 }
 
 export enum RequestsStatus {
-  FAILLED,
+  FAILED,
   SUCCESS,
 }
 
@@ -84,7 +84,7 @@ export class RequestResponse<AwaitedData> {
 export const handelRequest = async <ResponseType>(
   executeRequest: Function
 ): Promise<RequestResponse<ResponseType>> => {
-  const requestResponse = new RequestResponse<ResponseType>({ status: RequestsStatus.FAILLED });
+  const requestResponse = new RequestResponse<ResponseType>({ status: RequestsStatus.FAILED });
 const router = useRouter();
   try {
     requestResponse.data = await executeRequest();
@@ -95,10 +95,10 @@ const router = useRouter();
       statusCode: error?.status ?? 500,
     });
     console.log(error);
-    requestResponse.status = RequestsStatus.FAILLED;
+    requestResponse.status = RequestsStatus.FAILED;
   } finally {
     const isTheRequestUnauthorized =
-        requestResponse.status === RequestsStatus.FAILLED
+        requestResponse.status === RequestsStatus.FAILED
         && requestResponse.error?.statusCode === StatusCode.UNAUTHORIZE
 
     if (isTheRequestUnauthorized) {

@@ -1,4 +1,4 @@
-import { EmployeeDTO } from "@/services";
+import { EmployeeDTO, EmployeeDTOForCreation, EmployeeDTOForUpdate } from "@/services";
 import { Post } from "./Post";
 import { Role } from "./Role";
 import { HolidayRequest } from "./HolidayRequest";
@@ -6,7 +6,7 @@ import { HolidayRequest } from "./HolidayRequest";
 export class Employee {
   isNull: boolean;
 
-  constructor(private readonly employee: EmployeeDTO) {
+  constructor(private readonly employee: EmployeeDTO | EmployeeDTOForCreation | EmployeeDTOForUpdate) {
     this.isNull = false;
   }
 

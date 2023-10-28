@@ -5,17 +5,14 @@
       title="Users"
       description="Lorem, ipsum dolor sit amet consectetur adipisicing elit."
     >
-      <CreationButton
-        title="New User"
-        @click.stop="toggleShouldCreateUser"
-      />
+      <CreationButton title="New User" @click.stop="toggleShouldCreateUser" />
     </HeaderComponent>
     <UserListFilter v-if="true" class="mb-8" />
     <UsersDataGrid :isLoading="isLoading" :users="users" />
     <UserCreationModal
       v-if="isPermittedToCreateUser"
       @close="toggleShouldCreateUser"
-
+      @created="fetchUsers"
     />
   </div>
 </template>
