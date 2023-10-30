@@ -12,15 +12,16 @@
       <TextField
         label="Title"
         data-test="holiday-type"
-        placeholder="Enter a title for the post"
-        v-model="post.title"
-        :error="error.title"
+        placeholder="Enter the post's name"
+        v-model="post.name"
+        :error="error.name"
       />
       <SelectInput
         class="mt-3"
         data-test="holiday-type"
         label="Service"
         placeholder="Select a service"
+        :isLoading="isLoadingServices"
         :options="serviceOptions"
         v-model="post.service"
         :error="error.service"
@@ -39,7 +40,7 @@
           class="w-full shadow-none text-base mt-4 hover:shadow-md bg-blue-100 font-semibold text-gray-800 md:mt-0"
         />
         <BaseButton
-          title="Create"
+          :title="isLoading ? 'Saving' : 'Create'"
           :disabled="!shouldCreatePost"
           data-test="submit-button"
           @click="create"
@@ -60,7 +61,7 @@ import BaseButton from "../BaseButton.vue";
 import TextArea from "@/components/forms/TextArea.vue";
 import TextField from "@/components/forms/TextField.vue";
 import SelectInput from "@/components/forms/SelectInput.vue";
-import { reactive, computed, ref, onBeforeMount } from "vue";
+import {reactive, computed, ref, onBeforeMount, watchEffect} from "vue";
 import ModalWrapper from "../modals/ModalWrapper.vue";
 import { HolidayErrors } from "@/utils/type";
 import { useServiceStore } from "@/store/service";
@@ -68,7 +69,7 @@ import { Service } from "@/domain/Service";
 import { ServiceOptionItem } from "@/utils/options";
 import { usePostStore } from "@/store/post";
 import { Post } from "@/domain/Post";
-import { ResquestStatus } from "@/utils/api";
+import { RequestsStatus } from "@/utils/api";
 
 const emit = defineEmits<{
   (event: "close"): void;
@@ -77,17 +78,18 @@ const emit = defineEmits<{
 
 const isProcessing = ref<boolean>(false);
 const isLoadingServices = ref<boolean>(false);
-const services = ref<Service[]>([]);
+const fetchedServices = ref<Service[]>([]);
 
 const fetchServices = async (): Promise<void> => {
   isLoadingServices.value = true;
   const apiResponse = await useServiceStore().getAllServices();
-  if (apiResponse.status === ResquestStatus.SUCCESS) services.value = apiResponse.data;
+  if (apiResponse.status === RequestsStatus.SUCCESS)
+    fetchedServices.value = apiResponse.data ?? [];
   isLoadingServices.value = false;
 };
 
 const serviceOptions = computed(() =>
-  services.value.map((service) => new ServiceOptionItem(service))
+  fetchedServices.value.map((service) => new ServiceOptionItem(service))
 );
 
 onBeforeMount(() => {
@@ -95,19 +97,18 @@ onBeforeMount(() => {
 });
 
 const post = reactive({
-  title: "",
+  name: "",
   description: "",
   service: "",
 });
 const isLoading = ref<boolean>(false);
 
 const shouldCreatePost = computed(
-  () =>
-    !!post.title && !!post.service && !isProcessing.value && !isLoading.value
+  () => !!post.name && !!post.service && !isProcessing.value && !isLoading.value
 );
 
 const error = reactive<HolidayErrors>({
-  title: "",
+  name: "",
   description: "",
   service: "",
 });
@@ -116,13 +117,19 @@ const create = async () => {
   isLoading.value = true;
 
   const newPost = new Post({
-    name: post.title,
+    name: post.name,
     description: post.description,
-    service: services.value.find((service) => (service.name = post.service)),
+    service: fetchedServices.value.find((service) => (service.name = post.service))
+      ?.serviceAsDTO,
   });
 
   const apiResponse = await usePostStore().createPost(newPost);
-  if (apiResponse.status === ResquestStatus.SUCCESS) emit("created");
+  if (apiResponse.status === RequestsStatus.SUCCESS) emit("created");
+
   isLoading.value = false;
 };
+
+watchEffect(()=>{
+  console.log(post.service)
+})
 </script>

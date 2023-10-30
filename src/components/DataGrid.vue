@@ -41,25 +41,33 @@
             </tr>
           </div>
         </template>
-        <template v-else>
-          <h1>Loading</h1>
-        </template>
       </tbody>
+
     </table>
+    <div  v-if="isLoading" class="w-full border flex items-center justify-center p-4">
+        <SpinnerLoader class="h-12 w-12" />
+    </div>
     <div class="flex justify-between items-center border-t">
       <div
         v-if="hasTotal"
         data-test="total-title"
-        class="text-gray-800 text-md font-semibold p-4 font-sourceSansPro-Regular bg-white w-full rounded-b-md"
+        class="text-gray-800 text-md font-semibold p-4 font-sourceSansPro-Regular bg-white w-full rounded-b-md flex items-center"
       >
-        {{ totalElementTitle }} : {{ rows.length }}
+        <span class="mr-2">
+          {{ totalElementTitle }} :
+        </span>
+        <SpinnerLoader v-if="isLoading" class="h-4 w-4 border-[3.5px]" />
+        <span v-else>
+         {{ rows.length }}
+        </span>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { PropType, watchEffect } from "vue";
+import { PropType } from "vue";
 import { DataGridRow, DataGridColumnHeader } from "@/utils/type";
+import SpinnerLoader from "@/components/SpinnerLoader.vue"
 
 const props = defineProps({
   columnHeaders: {
