@@ -2,10 +2,6 @@
   <AuthenticationNavbar />
   <RouterView />
 </template>
-<script>
+<script setup lang="ts">
 import AuthenticationNavbar from "./AuthenticationNavbar.vue";
-export default {
-  name: "Authentication",
-  components: { AuthenticationNavbar },
-};
 </script>

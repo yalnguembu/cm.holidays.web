@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Talwind version</title>
+  </head>
+  <body>
+    <div class="w-full flex items-center justify-between p-4 border">
+      <div>
+        <h2 class="text-3xl font-bold">Logo</h2>
+        <h6 class="text-gray-500">Date du jour</h6>
+      </div>
+      <div>
+        <img src="../images/account.svg" alt="" />
+      </div>
+    </div>
+    <div class="container text-center p-4">
+      <h1 class="font-bold text-xl">Hello, welcome...</h1>
+      <p class="text-gray-500 mb-4">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel reiciendis
+        quasi dicta sed ipsum quas nihil, quis pariatur.
+      </p>
+      <div class="w-full md:flex justify-center gap-4">
+        <button
+          class="w-full md:w-1/4 bg-blue-500 text-white text-left md:text-center p-4 rounded-md mb-4 md:mb-0"
+        >
+          <span class="mr-2 py-2 px-2 bg-blue-400 rounded">
+            <img src="../images/add.svg" alt="" class="inline ml-1" />
+          </span>
+          Create new holiday
+        </button>
+        <button
+          class="w-full md:w-1/4 bg-blue-100 text-blue-500 text-left md:text-center p-4 rounded-md mb-4 md:mb-0"
+        >
+          <img src="../images/calendar-blue.svg" alt="" class="mr-2 inline" />
+          Create new holiday
+        </button>
+      </div>
+      <div class="w-full">
+        <img src="../images//illustration-home.svg" alt="" class="mx-auto" />
+      </div>
+    </div>
+    <div class="visible p-4 md:p-10 md:bg-stone-800/75 fixed inset-0 top-24">
+      <div
+        class="md:border md:rounded-xl md:p-6 md:shadow-lg bg-white mx-auto md:w-3/4"
+      >
+        <h2 class="text-3xl font-bold text-center">Create a holiday</h2>
+        <div class="grid grid-cols-3 gap-4 w-full my-4">
+          <div class="basis-full col-span-2 mb-4">
+            <label for="type" class="text-md text-gray-500">Type</label>
+            <select
+              name="type"
+              class="border rounded-md w-full p-4 mt-2 bg-gray-100"
+              id=""
+            >
+              <option value="1">select a option</option>
+              <option value="1">option 1</option>
+            </select>
+          </div>
+          <div class="basis-1/2 md:basis-1/3">
+            <label for="starting" class="text-md text-gray-500"
+              >Starting date</label
+            >
+            <div class="border rounded-md w-full p-2 mt-2 bg-gray-100">
+              <input
+                type="text"
+                placeholder="Select your type"
+                id="starting"
+                class="bg-transparent w-3/4 p-2"
+              />
+              <img src="../images/calendar.svg" alt="" class="inline" />
+            </div>
+          </div>
+          <div class="basis-1/2 md:basis-1/3">
+            <label for="starting" class="text-md text-gray-500"
+              >Ending date</label
+            >
+            <div class="border rounded-md w-full p-2 mt-2 bg-gray-100">
+              <input
+                type="text"
+                placeholder="Select your type"
+                id="starting"
+                class="bg-transparent w-3/4 p-2"
+              />
+              <img src="../images/calendar.svg" alt="" class="inline" />
+            </div>
+          </div>
+          <div class="basis-1/2 md:basis-1/3">
+            <label for="starting" class="text-md text-gray-500"
+              >Numbers of days</label
+            >
+            <div class="border rounded-md w-full p-2 mt-2 bg-gray-100">
+              <input
+                type="text"
+                placeholder="Select your type"
+                id="starting"
+                class="bg-transparent p-2 w-full"
+              />
+            </div>
+          </div>
+          <div class="basis-1/2 md:basis-1/3">
+            <label for="starting" class="text-md text-gray-500"
+              >Return date</label
+            >
+            <div class="border rounded-md w-full p-2 mt-2 bg-gray-100">
+              <input
+                type="text"
+                placeholder="Select your type"
+                id="starting"
+                class="bg-transparent w-3/4 p-2"
+              />
+              <img src="../images/calendar.svg" alt="" class="inline" />
+            </div>
+          </div>
+        </div>
+        <div class="w-full">
+          <label for="starting" class="text-md text-gray-500"
+            >Numbers of days</label
+          >
+          <textarea
+            name=""
+            id=""
+            rows="4"
+            class="text-md text-gray-500 w-full bg-gray-100 border rounded-md mb-4"
+          ></textarea>
+        </div>
+        <button
+          class="w-full bg-blue-500 text-center text-white rounded-md p-4 text-lg"
+        >
+          SUBMIT
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

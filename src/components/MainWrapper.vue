@@ -5,30 +5,28 @@
   </template>
 </template>
 
-<script>
-import { onBeforeUnmount, onMounted } from "@vue/runtime-core";
+<script setup lang="ts">
+import { onMounted } from "@vue/runtime-core";
+import { Router, useRouter } from "vue-router";
 import TheMainNavbar from "./TheMainNavbar.vue";
-import { useRouter } from "vue-router";
-export default {
-  name: "MainWrapper",
-  components: { TheMainNavbar },
-  setup() {
-    const router = useRouter();
-    const filteredUser = (userSession) => {
-      const users = JSON.parse(localStorage.getItem("users"));
-      return users.filter((user) => user.email === userSession.email);
-    };
 
-    const isUserConnected = () => {
-      const userSession =
-        localStorage.getItem("user") || sessionStorage.getItem("user");
-      return userSession && filteredUser(JSON.parse(userSession)).length > 0;
-    };
+interface User {
+  email: string;
+}
 
-    onMounted(() => {
-      !isUserConnected() && router.push("/login");
-    });
-    return { isUserConnected };
-  },
+const router: Router = useRouter();
+const filteredUser = (userSession: User): User[] => {
+  const users = JSON.parse(localStorage.getItem("users") ?? "");
+  return users.filter((user: User) => user.email === userSession.email);
 };
+const isUserConnected = (): boolean => {
+  const userSession =
+    (localStorage.getItem("user") ?? "") ||
+    (sessionStorage.getItem("user") ?? "");
+  return 1;
+};
+
+onMounted(() => {
+  // !isUserConnected() && router.push("/login");
+});
 </script>

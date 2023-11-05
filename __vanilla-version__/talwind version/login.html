@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Talwind version</title>
+  </head>
+  <body class="bg-gray-100 md:bg-white">
+    <div class="w-full text-center p-4 bg-white shadow-lg">
+      <h2 class="text-3xl font-bold">Logo</h2>
+    </div>
+    <div class="w-full p-5">
+      <div
+        class="md:shadow-lg md:border md:bg-white md:p-5 lg:p-8 rounded-lg md:w-1/2 mx-auto md:mt-8 xl:w-1/3"
+      >
+        <div class="md:text-center mb-8">
+          <h1 class="font-bold text-2xl">Login</h1>
+          <p class="text-gray-500">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus
+          </p>
+        </div>
+        <div class="mt-4">
+          <label for="email" class="text-gray-500">Email</label>
+          <div
+            class="border border-gray-300 rounded-lg shadow-2xl shadow-gray-200 flex flex-row w-full justify-between align-center px-4 mt-2"
+          >
+            <img src="../images/mail.svg" alt="" class="w-6" />
+            <input
+              type="text"
+              name="email"
+              id="email"
+              class="w-full p-4 bg-transparent"
+            />
+          </div>
+        </div>
+        <div class="mt-4">
+          <label for="password" class="text-gray-500">password</label>
+          <div
+            class="border border-gray-300 rounded-lg shadow-2xl flex flex-row w-full justify-between align-center px-4 mt-2"
+          >
+            <img src="../images/lock.svg" alt="" class="w-6" />
+            <input
+              type="password"
+              name="password"
+              id="password"
+              class="w-full p-4 bg-transparent"
+            />
+          </div>
+          <div class="flex flex-row align-center justify-between mt-6">
+            <div>
+              <input
+                type="checkbox"
+                name="remind"
+                id="remind"
+                class="border-gray-500 bg-transparent"
+              />
+              <p class="inline text-gray-500">Remember me!</p>
+            </div>
+            <a href="" class="underline text-blue-500">Forgot password?</a>
+          </div>
+        </div>
+        <div class="mt-4 mb-12">
+          <button
+            type="submit"
+            class="bg-blue-500 text-white w-full text-center p-4 rounded-md font-bold mt-14 text-xl shadow-xl shadow-blue-400"
+          >
+            LOGIN
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

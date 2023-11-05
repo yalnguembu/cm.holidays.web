@@ -7,17 +7,12 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import InfoIcon from "./icons/InfoIcon.vue";
-export default {
-  name: "ErrorAlert",
 
-  components: {
-    InfoIcon,
-  },
+interface Props {
+  title: string;
+}
 
-  props: {
-    title: { type: String, require: true },
-  },
-};
+const props = defineProps<Props>();
 </script>
