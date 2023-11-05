@@ -10,46 +10,18 @@ import {
   setRequestHeaderToken,
 } from "../utils/api";
 
-const sessionP = {
-  email: "yal@holiday.cm",
-  id: "1234-1234-1234-1234",
-  firstname: "Fucker",
-  lastName: "Mother's",
-  roles: [
-    {
-      type: USER_ROLE["ADMIN"],
-      description: "",
-      id: "1234",
-    },
-  ],
-  posts: [
-    {
-      id: "1234",
-      name: "Frontend Dev",
-    },
-    {
-      id: "1234",
-      name: "UI/UX Designer",
-    },
-  ],
-};
-
-
 export const useSessionStore = defineStore("session", () => {
-  // const session = ref<Session>(new Session(sessionP));
   const session = ref<Session>(newNullSession());
 
   const login = async (
     credential: Credential
   ): Promise<RequestResponse<void>> => {
     return handelRequest(async () => {
-console.log("request start");
 
       const authenticationResponse = await EmployeeService.authenticateEmployee(
         { requestBody: credential.credentialAsDTO }
       );
 
-console.log("request finished");
       session.value = new Session({
         id: authenticationResponse.id,
         email: credential.email,
