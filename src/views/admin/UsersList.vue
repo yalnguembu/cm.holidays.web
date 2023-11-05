@@ -12,7 +12,12 @@
     <UserCreationModal
       v-if="isPermittedToCreateUser"
       @close="toggleShouldCreateUser"
-      @created="fetchUsers"
+      @created="
+        () => {
+          fetchUsers();
+          toggleShouldCreateUser();
+        }
+      "
     />
   </div>
 </template>

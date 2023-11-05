@@ -61,11 +61,11 @@ import BaseButton from "../BaseButton.vue";
 import TextArea from "@/components/forms/TextArea.vue";
 import TextField from "@/components/forms/TextField.vue";
 import SelectInput from "@/components/forms/SelectInput.vue";
-import {reactive, computed, ref, onBeforeMount, watchEffect} from "vue";
+import { reactive, computed, ref, onBeforeMount, watchEffect } from "vue";
 import ModalWrapper from "../modals/ModalWrapper.vue";
 import { HolidayErrors } from "@/utils/type";
 import { useServiceStore } from "@/store/service";
-import { Service } from "@/domain/Service";
+import { Service, newNullService } from "@/domain/Service";
 import { ServiceOptionItem } from "@/utils/options";
 import { usePostStore } from "@/store/post";
 import { Post } from "@/domain/Post";
@@ -99,7 +99,7 @@ onBeforeMount(() => {
 const post = reactive({
   name: "",
   description: "",
-  service: "",
+  service: newNullService(),
 });
 const isLoading = ref<boolean>(false);
 
@@ -119,8 +119,7 @@ const create = async () => {
   const newPost = new Post({
     name: post.name,
     description: post.description,
-    service: fetchedServices.value.find((service) => (service.name = post.service))
-      ?.serviceAsDTO,
+    service: post.service.serviceAsDTO,
   });
 
   const apiResponse = await usePostStore().createPost(newPost);
@@ -128,8 +127,4 @@ const create = async () => {
 
   isLoading.value = false;
 };
-
-watchEffect(()=>{
-  console.log(post.service)
-})
 </script>

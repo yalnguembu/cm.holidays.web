@@ -44,7 +44,7 @@
       :isLoading="isLoading"
     />
     <ConfirmationModal
-      data-test="post-disactivation-modal"
+      data-test="post-deactivation-modal"
       title="Deactivate Post"
       :theme="COLOR_THEME.RED"
       :description="`By click on the confirm button the post will ${post.name} be deactivate are you agree`"

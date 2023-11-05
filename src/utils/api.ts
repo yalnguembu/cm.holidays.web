@@ -1,7 +1,6 @@
 import { UserInformation } from "@/utils/types";
 import { ApiError, OpenAPI } from "@/services";
 import {StatusCode} from "@/utils/enum";
-import { useRouter } from "vue-router";
 import {useSessionStore} from "@/store/session";
 
 export const storeUserInformationsInsideStorage = (
@@ -85,7 +84,7 @@ export const handelRequest = async <ResponseType>(
   executeRequest: Function
 ): Promise<RequestResponse<ResponseType>> => {
   const requestResponse = new RequestResponse<ResponseType>({ status: RequestsStatus.FAILED });
-const router = useRouter();
+
   try {
     requestResponse.data = await executeRequest();
     requestResponse.status = RequestsStatus.SUCCESS;
@@ -98,13 +97,12 @@ const router = useRouter();
     requestResponse.status = RequestsStatus.FAILED;
   } finally {
     const isTheRequestUnauthorized =
-        requestResponse.status === RequestsStatus.FAILED
-        && requestResponse.error?.statusCode === StatusCode.UNAUTHORIZE
+        requestResponse.error?.statusCode === StatusCode.UNAUTHORIZE
 
     if (isTheRequestUnauthorized) {
       useSessionStore().signOut();
       localStorage.clear();
-      await router.push({replace: true, path: "/auth/sign-in"})
+      window.location.replace("/auth/sign-in")
     }
 
     return requestResponse;
