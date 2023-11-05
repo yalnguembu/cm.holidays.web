@@ -15,7 +15,7 @@
       class="text-gray-700 inline font-semibold text-lg underline decoration-wavy decoration-blue-primary/40"
       data-test="type"
     >
-      {{ holiday.holidayType }}
+      {{ holiday.type.name }}
     </p>
     <p class="text-gray-500 my-4 line-clamp-2" data-test="description">
       {{ holiday.description }}

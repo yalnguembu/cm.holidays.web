@@ -27,6 +27,7 @@ interface UserInformation {
 
 interface OptionItem {
   label :string,
-  key: string
+  key: string,
+  valueOption: unknown
 }
 export type { User, HolidayErrors, DataGridRow, DataGridColumnHeader, UserInformation, OptionItem };

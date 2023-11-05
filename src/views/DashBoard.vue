@@ -19,7 +19,7 @@
       v-else-if="isHumanResource"
       class="w-full h-[85vh] mt-4 items-center justify-center space-x-8 md:flex lg:h-[75vh]"
     >
-      <div class="w-full h-fit mt-4 grid justify-items-center">
+      <div class="w-full flex h-fit mt-4 justify-items-center">
         <DashboardButton
           v-for="option in humanResourceOptions"
           :icon="option.icon"
@@ -30,7 +30,7 @@
     </section>
     <section
       v-else
-      class="container text-center px-4 flex flex-col justify-around lg:pb-0 lg:p-20"
+      class="text-center mx-auto px-4 flex flex-col justify-around lg:pb-0 lg:p-20"
     >
       <h1 class="font-bold text-3xl">Hello, welcome...</h1>
       <p class="text-gray-500 mb-4">

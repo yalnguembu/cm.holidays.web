@@ -4,6 +4,7 @@
       type="checkbox"
       name="remind"
       :value="value"
+      :checked="isChecked"
       class="border-gray-500 bg-transparent"
       @change="emit('update:modelValue', value)"
     />
@@ -28,6 +29,10 @@ defineProps({
   },
   value: {
     type: Object as PropType<unknown>,
+  },
+  isChecked: {
+    type: Boolean,
+    default: false,
   },
 });
 </script>

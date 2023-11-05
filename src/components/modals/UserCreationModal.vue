@@ -29,6 +29,7 @@
       <TextField
         class="mt-2"
         label="Email *"
+        type="email"
         data-test="holiday-type"
         placeholder="Enter the email address here"
         v-model="user.email"
@@ -48,7 +49,8 @@
           <CheckBox
             v-for="role in fetchedRoles"
             :key="role.id"
-            v-model="user.roles"
+            :model-value="role"
+            @update:model-value="checkRole(role)"
             :label="role.type.toLowerCase()"
             :value="role"
           />
@@ -71,13 +73,13 @@
         />
         <BaseButton
           :title="isLoading ? 'Creating...' : 'Create'"
-          :disabled="!shouldCreationButtonEnable"
+          :disabled="!isRequiredFieldsCorrectlyFilledAndNothingIsLoading"
           data-test="submit-button"
           @click="create"
           :class="[
             'w-full shadow-none text-base mt-4 font-semibold md:mt-0',
-            shouldCreationButtonEnable
-              ? 'bg-blue-primary/100 hover:shadow-blue-primary text-white hover:shadow-md cursor-pointer'
+            isRequiredFieldsCorrectlyFilledAndNothingIsLoading
+              ? 'bg-blue-primary hover:shadow-blue-primary text-white hover:shadow-md cursor-pointer'
               : ' bg-blue-primary/40 cursor-not-allowed',
           ]"
         />
@@ -112,14 +114,14 @@ const user = reactive({
   firstName: "",
   lastName: "",
   email: "",
-  roles: [],
+  roles: [] as Role[],
   password: "",
   post: new PostOptionItem(newNullPost()),
 });
 
 const isLoading = ref<boolean>(false);
 
-const shouldCreationButtonEnable = computed(
+const isRequiredFieldsCorrectlyFilledAndNothingIsLoading = computed(
   () => !!user.firstName && !!user.email && !!user.password && !isLoading.value
 );
 const error = reactive<HolidayErrors>({
@@ -156,24 +158,35 @@ onBeforeMount(() => {
   fetchServices();
   fetchRoles();
 });
+
+const checkRole = (role: Role) => {
+  const userHasAlreadyTheRole = !!user.roles.find(
+    (userRole) => userRole.id === role.id
+  );
+  if (userHasAlreadyTheRole) {
+    user.roles = user.roles.filter((userRole) => userRole.id !== role.id);
+  } else {
+    user.roles.push(role);
+  }
+  console.log(user.roles);
+};
+
 const create = async () => {
   isLoading.value = true;
   const newUser = new Employee({
     firstname: user.firstName,
     lastName: user.lastName,
     email: user.email,
-    roles: [user.roles],
+    roles: user.roles.map((role) => role.roleAsDTO),
     password: user.password,
-    posts: [user.post.basePost.postAsDTO],
+    posts: [user.post.postAsDTO],
   });
+
   user.password = "";
 
   const userCreationResponse = await useEmployeeStore().createEmployee(newUser);
   if (userCreationResponse.status === RequestsStatus.SUCCESS) emit("created");
 
   isLoading.value = false;
-};
-const close = (): void => {
-  emit("close");
 };
 </script>

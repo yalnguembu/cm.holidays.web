@@ -47,7 +47,7 @@ export class UserToDataGridRow implements DataGridRow {
       case "createdAt":
         return dateToLocalString(this.user.createdAt);
       case "roles":
-        return this.user.roles.map((role) => role.type).join(", ");
+        return  this.user.roles?.map((role) => role.type).join(", ");
       default:
         return "";
     }

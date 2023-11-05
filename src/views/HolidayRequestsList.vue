@@ -36,8 +36,8 @@
       <p class="text-base">No holiday has been created</p>
       <BaseButton
         title="Create holiday"
-        class="mt-4 text-base py-2"
-        @click="toggleFormModal"
+        class="mt-4 text-base py-2 bg-blue-primary text-white"
+        @click.stop="toggleFormModal"
       />
     </div>
   </div>
@@ -46,7 +46,16 @@
     v-if="isHolidayDetailsVisible"
     @close="toggleHolidayDetailsVisibility"
   />
-  <HolidayCreation v-if="isFormVisible" @close="toggleFormModal" />
+  <HolidayCreation
+    @created="
+      () => {
+        toggleFormModal();
+        fetchHolidays();
+      }
+    "
+    v-if="isFormVisible"
+    @close="toggleFormModal"
+  />
 </template>
 
 <script setup lang="ts">
@@ -60,6 +69,7 @@ import { computed, onMounted, ref, watch } from "@vue/runtime-core";
 import { HolidayRequest } from "@/domain/HolidayRequest";
 import { useHolidayRequestStore } from "@/store/holidayRequest";
 import HeaderComponent from "@/components/HeaderComponent.vue";
+import { RequestsStatus } from "@/utils/api";
 
 const holidayStore = useHolidayRequestStore();
 const emit = defineEmits(["close"]);
@@ -75,8 +85,11 @@ const isLoading = ref<boolean>(false);
 
 const fetchHolidays = async (): Promise<void> => {
   isLoading.value = true;
-  holidays.value = await holidayStore.getHollidaysByOwner();
-  setTimeout(() => (isLoading.value = false), 500);
+  const getAllHolidaysByAccountOwnerResponse =
+    await holidayStore.getHolidayRequestsByOwner();
+  if (getAllHolidaysByAccountOwnerResponse.status === RequestsStatus.SUCCESS)
+    holidays.value = getAllHolidaysByAccountOwnerResponse.data ?? [];
+  isLoading.value = false;
 };
 
 const toggleFormModal = () => {

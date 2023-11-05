@@ -27,7 +27,7 @@ const employees = [
 ];
 
 export const useEmployeeStore = defineStore("employee", () => {
-  const getAllEmployees = async (): Promise<void> => {
+  const getAllEmployees = async (): Promise<RequestResponse<void>> => {
     return handelRequest(async () => {
       const employees = await EmployeeService.getAllEmployees();
       return employees.map((employee) => new Employee(employee));

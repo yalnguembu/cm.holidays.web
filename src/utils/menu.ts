@@ -38,6 +38,11 @@ export const humanResourceNavBarItems: NavaBarItem[] = [
     path: "/human-resource/employees",
     name: "employees_list",
   },
+  {
+    name: "holiday_types_list",
+    path: "/human-resource/holiday_types",
+    label: "Holiday Type",
+  },
 ];
 
 export const clientNavBarItems = [

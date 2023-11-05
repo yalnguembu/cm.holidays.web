@@ -41,7 +41,12 @@ export const routes = [
           {
             name: "employees_list",
             path: "employees",
-            component: () => import("@/views/humanResources/HolidaysRequestsList.vue"),
+            component: () => import("@/views/humanResources/EmployeesList.vue"),
+          },
+          {
+            name: "holiday_types_list",
+            path: "holiday_types",
+            component: () => import("@/views/humanResources/HolidayTypesList.vue"),
           },
         ],
       },
