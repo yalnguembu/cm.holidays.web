@@ -1,32 +1,68 @@
 <template>
-  <div class="h-full w-full text-center flex justify-between items-center">
+  <div
+    class="container h-full text-center px-4 flex justify-between items-center"
+  >
     <section
       v-if="isAdmin"
-      class="min-h-[70vh] w-full max-w-screen-xl mx-auto text-center flex center items-center"
+      class="h-[70vh] text-center px-4 flex flex-col justify-between items-center"
     >
       <div
-        class="w-full h-fit mt-4 space-x-8 grid grid-cols-2 items-center justify-center lg:grid-cols-4"
+        class="w-full h-fit mt-4 items-center justify-center space-x-8 md:flex"
       >
-        <DashboardButton
-          v-for="option in adminOptions"
-          :icon="option.icon"
-          :label="option.label"
-          :path="option.path"
-        />
+        <RouterLink
+          to="human-resource/holiday-requests"
+          class="p-8 rounded-lg border flex flex-col items-center justify-center hover:shadow-lg hover:shadow-blue-200 inline-block md:w-72 md:h-72 hover:text-blue-500"
+        >
+          <ListIcon class="block mr-4 h-10 stroke-2 stoke-gray-500" />
+          <br />
+          <span class="text-xl font-bold mt-8">Services</span>
+        </RouterLink>
+        <RouterLink
+          to="human-resource/employees"
+          class="p-8 rounded-lg border flex flex-col items-center justify-center hover:shadow-lg hover:shadow-blue-200 inline-block md:w-72 md:h-72 hover:text-blue-500"
+        >
+          <EmployeesIcon class="mr-4 h-[40px] stroke-2 stoke-gray-500" />
+          <br />
+          <span class="text-xl font-bold mt-8">Posts</span>
+        </RouterLink>
+        <RouterLink
+          to="human-resource/employees"
+          class="p-8 rounded-lg border flex flex-col items-center justify-center hover:shadow-lg hover:shadow-blue-200 inline-block md:w-72 md:h-72 hover:text-blue-500"
+        >
+          <EmployeesIcon class="mr-4 h-[40px] stroke-2 stoke-gray-500" />
+          <br />
+          <span class="text-xl font-bold mt-8">Users</span>
+        </RouterLink>
+        <RouterLink
+          to="human-resource/employees"
+          class="p-8 rounded-lg border flex flex-col items-center justify-center hover:shadow-lg hover:shadow-blue-200 inline-block md:w-72 md:h-72 hover:text-blue-500"
+        >
+          <EmployeesIcon class="mr-4 h-[40px] stroke-2 stoke-gray-500" />
+          <br />
+          <span class="text-xl font-bold mt-8">Roles</span>
+        </RouterLink>
       </div>
     </section>
     <section
       v-else-if="isHumanResource"
       class="w-full h-[85vh] mt-4 items-center justify-center space-x-8 md:flex lg:h-[75vh]"
     >
-      <div class="w-full flex h-fit mt-4 justify-items-center">
-        <DashboardButton
-          v-for="option in humanResourceOptions"
-          :icon="option.icon"
-          :label="option.label"
-          :path="option.path"
-        />
-      </div>
+      <RouterLink
+        to="human-resource/holiday-requests"
+        class="p-8 rounded-lg border flex flex-col items-center justify-center hover:shadow-lg hover:shadow-blue-200 hover:bg-blue-100/10 inline-block md:w-72 md:h-72 hover:text-blue-500"
+      >
+        <ListIcon class="block mr-4 h-10 stroke-2 stoke-gray-500" />
+        <br />
+        <span class="text-xl font-bold mt-8">Holidays requests</span>
+      </RouterLink>
+      <RouterLink
+        to="human-resource/employees"
+        class="p-8 rounded-lg border flex flex-col items-center justify-center hover:shadow-lg hover:shadow-blue-200 inline-block md:w-72 md:h-72 hover:text-blue-500"
+      >
+        <EmployeesIcon class="mr-4 h-[40px] stroke-2 stoke-gray-500" />
+        <br />
+        <span class="text-xl font-bold mt-8">Employees</span>
+      </RouterLink>
     </section>
     <section
       v-else
@@ -79,9 +115,6 @@ import { userHasRole } from "@/utils/user";
 import { useSessionStore } from "@/store/session";
 import { Session } from "@/domain/Session";
 import { USER_ROLE } from "@/utils/enum";
-import PostIcon from "@/components/icons/PostIcon.vue";
-import SettingIcon from "@/components/icons/SettingIcon.vue";
-import DashboardButton from "@/components/DashboardButton.vue";
 
 const isFormVisible = ref(false);
 
@@ -96,46 +129,4 @@ const isAdmin = computed(() =>
 const isHumanResource = computed(() =>
   userHasRole(USER_ROLE.HUMAN_RESOURCE, session.value.roles)
 );
-
-const adminOptions = [
-  {
-    label: "Services",
-    path: "/admin/services",
-    icon: ListIcon,
-    title: "Go to services list",
-  },
-  {
-    label: "Posts",
-    path: "admin/posts",
-    icon: PostIcon,
-    title: "Go to posts list",
-  },
-  {
-    label: "Users",
-    path: "/admin/users",
-    icon: EmployeesIcon,
-    title: "Go to users list",
-  },
-  {
-    label: "Roles",
-    path: "/admin/users",
-    icon: SettingIcon,
-    title: "Go to roles list",
-  },
-];
-
-const humanResourceOptions = [
-  {
-    label: "Holidays requests",
-    path: "human-resource/holiday-requests",
-    icon: ListIcon,
-    title: "Go to holiday requests list",
-  },
-  {
-    label: "Employees",
-    path: "human-resource/employees",
-    icon: EmployeesIcon,
-    title: "Go to employees list",
-  },
-];
 </script>

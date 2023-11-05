@@ -12,9 +12,9 @@
       <form @submit.prevent="login" autocomplete="on">
         <div class="text-center mb-2">
           <h1 class="font-bold text-3xl text-blue-800 mb-4">Login</h1>
-          <p class="text-gray-500">
-            We're glad to see you again, please enter your information to
-            continue.
+          <p class="text-gray-500 px-12">
+            Nous somme content de vous revoir, veillez entrez vos informations
+            pour continuer
           </p>
         </div>
         <ErrorAlert v-if="error.crudentials" :title="error.crudentials" />
