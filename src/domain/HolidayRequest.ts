@@ -1,6 +1,7 @@
 import { HOLIDAY_STATUS } from "@/utils/enum";
 import { HolidayRequestDTO } from "@/services";
-import { soutractTwoDates } from "@/utils/date";
+import { HolidayType, newNullHolidayType } from "./HolidayType";
+import { Employee } from "./Employee";
 
 export class HolidayRequest {
   isNull = true;
@@ -10,6 +11,12 @@ export class HolidayRequest {
 
   get id(): string {
     return this.holidayRequest.id ?? "";
+  }
+
+  get type(): HolidayType {
+    return this.holidayRequest.type
+      ? new HolidayType(this.holidayRequest.type)
+      : newNullHolidayType();
   }
 
   get description(): string {
@@ -24,20 +31,37 @@ export class HolidayRequest {
     return this.holidayRequest.endingDate ?? "";
   }
 
-  get numberOfDays(): string {
-    return soutractTwoDates(this.endingDate, this.startingDate);
+  get returningDate(): string {
+    return this.holidayRequest.returningDate ?? "";
   }
 
-  get createdAt(): number {
-    return this.holidayRequest.createdAt ?? "";
+  get numberOfDays(): string {
+    return `soutractTwoDates(this.endingDate, this.startingDate)`;
+  }
+
+  get createdAt(): string {
+    return new Date().toUTCString();
+  }
+
+  get creationDate(): string {
+    return new Date().toUTCString();
   }
 
   get holidayType(): string {
-    return this.holidayRequest.holidayType ?? "";
+    return "";
   }
 
   get status(): HOLIDAY_STATUS {
     return HOLIDAY_STATUS[this.holidayRequest.status ?? "DRAFT"];
+  }
+
+  set employee(employee: Employee) {
+    this.holidayRequest.employee = employee.employeeAsDTO;
+  }
+
+  get holidayRequestAsDTO(): HolidayRequestDTO {
+    console.log(this.holidayRequest);
+    return this.holidayRequest;
   }
 }
 

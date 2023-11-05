@@ -15,9 +15,10 @@
             data-test="holiday-type"
             label="Type"
             placeholder="Choose your holiday's type..."
-            :options="types"
-            v-model="holiday.holidayType"
-            :error="error.holidayType"
+            :options="holidayTypes"
+            :is-loading="isHolidayTypeLoading"
+            v-model="holiday.type"
+            :error="error.type"
           />
           <div class="grid grid-cols-2 gap-x-4">
             <DateInput
@@ -39,7 +40,7 @@
             <NumberInput
               data-test="number-of-days"
               label="Number of day"
-              v-model="numbersOfdays"
+              v-model="numbersOfDays"
               readonly
               placeholder="Number of days"
             />
@@ -67,7 +68,7 @@
               class="w-full shadow-none text-base mt-4 hover:shadow-md bg-blue-100 font-semibold text-gray-700 md:mt-0"
             />
             <BaseButton
-              title="Create"
+              :title="isLoading ? 'Creating...' : 'Create'"
               data-test="submit-button"
               class="w-full bg-blue-primary text-white shadow-none text-base mt-4 hover:shadow-md hover:shadow-blue-primary font-semibold md:mt-0"
             />
@@ -83,51 +84,73 @@ import BaseButton from "../BaseButton.vue";
 import DateInput from "@/components/forms/DateInput.vue";
 import TextArea from "@/components/forms/TextArea.vue";
 import NumberInput from "@/components/forms/NumberInput.vue";
-import { watch, computed, reactive, toRef } from "vue";
-import AutoComplete from "@/components/forms/AutoComplete.vue";
-import { soutractTwoDates, setDateToWorkingDay } from "@/utils/date";
+import { watch, computed, reactive, toRef, ref, onBeforeMount } from "vue";
+import {
+  soutractTwoDates as subtractTwoDates,
+  setDateToWorkingDay,
+} from "@/utils/date";
 import { HolidayErrors } from "@/utils/type";
 import { HolidayRequest } from "@/domain/HolidayRequest";
 import { useHolidayRequestStore } from "../../store/holidayRequest";
 import { useRouter } from "vue-router";
 import ModalWrapper from "@/components/modals/ModalWrapper.vue";
 import SelectInput from "@/components/forms/SelectInput.vue";
+import { HolidayTypeOption } from "@/utils/options";
+import { useHolidayTypeStore } from "@/store/holidayType";
+import { RequestsStatus } from "@/utils/api";
+import { newNullHolidayType, HolidayType } from "@/domain/HolidayType";
 
 const holidayStore = useHolidayRequestStore();
 const router = useRouter();
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "created"]);
 
-const types: string[] = ["Annual", "Maternite", "Abscence", "christmas"];
+const holidayTypes = ref<HolidayTypeOption[]>([]);
 
 const holiday = reactive({
-  holidayType: "",
-  startingDate: "",
+  type: newNullHolidayType(),
+  startingDate: new Date().toUTCString(),
   endingDate: "",
   description: "",
 });
 
 const error = reactive<HolidayErrors>({
-  holidayType: "",
+  type: "",
   startingDate: "",
   endingDate: "",
   description: "",
 });
 
-const numbersOfdays = computed((): number | string =>
-  soutractTwoDates(holiday.endingDate, holiday.startingDate)
+const numbersOfDays = computed((): number | string =>
+  subtractTwoDates(
+    holiday.endingDate ?? new Date().toUTCString(),
+    holiday.startingDate
+  )
 );
 const returningDate = computed((): string =>
   setDateToWorkingDay(holiday.endingDate)
 );
 
-const close = (): void => {
-  emit("close");
+const isHolidayTypeLoading = ref<boolean>();
+
+const fetchHolidaysType = async () => {
+  isHolidayTypeLoading.value = true;
+  const apiResponse = await useHolidayTypeStore().getAllHolidayTypes();
+  if (apiResponse.status === RequestsStatus.SUCCESS)
+    holidayTypes.value = (apiResponse.data ?? [])?.map(
+      (type) => new HolidayTypeOption(type)
+    );
+  isHolidayTypeLoading.value = false;
 };
-const checkholidayType = (): void => {
-  if (holiday.holidayType === "") {
-    error.holidayType = "This field is required";
-  } else error.holidayType = "";
+
+onBeforeMount(() => {
+  fetchHolidaysType();
+});
+
+const checkHolidayType = (): void => {
+  if (holiday.type.isNull) {
+    error.type = "This field is required";
+  } else error.type = "";
 };
 const isStartingDateBeforeReturningDate = (): boolean => {
   return (
@@ -159,29 +182,40 @@ const checkDescription = (): void => {
   } else error.description = "";
 };
 const checkForm = (): Boolean => {
-  checkholidayType();
+  checkHolidayType();
   checkStartingDate();
   checkEndingDate();
   checkDescription();
   return (
-    error.holidayType.length <= 0 &&
+    error.type.length <= 0 &&
     error.startingDate.length <= 0 &&
     error.endingDate.length <= 0 &&
     error.description.length <= 0
   );
 };
 
-const create = async (): void => {
+const isLoading = ref<boolean>(false);
+
+const create = async (): Promise<void> => {
+  isLoading.value = true;
   if (checkForm()) {
-    const newHoliday: HolidayRequest = new HolidayRequest(holiday);
-    const newHolidayId = await holidayStore.createHoliday(newHoliday);
-    router.push(`/list/${newHolidayId}`);
+    const newHoliday: HolidayRequest = new HolidayRequest({
+      type: holiday.type.holidayTypeAsDTO,
+      description: holiday.description,
+      startingDate: holiday.startingDate,
+      endingDate: holiday.endingDate,
+      returningDate: returningDate.value,
+    });
+    const holidayRequestCreationResponse =
+      await holidayStore.createHolidayRequest(newHoliday);
+    if (holidayRequestCreationResponse.status === RequestsStatus.SUCCESS)
+      emit("created");
   }
+  isLoading.value = false;
 };
 
-watch(toRef(holiday, "holidayType"), (value) => {
-  checkholidayType();
-  console.log(value);
+watch(toRef(holiday, "type"), (value) => {
+  checkHolidayType();
 });
 watch(toRef(holiday, "startingDate"), () => {
   checkStartingDate();

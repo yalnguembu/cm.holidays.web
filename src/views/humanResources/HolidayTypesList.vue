@@ -1,35 +1,47 @@
 <template>
   <div>
-    <PostCreationModal
+    <HolidayTypeCreationModal
       v-if="shouldDisplayCreationModal"
       @created="
         () => {
           toggleShouldDisPlayCreationModal();
-          fetchPosts();
+          fetchHolidayType();
         }
       "
       @close="toggleShouldDisPlayCreationModal"
     />
     <HeaderComponent
-      title="Posts"
+      title="Holiday type"
       description="Lorem, ipsum dolor sit amet consectetur adipisicing elit."
     >
       <CreationButton
-        title="New Post"
+        title="New HolidayType"
         @click.stop="toggleShouldDisPlayCreationModal"
       />
     </HeaderComponent>
     <section
-      v-if="isPostListLoading"
+      v-if="isHolidayTypeLoading"
       class="w-full flex items-center justify-center min-h-[60vh]"
     >
       <SpinnerLoader class="h-14 w-14" />
     </section>
     <section
       class="grid grid-cols-2 lg:grid-cols-3 gap-6 pt-8 xl:grid-cols-4"
-      v-else-if="posts.length"
+      v-else-if="holidayTypes.length"
     >
-      <PostListItem v-for="post in posts" :post="post" @created="fetchPosts" @updated="fetchPosts" />
+      <HolidayTypeListItem
+        v-for="holidayType in holidayTypes"
+        :post="holidayType"
+        :id="holidayType.id"
+        :name="holidayType.name"
+        :description="holidayType.description"
+        @created="
+          () => {
+            toggleShouldDisPlayCreationModal();
+            fetchHolidayType();
+          }
+        "
+      />
     </section>
     <section
       v-else
@@ -48,30 +60,30 @@
 import { ref, onBeforeMount } from "vue";
 import HeaderComponent from "@/components/HeaderComponent.vue";
 import CreationButton from "@/components/CreationButton.vue";
-import PostCreationModal from "@/components/modals/PostCreationModal.vue";
-import PostListItem from "@/components/PostListItem.vue";
-import { Post } from "@/domain/Post";
-import { usePostStore } from "@/store/post";
+import HolidayTypeCreationModal from "@/components/modals/HolidayTypeCreationModal.vue";
+import HolidayTypeListItem from "@/components/HolidayTypeListItem.vue";
+import { HolidayType } from "@/domain/HolidayType";
 import { RequestsStatus } from "@/utils/api";
 import OpenFolderIcon from "@/components/icons/OpenFolderIcon.vue";
 import SpinnerLoader from "@/components/SpinnerLoader.vue";
+import { useHolidayTypeStore } from "@/store/holidayType";
 
 const shouldDisplayCreationModal = ref<boolean>(false);
 const toggleShouldDisPlayCreationModal = () =>
   (shouldDisplayCreationModal.value = !shouldDisplayCreationModal.value);
 
-const isPostListLoading = ref<boolean>(false);
-const posts = ref<Post[]>([]);
+const isHolidayTypeLoading = ref<boolean>(false);
+const holidayTypes = ref<HolidayType[]>([]);
 
-const fetchPosts = async () => {
-  isPostListLoading.value = true;
-  const apiResponse = await usePostStore().getAllPosts();
+const fetchHolidayType = async () => {
+  isHolidayTypeLoading.value = true;
+  const apiResponse = await useHolidayTypeStore().getAllHolidayTypes();
   if (apiResponse.status === RequestsStatus.SUCCESS)
-    posts.value = apiResponse.data;
-  isPostListLoading.value = false;
+    holidayTypes.value = apiResponse.data ?? [];
+  isHolidayTypeLoading.value = false;
 };
 
 onBeforeMount(() => {
-  fetchPosts();
+  fetchHolidayType();
 });
 </script>

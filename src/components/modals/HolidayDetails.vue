@@ -144,6 +144,7 @@ import HolidayDelete from "@/components/holidays/DeleteHolidayBox.vue";
 import HolidayStatus from "@/components/StatusBage.vue";
 import { useRoute, useRouter } from "vue-router";
 import ModalWrapper from "@/components/modals/ModalWrapper.vue";
+import { RequestsStatus } from "@/utils/api";
 
 const props = defineProps({
   holidayId: {
@@ -153,7 +154,8 @@ const props = defineProps({
 });
 
 const holiday = ref<HolidayRequest>(newNullHolidayRequest());
-const router = useRouter();
+
+const route = useRoute();
 
 const emits = defineEmits<{
   (event: "close"): void;
@@ -162,17 +164,18 @@ const close = (): void => {
   emits("close");
 };
 
-const isEmployee: boolean =
-  useRoute().meta?.requiredRolesList.includes("EMPLOYEE");
+const isEmployee: boolean = route.meta?.requiredRolesList?.includes("EMPLOYEE");
 const isHumanResource: boolean =
-  useRoute().meta?.requiredRolesList.includes("HUMAN_RESOURCE");
+  route.meta?.requiredRolesList?.includes("HUMAN_RESOURCE");
 
 const fetchHoliday = async () => {
   isLoading.value = true;
-  holiday.value = await useHolidayRequestStore().getHolidayById(
-    props.holidayId
-  );
-  setTimeout(() => (isLoading.value = false), 500);
+  const getHolidayRequestByIdResponse =
+    await useHolidayRequestStore().getHolidayRequestById(props.holidayId);
+  if (getHolidayRequestByIdResponse.status === RequestsStatus.SUCCESS)
+    holiday.value = getHolidayRequestByIdResponse.data;
+
+  isLoading.value = false;
 };
 
 onBeforeMount(() => {

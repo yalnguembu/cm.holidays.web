@@ -1,5 +1,7 @@
 import { UserInformation } from "@/utils/types";
 import { ApiError, OpenAPI } from "@/services";
+import {StatusCode} from "@/utils/enum";
+import {useSessionStore} from "@/store/session";
 
 export const storeUserInformationsInsideStorage = (
   informations: UserInformation
@@ -39,25 +41,25 @@ export class ErrorResponse {
   }
 }
 
-export enum ResquestStatus {
-  FAILLED,
+export enum RequestsStatus {
+  FAILED,
   SUCCESS,
 }
 
 export class RequestResponse<AwaitedData> {
   constructor(
     private readonly requestResponse: {
-      status: ResquestStatus;
+      status: RequestsStatus;
       data?: AwaitedData;
       error?: ErrorResponse;
     }
   ) {}
 
-  get status(): ResquestStatus {
+  get status(): RequestsStatus {
     return this.requestResponse.status;
   }
 
-  set status(status: ResquestStatus) {
+  set status(status: RequestsStatus) {
     this.requestResponse.status = status;
   }
 
@@ -81,18 +83,28 @@ export class RequestResponse<AwaitedData> {
 export const handelRequest = async <ResponseType>(
   executeRequest: Function
 ): Promise<RequestResponse<ResponseType>> => {
-  const requestResponse = new RequestResponse<ResponseType>({ status: ResquestStatus.FAILLED });
-  
+  const requestResponse = new RequestResponse<ResponseType>({ status: RequestsStatus.FAILED });
+
   try {
     requestResponse.data = await executeRequest();
-    requestResponse.status = ResquestStatus.SUCCESS;
+    requestResponse.status = RequestsStatus.SUCCESS;
   } catch (error: ApiError | any) {
     requestResponse.error = new ErrorResponse({
       message: error?.statusText ?? "",
       statusCode: error?.status ?? 500,
     });
-    requestResponse.status = ResquestStatus.FAILLED;
+    console.log(error);
+    requestResponse.status = RequestsStatus.FAILED;
   } finally {
+    const isTheRequestUnauthorized =
+        requestResponse.error?.statusCode === StatusCode.UNAUTHORIZE
+
+    if (isTheRequestUnauthorized) {
+      useSessionStore().signOut();
+      localStorage.clear();
+      window.location.replace("/auth/sign-in")
+    }
+
     return requestResponse;
   }
 };

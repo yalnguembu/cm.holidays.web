@@ -1,9 +1,10 @@
 <template>
   <ModalWrapper @close="$emit('close')">
     <div
-      class="w-[30rem] bg-white shadow rounded-lg flex justify-center items-center md:px-8 p-8"
+      class="w-[30rem] min-h-[15rem] bg-white shadow rounded-lg flex justify-center items-center md:px-8 p-8"
     >
-      <div class="w-full">
+      <SpinnerLoader v-if="isLoading" />
+      <div v-else class="w-full">
         <h2 class="text-2xl font-bold">{{ title }}</h2>
         <p class="text-lg text-gray-500 mt-8">
           {{ description }}
@@ -36,6 +37,8 @@
 import ModalWrapper from "@/components/modals/ModalWrapper.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import { COLOR_THEME } from "@/utils/enum";
+import { PropType } from "vue";
+import SpinnerLoader from "../SpinnerLoader.vue";
 
 defineProps({
   isLoading: {
@@ -50,7 +53,7 @@ defineProps({
     type: String,
   },
   theme: {
-    type: String as COLOR_THEME,
+    type: String as PropType<COLOR_THEME>,
     default: COLOR_THEME.BLUE,
   },
 });

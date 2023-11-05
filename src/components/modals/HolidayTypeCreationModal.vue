@@ -1,23 +1,23 @@
 <template>
   <ModalWrapper @close="$emit('close')">
     <form
-      data-test="service-creation-form"
+      data-test="holidayType-creation-form"
       class="w-92 border rounded-xl p-6 shadow-lg bg-white"
     >
       <div>
         <h2 class="text-2xl font-bold text-center mb-4" data-test="form-title">
-          New service
+          New Holiday Type
         </h2>
       </div>
       <TextField
         label="Name"
-        data-test="holiday-type"
+        data-test="holiday-type-name"
         placeholder="Enter you title here"
-        v-model="service.name"
+        v-model="holidayType.name"
         :error="error.name"
       />
       <TextArea
-        v-model="service.description"
+        v-model="holidayType.description"
         :error="error.description"
         class="mt-4"
         label="Description"
@@ -53,9 +53,9 @@ import TextArea from "@/components/forms/TextArea.vue";
 import TextField from "@/components/forms/TextField.vue";
 import { reactive, ref } from "vue";
 import ModalWrapper from "../modals/ModalWrapper.vue";
-import { Service } from "@/domain/Service";
-import { useServiceStore } from "@/store/service";
+import { HolidayType } from "@/domain/HolidayType";
 import { computed } from "@vue/runtime-core";
+import { useHolidayTypeStore } from "@/store/holidayType";
 
 const emit = defineEmits<{
   (event: "close"): void;
@@ -66,7 +66,7 @@ interface serviceType {
   name: string;
   description: string;
 }
-const service = reactive<serviceType>({
+const holidayType = reactive<serviceType>({
   name: "",
   description: "",
 });
@@ -79,16 +79,13 @@ const error = reactive<serviceType>({
 const isProcessing = ref<boolean>(false);
 
 const shouldCreationService = computed(
-  () => !!service.name && !isProcessing.value
+  () => !!holidayType.name && !isProcessing.value
 );
 const create = async () => {
   isProcessing.value = true;
-  const newService = new Service(service);
-  await useServiceStore().createService(newService);
+  const newHolidayType = new HolidayType(holidayType);
+  await useHolidayTypeStore().createHolidayType(newHolidayType);
   isProcessing.value = false;
   emit("created");
-};
-const close = (): void => {
-  emit("close");
 };
 </script>

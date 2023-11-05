@@ -9,11 +9,11 @@ export class Service {
   }
 
   get id(): string {
-    return this.service.id;
+    return this.service.id ?? "";
   }
 
   get name(): string {
-    return this.service.name;
+    return this.service.name ?? "";
   }
 
   set name(name: string) {
@@ -21,7 +21,7 @@ export class Service {
   }
 
   get description(): string {
-    return this.service.description;
+    return this.service.description ?? "";
   }
 
   set description(description: string) {
@@ -29,15 +29,18 @@ export class Service {
   }
 
   get posts(): Post[] {
-    return this.service.posts? this.service.posts.map((post) => new Post(post)): [];
+    return this.service.posts
+      ? this.service.posts.map((post) => new Post(post))
+      : [];
   }
 
-  get isActive ():boolean{
-    return this.service.isActive
+  get isActive(): boolean {
+    return !!this.service.isActive;
   }
 
   get serviceAsDTO(): ServiceDTO {
-    return this.service;
+    const {id, name, description, posts} = this.service
+    return {id, name, description, posts} ;
   }
 }
 

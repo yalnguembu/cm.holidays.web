@@ -34,6 +34,7 @@ const sessionP = {
   ],
 };
 
+
 export const useSessionStore = defineStore("session", () => {
   // const session = ref<Session>(new Session(sessionP));
   const session = ref<Session>(newNullSession());
@@ -42,15 +43,19 @@ export const useSessionStore = defineStore("session", () => {
     credential: Credential
   ): Promise<RequestResponse<void>> => {
     return handelRequest(async () => {
+console.log("request start");
+
       const authenticationResponse = await EmployeeService.authenticateEmployee(
         { requestBody: credential.credentialAsDTO }
       );
+
+console.log("request finished");
       session.value = new Session({
         id: authenticationResponse.id,
         email: credential.email,
       });
       storeUserInformationsInsideStorage(authenticationResponse);
-      setRequestHeaderToken(authenticationResponse.token)
+      setRequestHeaderToken(authenticationResponse.token ?? "" )
     });
   };
 
@@ -65,7 +70,6 @@ export const useSessionStore = defineStore("session", () => {
 
   const signOut = () => {
     session.value = newNullSession();
-    localStorage.clear();
   };
 
   return {

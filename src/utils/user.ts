@@ -41,15 +41,13 @@ export class UserToDataGridRow implements DataGridRow {
   getTextFor(key: string): string | string[] {
     switch (key) {
       case "name":
-        console.log('heao');
-        
         return `${this.user.lastName} ${this.user.firstname}`;
       case "email":
         return this.user.email;
       case "createdAt":
         return dateToLocalString(this.user.createdAt);
       case "roles":
-        return this.user.roles.map((role) => role.type).join(", ");
+        return  this.user.roles?.map((role) => role.type).join(", ");
       default:
         return "";
     }

@@ -3,22 +3,36 @@
     <input
       type="checkbox"
       name="remind"
+      :value="value"
+      :checked="isChecked"
       class="border-gray-500 bg-transparent"
-      :checked="props.modelValue"
-      @change="emit('update:modelValue', $event.target.checked)"
+      @change="emit('update:modelValue', value)"
     />
     <label for="remind" class="inline ml-2 text-gray-500 font-semibold mb-2">
-      {{ props.label }}
+      {{ label }}
     </label>
   </div>
 </template>
 
 <script setup lang="ts">
-interface Props{
-  modelValue: Boolean,
-  label:  String,
-}
+import { PropType } from "vue";
 
-const emit = defineEmits(['update:modelValue'])
-const props = defineProps<Props>();
+const emit = defineEmits(["update:modelValue"]);
+defineProps({
+  modelValue: {
+    type: Object as PropType<unknown>,
+    required: true,
+  },
+  label: {
+    type: String,
+    required: true,
+  },
+  value: {
+    type: Object as PropType<unknown>,
+  },
+  isChecked: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>
