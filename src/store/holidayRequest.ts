@@ -1,9 +1,8 @@
-import { defineStore } from "pinia";
-import {
-  HolidayRequest,
-} from "@/domain/HolidayRequest";
-import { RequestResponse, handelRequest } from "@/utils/api";
-import { HolidayRequestDTO, HolidayRequestService } from "@/services";
+import {defineStore} from "pinia";
+import {HolidayRequest,} from "@/domain/HolidayRequest";
+import {handelRequest, RequestResponse} from "@/utils/api";
+import {HolidayRequestDTO, HolidayRequestService, HolidayStatusDTO} from "@/services";
+import {HOLIDAY_STATUS} from "@/utils/enum";
 
 export const useHolidayRequestStore = defineStore("holiday", () => {
   const getHolidayRequestById = async (
@@ -49,15 +48,24 @@ export const useHolidayRequestStore = defineStore("holiday", () => {
     holiday: HolidayRequest
   ): Promise<RequestResponse<string>> => {
     return handelRequest(async () => {
-      return await HolidayRequestService.createHolidayRequest({
+      return HolidayRequestService.createHolidayRequest({
         requestBody: holiday.holidayRequestAsDTO,
       });
     });
   };
+
+  const publishHolidayRequest = async (id):Promise<RequestResponse<void>> => {
+    return handelRequest(async () => {
+      await HolidayRequestService.updateHolidayRequest1({id, status: HOLIDAY_STATUS.PENDING})
+      return;
+    });
+  }
+
   return {
     getHolidayRequestById,
     getHolidayRequestsByOwner,
     getAllHolidayRequests,
     createHolidayRequest,
+    publishHolidayRequest
   };
 });
