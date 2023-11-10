@@ -1,9 +1,9 @@
 <template>
   <div class="h-screen w-screen">
     <TheMainNavbar
-      :user="sessionStore.session"
+      :user="useSessionStore().session"
       :items="
-        sessionStore.session.isNull
+        useSessionStore().session.isNull
           ? []
           : isAdmin
           ? adminNavBarItems
@@ -31,15 +31,8 @@ import {
   humanResourceNavBarItems,
   clientNavBarItems,
 } from "@/utils/menu";
-import { userHasRole } from "@/utils/user";
 import { useSessionStore } from "@/store/session";
-import { Role } from "@/domain/Role";
 
-const sessionStore = useSessionStore();
-const isAdmin = computed(() =>
-  userHasRole(USER_ROLE.ADMIN, sessionStore.session.roles as Role[])
-);
-const isHumanResource = computed(() =>
-  userHasRole(USER_ROLE.HUMAN_RESOURCE, sessionStore.session.roles as Role[])
-);
+const isAdmin = computed((): boolean => useSessionStore().activeRole?.type === USER_ROLE.ADMIN);
+const isHumanResource = computed((): boolean => useSessionStore().activeRole?.type === USER_ROLE.HUMAN_RESOURCE);
 </script>
