@@ -1,9 +1,9 @@
 <template>
   <div class="h-screen w-screen">
     <TheMainNavbar
-      :user="session"
+      :user="sessionStore.session"
       :items="
-        session.isNull
+        sessionStore.session.isNull
           ? []
           : isAdmin
           ? adminNavBarItems
@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import TheMainNavbar from "./TheMainNavbar.vue";
 import { USER_ROLE } from "@/utils/enum";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import {
   adminNavBarItems,
   humanResourceNavBarItems,
@@ -33,13 +33,13 @@ import {
 } from "@/utils/menu";
 import { userHasRole } from "@/utils/user";
 import { useSessionStore } from "@/store/session";
-import { Session } from "@/domain/Session";
+import { Role } from "@/domain/Role";
 
-const session = ref<Session>(useSessionStore().session);
+const sessionStore = useSessionStore();
 const isAdmin = computed(() =>
-  userHasRole(USER_ROLE.ADMIN, session.value.roles)
+  userHasRole(USER_ROLE.ADMIN, sessionStore.session.roles as Role[])
 );
 const isHumanResource = computed(() =>
-  userHasRole(USER_ROLE.HUMAN_RESOURCE, session.value.roles)
+  userHasRole(USER_ROLE.HUMAN_RESOURCE, sessionStore.session.roles as Role[])
 );
 </script>

@@ -8,7 +8,7 @@
     <HeaderComponent
       class="mb-8"
       title="Holiday requests"
-      description="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Lorem, ipsum dolor sit"
+      description="List of holidays you have taken"
     >
       <CreationButton
         title="New holiday request"
