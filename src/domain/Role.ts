@@ -8,19 +8,19 @@ export class Role {
   }
 
   get id(): string {
-    return this.role.id;
+    return this.role.id ?? "";
   }
 
   get type(): string {
-    return this.role.type;
+    return this.role.type ?? "";
   }
 
   set type(type: string) {
-    this.role.type = USER_ROLE[type];
+    this.role.type = USER_ROLE[type as keyof  typeof USER_ROLE];
   }
 
   get description(): string {
-    return this.role.description;
+    return this.role.description ?? "";
   }
 
   set description(description: string) {

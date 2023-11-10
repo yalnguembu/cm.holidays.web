@@ -12,7 +12,7 @@
     />
     <HeaderComponent
       title="Holiday type"
-      description="Lorem, ipsum dolor sit amet consectetur adipisicing elit."
+      description="List of types of leave taken into account"
     >
       <CreationButton
         title="New HolidayType"

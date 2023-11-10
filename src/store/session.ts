@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { EmployeeService, USER_ROLE } from "@/services";
+import { EmployeeService } from "@/services";
 import { newNullSession, Session } from "@/domain/Session";
 import { ref } from "vue";
 import { Credential } from "@/domain/Credential";
@@ -8,48 +8,20 @@ import {
   handelRequest,
   storeUserInformationsInsideStorage,
   setRequestHeaderToken,
-} from "../utils/api";
-
-const sessionP = {
-  email: "yal@holiday.cm",
-  id: "1234-1234-1234-1234",
-  firstname: "Fucker",
-  lastName: "Mother's",
-  roles: [
-    {
-      type: USER_ROLE["ADMIN"],
-      description: "",
-      id: "1234",
-    },
-  ],
-  posts: [
-    {
-      id: "1234",
-      name: "Frontend Dev",
-    },
-    {
-      id: "1234",
-      name: "UI/UX Designer",
-    },
-  ],
-};
-
+} from "@/utils/api";
 
 export const useSessionStore = defineStore("session", () => {
-  // const session = ref<Session>(new Session(sessionP));
+
   const session = ref<Session>(newNullSession());
 
   const login = async (
     credential: Credential
   ): Promise<RequestResponse<void>> => {
     return handelRequest(async () => {
-console.log("request start");
 
       const authenticationResponse = await EmployeeService.authenticateEmployee(
         { requestBody: credential.credentialAsDTO }
       );
-
-console.log("request finished");
       session.value = new Session({
         id: authenticationResponse.id,
         email: credential.email,
@@ -59,12 +31,12 @@ console.log("request finished");
     });
   };
 
-  const fetchUSerInformations = async (
+  const fetchUSerInformation = async (
     id: string
   ): Promise<RequestResponse<void>> => {
     return handelRequest(async () => {
-      const informations = await EmployeeService.getEmployeeById({ id });
-      session.value = new Session(informations);
+      const information = await EmployeeService.getEmployeeById({ id });
+      session.value = new Session(information);
     });
   };
 
@@ -75,7 +47,7 @@ console.log("request finished");
   return {
     login,
     session,
-    fetchUSerInformations,
+    fetchUSerInformation,
     signOut,
   };
 });

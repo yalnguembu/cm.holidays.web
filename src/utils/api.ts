@@ -1,7 +1,7 @@
 import { UserInformation } from "@/utils/types";
 import { ApiError, OpenAPI } from "@/services";
-import {StatusCode} from "@/utils/enum";
-import {useSessionStore} from "@/store/session";
+import { StatusCode } from "@/utils/enum";
+import { useSessionStore } from "@/store/session";
 
 export const storeUserInformationsInsideStorage = (
   informations: UserInformation
@@ -104,7 +104,6 @@ export const handelRequest = async <ResponseType>(
       localStorage.clear();
       window.location.replace("/auth/sign-in")
     }
-
-    return requestResponse;
   }
+  return requestResponse;
 };

@@ -3,7 +3,7 @@
     <HeaderComponent
       class="mb-4"
       title="Users"
-      description="Lorem, ipsum dolor sit amet consectetur adipisicing elit."
+      description="List of the company's employees"
     >
       <CreationButton title="New User" @click.stop="toggleShouldCreateUser" />
     </HeaderComponent>
