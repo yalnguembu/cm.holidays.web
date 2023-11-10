@@ -10,3 +10,7 @@ export const formatUrl = (url: string) =>
     .split("-")
     .map((spliter: string) => capitalizeWord(spliter))
     .join(" ");
+
+
+export const formatRoleType = (roleType: string): string =>
+    capitalizeWord(roleType.replaceAll('_',' '));

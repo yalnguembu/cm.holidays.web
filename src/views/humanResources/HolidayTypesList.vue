@@ -31,16 +31,9 @@
     >
       <HolidayTypeListItem
         v-for="holidayType in holidayTypes"
-        :post="holidayType"
         :id="holidayType.id"
         :name="holidayType.name"
         :description="holidayType.description"
-        @created="
-          () => {
-            toggleShouldDisPlayCreationModal();
-            fetchHolidayType();
-          }
-        "
       />
     </section>
     <section
