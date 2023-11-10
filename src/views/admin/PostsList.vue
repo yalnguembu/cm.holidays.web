@@ -12,7 +12,7 @@
     />
     <HeaderComponent
       title="Posts"
-      description="Lorem, ipsum dolor sit amet consectetur adipisicing elit."
+      description="List of positions in the company"
     >
       <CreationButton
         title="New Post"

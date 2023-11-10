@@ -12,7 +12,7 @@
     />
     <HeaderComponent
       title="Services"
-      description="Lorem, ipsum dolor sit amet consectetur adipisicing elit."
+      description="List of the company's existing departments"
     >
       <CreationButton
         title="New Service"

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { EmployeeService, USER_ROLE } from "@/services";
+import { EmployeeService } from "@/services";
 import { newNullSession, Session } from "@/domain/Session";
 import { ref } from "vue";
 import { Credential } from "@/domain/Credential";
@@ -8,9 +8,10 @@ import {
   handelRequest,
   storeUserInformationsInsideStorage,
   setRequestHeaderToken,
-} from "../utils/api";
+} from "@/utils/api";
 
 export const useSessionStore = defineStore("session", () => {
+
   const session = ref<Session>(newNullSession());
 
   const login = async (
@@ -21,7 +22,6 @@ export const useSessionStore = defineStore("session", () => {
       const authenticationResponse = await EmployeeService.authenticateEmployee(
         { requestBody: credential.credentialAsDTO }
       );
-
       session.value = new Session({
         id: authenticationResponse.id,
         email: credential.email,
@@ -31,12 +31,12 @@ export const useSessionStore = defineStore("session", () => {
     });
   };
 
-  const fetchUSerInformations = async (
+  const fetchUSerInformation = async (
     id: string
   ): Promise<RequestResponse<void>> => {
     return handelRequest(async () => {
-      const informations = await EmployeeService.getEmployeeById({ id });
-      session.value = new Session(informations);
+      const information = await EmployeeService.getEmployeeById({ id });
+      session.value = new Session(information);
     });
   };
 
@@ -47,7 +47,7 @@ export const useSessionStore = defineStore("session", () => {
   return {
     login,
     session,
-    fetchUSerInformations,
+    fetchUSerInformation,
     signOut,
   };
 });

@@ -1,4 +1,4 @@
-import {EmployeeDTO, RoleDTO} from "@/services";
+import { EmployeeDTO } from "@/services";
 import {Role} from "@/domain/Role";
 import {Post} from "@/domain/Post";
 
@@ -21,6 +21,10 @@ export class Session {
         return this.session.email ?? "";
     }
 
+    set email(email: string) {
+        this.session.email = email;
+    }
+
     get lastName() : string{
         return this.session.lastName ?? "";
     }
@@ -33,12 +37,8 @@ export class Session {
         return `${this.lastName} ${this.firstname}`;
     }
 
-    set email(email: string) : void{
-        this.session.email   = email;
-    }
-
-    get creationDate(): string{
-        return this.session.createdAt;
+    get creationDate(): string {
+        return this.session.createdAt ?? "";
     }
 
     get posts(): Post[]{
