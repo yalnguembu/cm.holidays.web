@@ -94,11 +94,11 @@ import SettingIcon from "@/components/icons/SettingIcon.vue";
 import {Session} from "@/domain/Session";
 import ArrowPathCircle from "@/components/icons/ArrowPathCircle.vue";
 import { useSessionStore } from "@/store/session";
-import { capitalizeWord } from "@/utils/string";
+import { formatRoleType } from "@/utils/string";
 import {Role} from "@/domain/Role";
 import CheckCircleIcon from "@/components/icons/CheckCircleIcon.vue";
 import ChevronDownIcon from "@/components/icons/ChevronDownIcon.vue";
-import {useRouter} from "vue-router";
+import { useRouter } from "vue-router";
 
 const router = useRouter();
 
@@ -113,9 +113,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['signOut','close']);
-
-const formatRoleType = (roleType: string): string =>
-    capitalizeWord(roleType.replaceAll('_',' '));
 
 const shouldDisplayClientRoleList = ref<boolean>(false);
 
