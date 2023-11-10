@@ -2,25 +2,22 @@
   <div class="h-full w-full text-center flex justify-between items-center">
     <section
       v-if="isAdmin"
-      class="min-h-[70vh] w-full max-w-screen-xl mx-auto text-center flex center items-center"
+      class="min-h-[70vh] w-full max-w-screen-xl mx-auto text-center items-center h-fit mt-4 space-x-8 grid grid-cols-2 lg:grid-cols-4"
     >
-      <div
-        class="w-full h-fit mt-4 space-x-8 grid grid-cols-2 items-center justify-center lg:grid-cols-4"
-      >
-        <DashboardButton
-          v-for="option in adminOptions"
-          :icon="option.icon"
-          :label="option.label"
-          :path="option.path"
-        />
-      </div>
+      <DashboardButton
+        v-for="option in adminOptions"
+        :icon="option.icon"
+        :label="option.label"
+        :path="option.path"
+      />
     </section>
     <section
       v-else-if="isHumanResource"
       class="w-full h-[85vh] mt-4 items-center justify-center space-x-8 md:flex lg:h-[75vh]"
     >
-      <div class="w-full h-fit mt-4 grid justify-items-center">
+      <div class="h-fit grid grid-cols-2 space-x-8 mx-auto w-1/2 justify-items-center">
         <DashboardButton
+          class="border w-full"
           v-for="option in humanResourceOptions"
           :icon="option.icon"
           :label="option.label"
@@ -30,7 +27,7 @@
     </section>
     <section
       v-else
-      class="container text-center px-4 flex flex-col justify-around lg:pb-0 lg:p-20"
+      class="w-full text-center px-4 flex flex-col justify-around lg:pb-0 lg:p-20"
     >
       <h1 class="font-bold text-3xl">Hello, welcome...</h1>
       <p class="text-gray-500 mb-4">
@@ -89,13 +86,8 @@ const toggleFormModal = () => {
   isFormVisible.value = !isFormVisible.value;
 };
 
-const session = ref<Session>(useSessionStore().session);
-const isAdmin = computed(() =>
-  userHasRole(USER_ROLE.ADMIN, session.value.roles)
-);
-const isHumanResource = computed(() =>
-  userHasRole(USER_ROLE.HUMAN_RESOURCE, session.value.roles)
-);
+const isAdmin = computed((): boolean => useSessionStore().activeRole?.type === USER_ROLE.ADMIN);
+const isHumanResource = computed((): boolean => useSessionStore().activeRole?.type === USER_ROLE.HUMAN_RESOURCE);
 
 const adminOptions = [
   {

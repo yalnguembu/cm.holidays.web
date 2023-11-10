@@ -137,7 +137,7 @@ import BaseButton from "../BaseButton.vue";
 import EditionHolidayForm from "@/components/holidays/EditionHolidayRequest.vue";
 import {type HolidayRequest, newNullHolidayRequest,} from "@/domain/HolidayRequest";
 import {useHolidayRequestStore} from "@/store/holidayRequest";
-import {HOLIDAY_STATUS} from "@/utils/enum";
+import {HOLIDAY_STATUS, USER_ROLE} from "@/utils/enum";
 import {formateToDateString} from "@/utils/string";
 import {timetampsToString} from "@/utils/common";
 import {soutractTwoDates} from "@/utils/date";
@@ -151,6 +151,7 @@ import {useRoute} from "vue-router";
 import ModalWrapper from "@/components/modals/ModalWrapper.vue";
 import {RequestsStatus} from "@/utils/api";
 import ErrorIcon from "@/components/icons/ErrorIcon.vue";
+import {useSessionStore} from "@/store/session";
 
 const props = defineProps({
   holidayId: {
@@ -166,9 +167,10 @@ const route = useRoute();
 const emits = defineEmits<{
   (event: "close"): void;
 }>();
-const isEmployee: boolean = route.meta?.requiredRolesList?.includes("EMPLOYEE");
-const isHumanResource: boolean =
-  route.meta?.requiredRolesList?.includes("HUMAN_RESOURCE");
+
+const isEmployee = computed((): boolean => useSessionStore().activeRole?.type === USER_ROLE.EMPLOYEE);
+const isAdmin = computed((): boolean => useSessionStore().activeRole?.type === USER_ROLE.ADMIN);
+const isHumanResource = computed((): boolean => useSessionStore().activeRole?.type === USER_ROLE.HUMAN_RESOURCE);
 
 const fetchHoliday = async () => {
   isLoading.value = true;
