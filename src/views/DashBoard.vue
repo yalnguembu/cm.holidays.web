@@ -89,13 +89,8 @@ const toggleFormModal = () => {
   isFormVisible.value = !isFormVisible.value;
 };
 
-const session = ref<Session>(useSessionStore().session);
-const isAdmin = computed(() =>
-  userHasRole(USER_ROLE.ADMIN, session.value.roles)
-);
-const isHumanResource = computed(() =>
-  userHasRole(USER_ROLE.HUMAN_RESOURCE, session.value.roles)
-);
+const isAdmin = computed((): boolean => useSessionStore().activeRole?.type === USER_ROLE.ADMIN);
+const isHumanResource = computed((): boolean => useSessionStore().activeRole?.type === USER_ROLE.HUMAN_RESOURCE);
 
 const adminOptions = [
   {

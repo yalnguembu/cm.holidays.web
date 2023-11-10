@@ -56,7 +56,7 @@
         <span class="mr-2">
           {{ totalElementTitle }} :
         </span>
-        <SpinnerLoader v-if="isLoading" class="h-4 w-4 border-[3.5px]" />
+        <SpinnerLoader v-if="isLoading" class="h-[20px] w-[20px] border-[3.5px]" />
         <span v-else>
          {{ rows.length }}
         </span>
