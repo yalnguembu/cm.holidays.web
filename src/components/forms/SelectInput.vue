@@ -1,9 +1,9 @@
 <template>
-  <div class="block">
+  <div class="block" ref="optionsList">
     <label class="text-gray-500 font-semibold">{{ props.label }}</label>
     <div
       data-test="select-input"
-      class="w-full relative bg-white z-10 pb-3 mt-2"
+      class="w-full relative bg-white pb-3 mt-2"
     >
       <div class="flex items-center px-4 rounded border">
         <input
@@ -13,7 +13,6 @@
           :placeholder="placeholder"
           v-model.trim="text"
           @focus="toggleShouldDisplayOptions"
-          @click.stop=""
         />
         <ArrowDownIcon
           @click.stop="toggleShouldDisplayOptions"
@@ -24,13 +23,12 @@
         />
       </div>
       <ul
-        ref="optionsList"
-        class="w-full absolute top-12 left-0 bg-white rounded shadow"
+        class="w-full absolute top-12 z-50 left-0 bg-white rounded shadow border"
         v-if="shouldDisplayOptions"
       >
         <template v-if="options.length">
           <li
-            class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-600"
+            class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-600 capitalize"
             v-for="option in options"
             :key="option.key"
             @click="handelSelect(option)"
@@ -58,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, watchEffect } from "vue";
+import { ref, watch } from "vue";
 import { useDetectOutsideClick } from "@/utils/outsideClick";
 import ArrowDownIcon from "@/components/icons/ArrowDownIcon.vue";
 import { OptionItem } from "@/utils/types";
@@ -93,7 +91,7 @@ const handelSelect = (option: OptionItem) => {
 
 const chooseOptionFromLabel = (keyWord: string): void => {
   options.value = props.options.filter(
-    (option) => option.key.toLowerCase()?.search(keyWord) !== -1
+    (option) => option.key.toLowerCase()?.search(keyWord.toLowerCase()) === -1
   );
 };
 watch(

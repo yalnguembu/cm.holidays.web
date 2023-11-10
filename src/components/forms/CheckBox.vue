@@ -5,7 +5,7 @@
       name="remind"
       :checked="isChecked"
       class="border-gray-500 bg-transparent"
-      @change="$emit('update:modelValue', $event?.target?.checked)"
+      @change="$emit('update:modelValue')"
     />
     <label for="remind" class="inline ml-2 text-gray-500 font-semibold mb-2">
       {{ label }}
@@ -17,7 +17,7 @@
 defineEmits(["update:modelValue"]);
 defineProps({
   modelValue: {
-    type: Boolean,
+    type: Object,
     required: true,
   },
   label: {

@@ -3,7 +3,7 @@
     <div class="absolute top-20 right-16 bg-white shadow-lg rounded-lg overflow-hidden p-5 lg:w-[25rem] lg:border">
       <EditProfile
           @close="toggleShouldEditProfile"
-          :profile="profile"
+          :profile="user"
           v-if="shouldEditProfile"
       />
       <div v-else>
@@ -23,7 +23,9 @@
           <div class="border-t p-2 w-full">
             <div class="py-1">
               <h5 class="text-blue-950 font-medium">Post</h5>
-              <p class="text-gray-500 text-lg mt-2 font-medium">{{ user.posts.map((post) => post.name).join(",") }}</p>
+              <p class="text-gray-500 text-lg mt-2 font-medium">
+                {{ user.posts.map((post) => post.name).join(",") }}
+              </p>
             </div>
           </div>
           <div class="text-blue-950 font-medium">
@@ -65,15 +67,17 @@ import EditProfile from "../ProfileEdition.vue";
 import { dateToLocalString } from "@/utils/date";
 import ModalWrapper from "@/components/modals/ModalWrapper.vue";
 import SettingIcon from "@/components/icons/SettingIcon.vue";
-import {Session} from "@/domain/Session";
+import { Session } from "@/domain/Session";
 
 const shouldEditProfile = ref<boolean>(false);
-const toggleShouldEditProfile = () =>
-  (shouldEditProfile.value = !shouldEditProfile.value);
+const toggleShouldEditProfile = (): void => {
+  shouldEditProfile.value = !shouldEditProfile.value;
+}
 
 defineProps({
   user:{
-    type: Object as PropType<Session>
+    type: Object as PropType<Session>,
+    required: true,
   }
 });
 

@@ -93,7 +93,7 @@ import BaseButton from "../BaseButton.vue";
 import TextField from "@/components/forms/TextField.vue";
 import { computed, onBeforeMount, reactive, ref } from "vue";
 import ModalWrapper from "../modals/ModalWrapper.vue";
-import { HolidayErrors } from "@/utils/type";
+import { HolidayErrors } from "@/utils/types";
 import CheckBox from "../forms/CheckBox.vue";
 import { Employee } from "@/domain/Employee";
 import { useEmployeeStore } from "@/store/employee";
@@ -179,7 +179,7 @@ const create = async () => {
     email: user.email,
     roles: user.roles.map((role) => role.roleAsDTO),
     password: user.password,
-    posts: [user.post.postAsDTO],
+    posts: [user.post.valueOption.postAsDTO],
   });
 
   user.password = "";

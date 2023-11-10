@@ -1,6 +1,8 @@
 <template>
   <div >
-    <label for="email" class="text-gray-500 font-semibold mb-2">{{ label }}</label>
+    <label for="email" class="text-gray-500 font-semibold mb-2 px-1">
+      {{ label }} <span v-if="isRequired" class="text-red-500">*</span>
+    </label>
     <div
       class="border border-gray-300 rounded-lg flex flex-row w-full justify-between align-center px-4"
       :class="$attrs.class"
@@ -11,7 +13,7 @@
         :type="type"
         :placeholder="placeholder"
         :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="$emit('update:modelValue', $event?.target?.value)"
       />
     </div>
   </div>
@@ -35,5 +37,9 @@ defineProps({
     type: String,
     default: "",
   },
+  isRequired: {
+    type: Boolean,
+    default: false,
+  }
 });
 </script>
