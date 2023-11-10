@@ -65,7 +65,7 @@
               @click="$emit('close')"
               title="cancel"
               data-test="submit-button"
-              class="w-full shadow-none text-base mt-4 hover:shadow-md bg-blue-100 font-semibold text-gray-700 md:mt-0"
+              class="w-full shadow-none text-base mt-4 hover:shadow-md bg-gray-200 font-semibold text-gray-700 md:mt-0"
             />
             <BaseButton
               :title="isLoading ? 'Creating...' : 'Create'"

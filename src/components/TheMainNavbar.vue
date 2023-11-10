@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, computed, ref } from "vue";
+import {PropType, computed, ref } from "vue";
 import AccountIcon from "./icons/AccountIcon.vue";
 import UserProfile from "./modals/UserProfileModal.vue";
 import type { NavaBarItem } from "@/utils/menu";

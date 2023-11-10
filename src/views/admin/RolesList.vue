@@ -14,29 +14,34 @@
           @click.stop="toggleShouldDisPlayCreationModal"
       />
     </HeaderComponent>
-    <section data-test="roles-list" class="min-h-[70vh] relative">
-      <div v-if="isRoleListLoading" class="absolute top-1/2 left-[45%] -translate-x-1/2 -translate-y-1/2">
-        <SpinnerLoader class="h-14 w-14 " />
-      </div>
-      <template v-else>
-        <div v-if="roles.length" class="flex flex-wrap gap-x-2.5 mt-6">
-          <div
-              v-for="role in roles" :key="role.id"
-              class="border p-6 rounded-lg h-42 overflow-hidden hover:bg-gray-100/30 hover:shadow-lg relative">
-            <h4 class="text-blue-900 font-semibold text-2xl mb-4 flex gap-x-2">
-              <span>{{ role.type.split('_').join(" ") }}</span>
-              <StatutBadge :is-active="role.isActive" />
-            </h4>
-            <p class="text-gray-500 text-sm line-clamp-3">{{role.description}}</p>
-          </div>
-        </div>
-        <div v-else class="flex flex-col justify-center items-center">
-          <OpenFolderIcon class="stroke-gray-500/10 h-[20rem]" />
-          <p class="text-xl text-gray-500 text-center 2xl:w-1/4">
-            No roles has already been created! Please click on the button up there to create a new one.
-          </p>
-        </div>
-      </template>
+    <section
+        v-if="isRoleListLoading"
+        class="w-full flex items-center justify-center min-h-[60vh]"
+    >
+      <SpinnerLoader class="h-14 w-14" />
+    </section>
+    <section
+        class="grid grid-cols-2 lg:grid-cols-3 gap-6 pt-8 xl:grid-cols-4"
+        v-else-if="roles.length"
+    >
+      <HolidayTypeListItem
+          v-for="role in roles"
+          :id="role.id"
+          :name="formatRoleType(role.type)"
+          :description="role.description"
+      />
+    </section>
+    <section
+        v-else
+        data-test="roles-list"
+        class="h-full w-full flex flex-col justify-center items-center min-h-[60vh] 2xl:min-h-[70vh]"
+    >
+      <OpenFolderIcon class="stroke-gray-500/10 h-[15rem] lg:h-[20rem]" />
+      <p class="text-xl text-gray-500 text-center w-1/2 2xl:w-1/4">
+        No post has already been created! Please click on the button up there to
+        create a new one.
+      </p>
+
     </section>
   </div>
 </template>
@@ -48,8 +53,11 @@ import RoleCreationModal from "@/components/modals/RoleCreationModal.vue";
 import {Role} from "@/domain/Role";
 import {useRoleStore} from "@/store/role";
 import OpenFolderIcon from "@/components/icons/OpenFolderIcon.vue";
+import {useHolidayTypeStore} from "@/store/holidayType";
+import {RequestsStatus} from "@/utils/api";
 import SpinnerLoader from "@/components/SpinnerLoader.vue";
-import StatutBadge from "@/components/badges/StatutBadge.vue";
+import HolidayTypeListItem from "@/components/HolidayTypeListItem.vue";
+import {formatRoleType} from "@/utils/string";
 
 const shouldDisplayCreationModal = ref<boolean>(false);
 const toggleShouldDisPlayCreationModal = () =>
@@ -59,8 +67,9 @@ const isRoleListLoading = ref<boolean>(false)
 const roles = ref<Role[]>([]) as Ref<Role[]>;
 const fetchRoles = async (): Promise<void> => {
   isRoleListLoading.value = true;
-  const rolesResponse = await useRoleStore().getAllRoles();
-  roles.value = rolesResponse.data as Role[];
+  const apiResponse =  await useRoleStore().getAllRoles();
+  if (apiResponse.status === RequestsStatus.SUCCESS)
+    roles.value = apiResponse.data ?? [];
   isRoleListLoading.value = false;
 }
 

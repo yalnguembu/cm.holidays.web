@@ -1,7 +1,7 @@
 <template>
   <div
     :data-test="`service-${id}`"
-    class="border p-6 rounded-lg h-42 overflow-hidden hover:bg-gray-100/30 cursor-pointer hover:shadow-lg relative group"
+    class="border p-6 rounded-lg h-42 overflow-hidden hover:bg-gray-100/30 hover:shadow-lg relative group"
   >
     <h4 class="text-blue-900 font-semibold text-2xl mb-4">
       {{ name }}

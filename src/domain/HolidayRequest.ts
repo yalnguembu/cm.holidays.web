@@ -2,6 +2,7 @@ import { HOLIDAY_STATUS } from "@/utils/enum";
 import { HolidayRequestDTO } from "@/services";
 import { HolidayType, newNullHolidayType } from "./HolidayType";
 import { Employee } from "./Employee";
+import {soutractTwoDates} from "@/utils/date";
 
 export class HolidayRequest {
   isNull = true;
@@ -35,12 +36,12 @@ export class HolidayRequest {
     return this.holidayRequest.returningDate ?? "";
   }
 
-  get numberOfDays(): string {
-    return `soutractTwoDates(this.endingDate, this.startingDate)`;
+  get numberOfDays(): number {
+    return soutractTwoDates(this.endingDate, this.startingDate);
   }
 
   get createdAt(): string {
-    return new Date().toUTCString();
+    return this.holidayRequest.createdAt ?? ""
   }
 
   get creationDate(): string {

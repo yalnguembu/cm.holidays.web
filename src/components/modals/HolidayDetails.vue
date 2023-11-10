@@ -17,24 +17,32 @@
       />
       <div v-else-if="isRequesting">
         <div
-          class="w-20 h-20 rounded-full border-8 border-gray-100 dark:border-gray-400 relative animate-spin"
+            class="items-center flex flex-col w-full h-full justify-center justify-center"
+            v-if="requestStatus !== null"
         >
-          <div
-            class="w-4 h-4 absolute -top-1 left-0 rounded-full bg-blue-500"
+          <CheckCircleIcon
+              v-if="requestStatus === RequestsStatus.SUCCESS"
+              class="w-[8rem] h-[8rem] stroke-green-500 block inline"
           />
+          <ErrorIcon
+              v-else
+              class="w-[8rem] h-[8rem] stroke-gray-300 block inline"
+          />
+          <p class="text-gray-500 text-lg mt-4">
+            {{ requestResponseMessage }}
+          </p>
         </div>
-        <p class="text-gray-500 text-lg mt-4">Requesting</p>
-      </div>
-      <div
-        class="items-center flex flex-col w-full h-full justify-center justify-center"
-        v-else-if="isRequested"
-      >
-        <CheckCircleIcon
-          class="w-[8rem] h-[8rem] stroke-green-500 block inline"
-        />
-        <p class="text-gray-500 text-lg mt-4">
-          HolidayRequest requested successfully
-        </p>
+        <template
+            v-else>
+          <div
+              class="w-20 h-20 rounded-full border-8 border-gray-100 dark:border-gray-400 relative animate-spin"
+          >
+            <div
+                class="w-4 h-4 absolute -top-1 left-0 rounded-full bg-blue-500"
+            />
+          </div>
+          <p class="text-gray-500 text-lg mt-4">Progressing...</p>
+        </template>
       </div>
       <div class="w-full" v-else>
         <HolidayDetailsSkelton v-if="isLoading" />
@@ -58,9 +66,9 @@
                   <TrashIcon />
                 </button>
                 <BaseButton
-                  title="Submit"
-                  class="ml-4 shadow-none text-base hover:shadow-md hover:shadow-blue-primary/50"
-                  @click="publish"
+                  :title="isRequesting ? 'Publishing' : 'Publish'"
+                  class="ml-4 shadow-none text-base hover:shadow-md bg-blue-primary text-white hover:shadow-blue-primary/50"
+                  @click="handelPublishHoliday"
                 />
               </template>
               <template
@@ -124,27 +132,26 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref, computed } from "vue";
+import {computed, onBeforeMount, ref} from "vue";
 import BaseButton from "../BaseButton.vue";
 import EditionHolidayForm from "@/components/holidays/EditionHolidayRequest.vue";
-import {
-  type HolidayRequest,
-  newNullHolidayRequest,
-} from "@/domain/HolidayRequest";
-import { useHolidayRequestStore } from "@/store/holidayRequest";
-import { HOLIDAY_STATUS } from "@/utils/enum";
-import { formateToDateString } from "@/utils/string";
-import { timetampsToString } from "@/utils/common";
-import { soutractTwoDates } from "@/utils/date";
+import {type HolidayRequest, newNullHolidayRequest,} from "@/domain/HolidayRequest";
+import {useHolidayRequestStore} from "@/store/holidayRequest";
+import {HOLIDAY_STATUS, USER_ROLE} from "@/utils/enum";
+import {formateToDateString} from "@/utils/string";
+import {timetampsToString} from "@/utils/common";
+import {soutractTwoDates} from "@/utils/date";
 import EditIcon from "@/components/icons/PencilIcon.vue";
 import TrashIcon from "@/components/icons/TrashIcon.vue";
 import CheckCircleIcon from "@/components/icons/CheckCircleIcon.vue";
 import HolidayDetailsSkelton from "@/components/holidays/HolidayDetailsSkelton.vue";
 import HolidayDelete from "@/components/holidays/DeleteHolidayBox.vue";
 import HolidayStatus from "@/components/StatusBage.vue";
-import { useRoute, useRouter } from "vue-router";
+import {useRoute} from "vue-router";
 import ModalWrapper from "@/components/modals/ModalWrapper.vue";
-import { RequestsStatus } from "@/utils/api";
+import {RequestsStatus} from "@/utils/api";
+import ErrorIcon from "@/components/icons/ErrorIcon.vue";
+import {useSessionStore} from "@/store/session";
 
 const props = defineProps({
   holidayId: {
@@ -160,20 +167,17 @@ const route = useRoute();
 const emits = defineEmits<{
   (event: "close"): void;
 }>();
-const close = (): void => {
-  emits("close");
-};
 
-const isEmployee: boolean = route.meta?.requiredRolesList?.includes("EMPLOYEE");
-const isHumanResource: boolean =
-  route.meta?.requiredRolesList?.includes("HUMAN_RESOURCE");
+const isEmployee = computed((): boolean => useSessionStore().activeRole?.type === USER_ROLE.EMPLOYEE);
+const isAdmin = computed((): boolean => useSessionStore().activeRole?.type === USER_ROLE.ADMIN);
+const isHumanResource = computed((): boolean => useSessionStore().activeRole?.type === USER_ROLE.HUMAN_RESOURCE);
 
 const fetchHoliday = async () => {
   isLoading.value = true;
   const getHolidayRequestByIdResponse =
-    await useHolidayRequestStore().getHolidayRequestById(props.holidayId);
+    await useHolidayRequestStore().getHolidayRequestById(props.holidayId ?? "");
   if (getHolidayRequestByIdResponse.status === RequestsStatus.SUCCESS)
-    holiday.value = getHolidayRequestByIdResponse.data;
+    holiday.value = getHolidayRequestByIdResponse.data ?? newNullHolidayRequest();
 
   isLoading.value = false;
 };
@@ -184,7 +188,8 @@ onBeforeMount(() => {
 
 const isLoading = ref<boolean>(false);
 const isRequesting = ref<boolean>(false);
-const isRequested = ref<boolean>(false);
+const requestStatus = ref<RequestsStatus | null>(null);
+const requestResponseMessage = ref<string>("");
 
 const shouldEditHoliday = ref<boolean>(false);
 const toggleEditionFormVisibility = () =>
@@ -202,15 +207,21 @@ const dateRange = computed(
         `
 );
 
-const publish = (): void => {
+const publishHoliday = async (): Promise<void> => {
   isRequesting.value = true;
-  setTimeout(() => {
-    isRequesting.value = false;
-    isRequested.value = true;
-  }, 1000);
-  setTimeout(() => {
-    fetchHoliday();
-    isRequested.value = false;
-  }, 2000);
+  const holidayPublishResponse = await useHolidayRequestStore().publishHolidayRequest(props.holidayId);
+
+  requestStatus.value = holidayPublishResponse.status
+  if(requestStatus.value === RequestsStatus.SUCCESS)
+    requestResponseMessage.value = "Holiday successfully published";
+  else requestResponseMessage.value = "Oups something went wrong"
+  setTimeout(
+    () => isRequesting.value = false,
+    2000
+  );
 };
+const handelPublishHoliday = () =>{
+  publishHoliday();
+  fetchHoliday();
+}
 </script>

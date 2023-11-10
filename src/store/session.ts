@@ -9,6 +9,7 @@ import {
   storeUserInformationsInsideStorage,
   setRequestHeaderToken,
 } from "@/utils/api";
+import {Role} from "@/domain/Role";
 
 export const useSessionStore = defineStore("session", () => {
 
@@ -26,6 +27,7 @@ export const useSessionStore = defineStore("session", () => {
         id: authenticationResponse.id,
         email: credential.email,
       });
+      activeRole.value = session.value.roles[0];
       storeUserInformationsInsideStorage(authenticationResponse);
       setRequestHeaderToken(authenticationResponse.token ?? "" )
     });
@@ -37,9 +39,15 @@ export const useSessionStore = defineStore("session", () => {
     return handelRequest(async () => {
       const information = await EmployeeService.getEmployeeById({ id });
       session.value = new Session(information);
+      activeRole.value = session.value.roles[0];
     });
   };
 
+  const activeRole = ref<Role>(session.value.roles[0]);
+
+  const setRole = (role: Role):void => {
+    activeRole.value = role;
+  }
   const signOut = () => {
     session.value = newNullSession();
   };
@@ -49,5 +57,7 @@ export const useSessionStore = defineStore("session", () => {
     session,
     fetchUSerInformation,
     signOut,
+    activeRole,
+    setRole
   };
 });

@@ -25,7 +25,7 @@
       />
       <div class="grid md:grid-cols-2 mt-3 gap-x-4">
         <BaseButton
-          class="w-full shadow-none text-base mt-4 hover:shadow-md bg-blue-100 font-semibold text-gray-700 md:mt-0"
+          class="w-full shadow-none text-base mt-4 hover:shadow-md bg-gray-200 font-semibold text-gray-700 md:mt-0"
           data-test="submit-button"
           title="cancel"
           @click="$emit('close')"
