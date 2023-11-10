@@ -36,11 +36,11 @@ export class HolidayRequest {
   }
 
   get numberOfDays(): string {
-    return `soutractTwoDates(this.endingDate, this.startingDate)`;
+    return `soundtrackTwoDates(this.endingDate, this.startingDate)`;
   }
 
   get createdAt(): string {
-    return new Date().toUTCString();
+    return this.holidayRequest.createdAt ?? ""
   }
 
   get creationDate(): string {
