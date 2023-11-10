@@ -1,5 +1,5 @@
 <template>
-  <ModalWrapper>
+  <ModalWrapper @close="$emit('close')">
     <div class="absolute top-20 right-16 bg-white shadow-lg rounded-lg overflow-hidden p-5 lg:w-[25rem] lg:border">
       <EditProfile
           @close="toggleShouldEditProfile"
