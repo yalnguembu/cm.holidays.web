@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
 import { Role, newNullRole } from "@/domain/Role";
-import {PostService, RoleService} from "@/services";
+import { RoleService } from "@/services";
 import {handelRequest, RequestResponse} from "@/utils/api";
-import {Post} from "@/domain/Post";
 
 export const useRoleStore = defineStore("role", () => {
   const getAllRoles = async (): Promise<RequestResponse<Role[]>> => {

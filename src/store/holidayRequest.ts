@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
 import {
   HolidayRequest,
-  newNullHolidayRequest,
-} from "../domain/HolidayRequest";
+} from "@/domain/HolidayRequest";
 import { RequestResponse, handelRequest } from "@/utils/api";
 import { HolidayRequestDTO, HolidayRequestService } from "@/services";
 

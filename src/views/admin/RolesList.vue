@@ -7,7 +7,7 @@
     />
     <HeaderComponent
         title="Roles"
-        description="Lorem, ipsum dolor sit amet consectetur adipisicing elit."
+        description="List of roles within the system"
     >
       <CreationButton
           title="New Role"

@@ -3,7 +3,10 @@
     <section>
       <HolidayListFilter v-if="holidayRequests.length" class="mb-8" />
     </section>
-    <HolidaysDataGrid :isLoading="false" :holidayRequests="holidayRequests" />
+    <HolidaysDataGrid
+      :isLoading="isLoading"
+      :holidayRequests="holidayRequests"
+    />
   </div>
 </template>
 
@@ -14,16 +17,19 @@ import { HolidayRequest } from "@/domain/HolidayRequest";
 import { useHolidayRequestStore } from "@/store/holidayRequest";
 import HolidayListFilter from "@/components/holidays/HolidayListFilter.vue";
 import { onBeforeMount } from "vue";
+import { RequestsStatus } from "@/utils/api";
 
 const holidayStore = useHolidayRequestStore();
-
 const holidayRequests = ref<HolidayRequest[]>([]);
 
 const isLoading = ref<boolean>(false);
 
 const fetchHolidays = async (): Promise<void> => {
   isLoading.value = true;
-  holidayRequests.value = await holidayStore.getAllHollidays();
+  const getAllHolidaysByAccountOwnerResponse =
+    await holidayStore.getAllHolidayRequests();
+  if (getAllHolidaysByAccountOwnerResponse.status === RequestsStatus.SUCCESS)
+    holidayRequests.value = getAllHolidaysByAccountOwnerResponse.data ?? [];
   isLoading.value = false;
 };
 
