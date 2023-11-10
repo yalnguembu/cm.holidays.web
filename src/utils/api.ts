@@ -93,7 +93,6 @@ export const handelRequest = async <ResponseType>(
       message: error?.statusText ?? "",
       statusCode: error?.status ?? 500,
     });
-    console.log(error);
     requestResponse.status = RequestsStatus.FAILED;
   } finally {
     const isTheRequestUnauthorized =

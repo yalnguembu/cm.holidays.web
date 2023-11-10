@@ -50,7 +50,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onBeforeMount, ref } from "vue";
+import {onBeforeMount, Ref, ref} from "vue";
 import HeaderComponent from "@/components/HeaderComponent.vue";
 import CreationButton from "@/components/CreationButton.vue";
 import ServiceCreationModal from "@/components/modals/ServiceCreationModal.vue";
@@ -66,7 +66,7 @@ const toggleShouldDisPlayCreationModal = () =>
   (shouldDisplayCreationModal.value = !shouldDisplayCreationModal.value);
 
 const isServiceListLoading = ref<boolean>(false);
-const services = ref<Service[]>([]);
+const services = ref<Service[]>([]) as Ref<Service[]>;
 
 const fetchServices = async () => {
   isServiceListLoading.value = true;

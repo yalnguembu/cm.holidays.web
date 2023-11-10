@@ -7,7 +7,7 @@
     />
     <HeaderComponent
         title="Roles"
-        description="List of roles within the system"
+        description="List of roles within the system with their status"
     >
       <CreationButton
           title="New Role"
@@ -41,11 +41,12 @@
         No post has already been created! Please click on the button up there to
         create a new one.
       </p>
+
     </section>
   </div>
 </template>
 <script setup lang="ts">
-import {onBeforeMount, ref} from "vue";
+import {onBeforeMount, Ref, ref} from "vue";
 import HeaderComponent from "@/components/HeaderComponent.vue";
 import CreationButton from "@/components/CreationButton.vue";
 import RoleCreationModal from "@/components/modals/RoleCreationModal.vue";
@@ -62,21 +63,13 @@ const shouldDisplayCreationModal = ref<boolean>(false);
 const toggleShouldDisPlayCreationModal = () =>
     (shouldDisplayCreationModal.value = !shouldDisplayCreationModal.value);
 
-const shouldDisplayDetailsModal = ref<boolean>(false);
-const toggleShouldDisPlayDetailsModal = () =>
-    (shouldDisplayDetailsModal.value = !shouldDisplayDetailsModal.value);
-
-const showDetails = (id: string) => {
-  toggleShouldDisPlayDetailsModal();
-};
 const isRoleListLoading = ref<boolean>(false)
-const roles = ref<Role[]>([])
-const fetchRoles = async () => {
+const roles = ref<Role[]>([]) as Ref<Role[]>;
+const fetchRoles = async (): Promise<void> => {
   isRoleListLoading.value = true;
   const apiResponse =  await useRoleStore().getAllRoles();
   if (apiResponse.status === RequestsStatus.SUCCESS)
     roles.value = apiResponse.data ?? [];
-
   isRoleListLoading.value = false;
 }
 

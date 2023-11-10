@@ -3,7 +3,10 @@
     :data-test="`post-${post.id}`"
     class="border p-6 rounded-lg h-42 overflow-hidden hover:bg-gray-100 cursor-pointer hover:shadow-lg relative group"
   >
-    <h4 class="text-blue-900 font-semibold text-2xl">{{ post.name }}</h4>
+    <h4 class="text-blue-900 font-semibold text-2xl flex gap-x-2">
+      {{ post.name }}
+      <StatutBadge :is-active="post.isActive" />
+    </h4>
     <h5 class="text-gray-900 text-lg mt-1 mb-4 hover:text-blue-500 font-medium">
       {{ post.service.name }}
     </h5>
@@ -64,6 +67,7 @@ import ListItemOption from "@/components/ListItemOption.vue";
 import PostEdition from "@/components/modals/PostEdition.vue";
 import { usePostStore } from "@/store/post";
 import { RequestsStatus } from "@/utils/api";
+import StatutBadge from "@/components/badges/StatutBadge.vue";
 
 const props = defineProps({
   post: {

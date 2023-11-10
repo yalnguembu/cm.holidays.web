@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { HolidayType } from "@/domain/HolidayType";
-import { HolidayTypeService, PostService } from "@/services";
+import { HolidayTypeService } from "@/services";
 import { type RequestResponse, handelRequest } from "@/utils/api";
 
 export const useHolidayTypeStore = defineStore("holidayType", () => {

@@ -78,12 +78,12 @@ const email = ref("");
 const password = ref("");
 const remember = ref(false);
 
-type Login = {
+type LoginFields = {
   email: string;
   password: string;
   crudentials: string;
 }
-const error = reactive<Login>({
+const error = reactive<LoginFields>({
   email: "",
   password: "",
   crudentials: "",
@@ -106,15 +106,11 @@ const router = useRouter();
 const isLoading = ref<boolean>(false);
 
 const isForwarding = ref<boolean>(false);
-const login = async (): Promise<void> => {
+
+const login = async () => {
   isLoading.value = true;
   checkEmail();
   checkPassword();
-
-  if (!areEmilAndPasswordValid.value) {
-    isLoading.value = false;
-    return;
-  }
 
   const credential = new Credential({
     email: email.value,
