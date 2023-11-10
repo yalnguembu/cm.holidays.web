@@ -82,7 +82,7 @@ const props = defineProps({
 });
 const emit = defineEmits<{
   (event: "cancel"): void;
-  (event: "created"): void;
+  (event: "edited"): void;
 }>();
 
 const service = reactive({
@@ -117,11 +117,11 @@ const save = async () => {
   const updatedService = new Service({
     id: props.service.id,
     name: service.name,
-    description: props.service.description,
+    description: service.description,
   });
   const editionResponse = await useServiceStore().updateService(updatedService);
 
-  if (editionResponse.status === RequestsStatus.SUCCESS) emit("created");
+  if (editionResponse.status === RequestsStatus.SUCCESS) emit("edited");
 
   isLoading.value = false;
 };

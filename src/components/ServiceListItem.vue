@@ -3,8 +3,9 @@
     :data-test="`service-${service.id}`"
     class="border p-6 rounded-lg h-42 overflow-hidden hover:bg-gray-100/30 cursor-pointer hover:shadow-lg relative group"
   >
-    <h4 class="text-blue-900 font-semibold text-2xl mb-4">
+    <h4 class="text-blue-900 font-semibold text-2xl mb-4 flex gap-x-2">
       {{ service.name }}
+      <StatutBadge :is-active="service.isActive" />
     </h4>
     <p class="text-gray-500 text-sm line-clamp-3">
       {{ service.description }}
@@ -63,6 +64,7 @@ import ListItemOption from "@/components/ListItemOption.vue";
 import { COLOR_THEME } from "@/utils/enum";
 import { useServiceStore } from "@/store/service";
 import { RequestsStatus } from "@/utils/api";
+import StatutBadge from "@/components/badges/StatutBadge.vue";
 
 const props = defineProps({
   service: {
